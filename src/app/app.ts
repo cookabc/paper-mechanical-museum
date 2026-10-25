@@ -12,10 +12,11 @@ import {mountTurntable} from '../exhibits/turntable/index.js';
 import {mountElevator} from '../exhibits/elevator/index.js';
 import {mountWasher} from '../exhibits/washer/index.js';
 import {mountClaw} from '../exhibits/claw/index.js';
+import {mountBicycle} from '../exhibits/bicycle';
 import {renderHome} from './home.js';
-const names={washer:'洗衣机',fan:'电风扇',claw:'抓娃娃机',coffee:'咖啡机',musicbox:'手摇八音盒',vending:'自动售货机',toaster:'烤面包机',turntable:'唱片机',camera:'拍立得相机',elevator:'电梯'};
+const names={washer:'洗衣机',fan:'电风扇',claw:'抓娃娃机',coffee:'咖啡机',musicbox:'手摇八音盒',vending:'自动售货机',toaster:'烤面包机',turntable:'唱片机',camera:'拍立得相机',elevator:'电梯',bicycle:'自行车变速器'};
 const items=Object.entries(names).map(([id,name])=>({id,name}));
-const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw};
+const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle};
 export function createApp(root:HTMLElement){
  const appScope=new ResourceScope();const audio=createAudioService(appScope);
  const previousRestoration=history.scrollRestoration;history.scrollRestoration='manual';
@@ -29,7 +30,7 @@ export function createApp(root:HTMLElement){
   root.replaceChildren();root.className='';document.body.className=next?'museum-scene':'museum-home';
   if(!next){renderHome(root,sceneScope,items,Object.keys(adapters));startAtTop();return;}
   document.title=(names[next as keyof typeof names]||'馆藏')+' · 纸上机械馆';
-  const header=document.createElement('header');header.innerHTML=`<div><p class="eyebrow">纸上机械馆 · 十件小玩具</p><h1 tabindex="-1">${names[next as keyof typeof names]||'馆藏'}</h1></div><a class="gallery-link" href="#/">全部作品 ↗</a>`;root.append(header);
+  const header=document.createElement('header');header.innerHTML=`<div><p class="eyebrow">纸上机械馆 · ${items.length} 件互动藏品</p><h1 tabindex="-1">${names[next as keyof typeof names]||'馆藏'}</h1></div><a class="gallery-link" href="#/">全部作品 ↗</a>`;root.append(header);
   const host=document.createElement('section');host.className='scene-root';host.setAttribute('aria-label','互动展品');root.append(host);
   const mount=adapters[next];
   if(!mount){host.innerHTML='<div class="migration-note"><h2>没有找到这件藏品</h2><p>请回到馆藏目录，选择想体验的小机器。</p><a href="#/">回到馆藏</a></div>';startAtTop();return;}

@@ -1,0 +1,25 @@
+{
+  "description": "Additional original QA source-input provenance; not generated test outcomes.",
+  "files": {
+    "instrument-dynamic-v11/baseline/musicbox.js": {
+      "sha256": "39212f64f372ff6783014f1327face4c0061f6e569968c074a424805ea02023d",
+      "bytes": 15359,
+      "origin": "Original tracked QA fixture"
+    },
+    "instrument-dynamic-v11/baseline/turntable.js": {
+      "sha256": "7c9031790cee50ce7b4aaa53960640f6ab9ffefcd20910accad981b0786fa2f2",
+      "bytes": 15327,
+      "origin": "Original tracked QA fixture"
+    },
+    "instrument-dynamic-v11/baseline/camera.js": {
+      "sha256": "57e182d2d1d21ec2f19445f20e0ca34a8fb8ab8eb724d9e042a289afa441f809",
+      "bytes": 15336,
+      "origin": "Original tracked QA fixture"
+    },
+    "instrument-contact/musicbox-before.js": {
+      "sha256": "35cda343120885198609c7c06cb141a6798ca02b40e351d88e8c7f92a063b446",
+      "bytes": 15218,
+      "origin": "Original existing local QA source fixture; untracked in original checkout, original commit not identified"
+    }
+  }
+}

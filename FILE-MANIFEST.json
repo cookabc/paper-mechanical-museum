@@ -1,0 +1,928 @@
+{
+  "format": 1,
+  "note": "清单不包含自身；不含node_modules、Git和本地生成输出。",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 76,
+      "sha256": "d1e81ca416e6cc166dcf12b5be752da7b089f92137f662424be1d58058ddf229"
+    },
+    {
+      "path": "claw-studio/dist/app.js",
+      "bytes": 40948,
+      "sha256": "580fcd57654a8a22b10824653aa56f62528b7961e7f28584154cd5119f8ce7ba"
+    },
+    {
+      "path": "claw-studio/dist/index.html",
+      "bytes": 41740,
+      "sha256": "f99b0b3c298db287ff7ad8036c6aac00df610bde7f97e4ff7f239158ccd8fb2c"
+    },
+    {
+      "path": "claw-studio/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "claw-studio/dist/observation.js",
+      "bytes": 14519,
+      "sha256": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733"
+    },
+    {
+      "path": "claw-studio/dist/shared-shell.css",
+      "bytes": 23256,
+      "sha256": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771"
+    },
+    {
+      "path": "claw-studio/qa/audit-claw-audio-time.cjs",
+      "bytes": 6022,
+      "sha256": "41133df8164120abf453ec30e6b24397612fa5eb759b2402d4bf8b07432162e5"
+    },
+    {
+      "path": "claw-studio/qa/audit-claw-lesson.cjs",
+      "bytes": 14815,
+      "sha256": "e868b4fff8dce4c449d25a12fb4dc80f46dc22c43a50f33c37c55592350d362f"
+    },
+    {
+      "path": "claw-studio/qa/audit-claw-time.cjs",
+      "bytes": 12095,
+      "sha256": "f154ef97a3a082d515da22f978b8f27e053f6ce2b24a1ea6acec98a1b0eb9329"
+    },
+    {
+      "path": "claw-studio/qa/baselines/00f2e2267245e5d7cfbe3e142852c111c405ec96/dist/app.js",
+      "bytes": 39892,
+      "sha256": "531470e36c47227342d9d6147a603eac56dd5cdb3cafd61afddcfc4af8b4f849"
+    },
+    {
+      "path": "claw-studio/qa/baselines/00f2e2267245e5d7cfbe3e142852c111c405ec96/dist/index.html",
+      "bytes": 41740,
+      "sha256": "3bcdb533167fdedff4c7a6b13b40c16c1aa6739f519e5db40aab305678119b00"
+    },
+    {
+      "path": "claw-studio/qa/baselines/00f2e2267245e5d7cfbe3e142852c111c405ec96/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "claw-studio/qa/baselines/00f2e2267245e5d7cfbe3e142852c111c405ec96/dist/observation.js",
+      "bytes": 14519,
+      "sha256": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733"
+    },
+    {
+      "path": "claw-studio/qa/baselines/00f2e2267245e5d7cfbe3e142852c111c405ec96/dist/shared-shell.css",
+      "bytes": 23256,
+      "sha256": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771"
+    },
+    {
+      "path": "claw-studio/qa/baselines/d44c817472c48e1a9b6b01067d7c14febcdaa214/dist/app.js",
+      "bytes": 35894,
+      "sha256": "b1fa7d123177aa92bbc00fae887f3443e2460429e1195328a82b423d6f0272af"
+    },
+    {
+      "path": "claw-studio/qa/baselines/d44c817472c48e1a9b6b01067d7c14febcdaa214/dist/index.html",
+      "bytes": 41740,
+      "sha256": "831f6e24bca8b55facbda275f91e3a9cb74fc19fdc2197e867053e2174015cba"
+    },
+    {
+      "path": "claw-studio/qa/baselines/d44c817472c48e1a9b6b01067d7c14febcdaa214/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "claw-studio/qa/baselines/d44c817472c48e1a9b6b01067d7c14febcdaa214/dist/observation.js",
+      "bytes": 6188,
+      "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c"
+    },
+    {
+      "path": "claw-studio/qa/baselines/d44c817472c48e1a9b6b01067d7c14febcdaa214/dist/shared-shell.css",
+      "bytes": 23256,
+      "sha256": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771"
+    },
+    {
+      "path": "claw-studio/qa/baselines/manifest.json",
+      "bytes": 1988,
+      "sha256": "961c305a0ef993850fbe1eed22b794acb1ca82d5a3bf1c9cba0ae31f1505ff02"
+    },
+    {
+      "path": "claw-studio/qa/controller-harness.cjs",
+      "bytes": 3179,
+      "sha256": "b871e65877e62d098927dab51d0736c431f0fcbd95e8e2d68a135272b250f511"
+    },
+    {
+      "path": "claw-studio/qa/controller-regression.cjs",
+      "bytes": 11126,
+      "sha256": "ecc8e3937d452a1ec3b6ff0f33aa7dc52450990e370b11c667b529e1dae40970"
+    },
+    {
+      "path": "claw-studio/qa/input-harness.cjs",
+      "bytes": 6221,
+      "sha256": "ab56ca4a5ce3e576037d37d0915d2edf5101a388554f0151d3d3c42d7278d00f"
+    },
+    {
+      "path": "claw-studio/qa/input-regression.cjs",
+      "bytes": 10820,
+      "sha256": "90a7675cadf03cc2884d6566e39ca047434d82ad3b5f0279df29dfcd7cc68820"
+    },
+    {
+      "path": "claw-studio/qa/lesson-harness.cjs",
+      "bytes": 5594,
+      "sha256": "64cc0f928fd1eac8790c11de506304cf296e83f9feea8754de056d93da426457"
+    },
+    {
+      "path": "claw-studio/qa/mobile.html",
+      "bytes": 140,
+      "sha256": "8ed73e7649210633a0b222813774afc40875eaa8474aef2398e62d0aa44a9972"
+    },
+    {
+      "path": "claw-studio/qa/portable-baseline.cjs",
+      "bytes": 1876,
+      "sha256": "e1dc6eb9d892495d3d206c6b2eecfafa6e86b71b65a37ece06ff63c0fb79633f"
+    },
+    {
+      "path": "claw-studio/qa/README.md",
+      "bytes": 3221,
+      "sha256": "740fb85493833450d37e131344405bffa3151ec864d4646152c5b38acf9bd9f6"
+    },
+    {
+      "path": "claw-studio/qa/run.cjs",
+      "bytes": 585,
+      "sha256": "ff7e3018226ece81aaf591da06a474ffbb14ed14db2dcc79988f6bc57cea2a17"
+    },
+    {
+      "path": "claw-studio/qa/source-integrity.cjs",
+      "bytes": 2506,
+      "sha256": "55d7136ee1b096eb1585d2c53a14ee5118f23721c72194942f2cc9874dcab56f"
+    },
+    {
+      "path": "claw-studio/qa/source.cjs",
+      "bytes": 948,
+      "sha256": "420e1ae86aa4ce9d0ab20f2091c119deb450bc7d8a5b714626e875585d9e20c6"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 2576,
+      "sha256": "ec81f33f45b949ec80c61ad3bb8c7b05d4cdce50ad20f843b8f8088150456a99"
+    },
+    {
+      "path": "docs/DELIVERY-SCOPE.md",
+      "bytes": 3342,
+      "sha256": "48690644c1a55b455b4ca8bf7d2cb9e2be57298253b145ca5dd53211bf2aefa1"
+    },
+    {
+      "path": "docs/PATH-ADAPTATIONS.json",
+      "bytes": 952,
+      "sha256": "19efa564d92a292fb6e873c76bf4d701302b9710f6374277d6cb83d88ae0eb5e"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "bytes": 8225,
+      "sha256": "a3a15a5d970fa9a67c95b6563f7cc8ff10bc9469da8d4e807433f5d4c5d4c0ea"
+    },
+    {
+      "path": "fan-study/dist/engine.js",
+      "bytes": 1748,
+      "sha256": "1c213f1269843d8dda3f474e86f5e6a3f62ef97e8b3332384bc74672da469e17"
+    },
+    {
+      "path": "fan-study/dist/fan.js",
+      "bytes": 26217,
+      "sha256": "b8e2cf5207e67c26013cdf47bd44952d5a66ab1c19b2bf24c2829e17f5b64ec0"
+    },
+    {
+      "path": "fan-study/dist/hand-texture.js",
+      "bytes": 3498,
+      "sha256": "3073e9383894fa2e0e22dbf720b7be99f3b3c7f9ce10367b56c119a9d61654b9"
+    },
+    {
+      "path": "fan-study/dist/index.html",
+      "bytes": 4445,
+      "sha256": "b5f8ce876f6ffbe5b525fa6112f1ec748e761b4227337de50bb7f55693c03b3c"
+    },
+    {
+      "path": "fan-study/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "fan-study/dist/observation.js",
+      "bytes": 14519,
+      "sha256": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733"
+    },
+    {
+      "path": "fan-study/dist/shared-shell.css",
+      "bytes": 7809,
+      "sha256": "9958bb5c99ce12dbfac6d96527ad09183914286ed9577ecc042bd8fc857b6acf"
+    },
+    {
+      "path": "fan-study/dist/style.css",
+      "bytes": 6080,
+      "sha256": "01812872f7a0a687dd4749e9b03a929c917fc63a0a5243fd0ffbf81e35db2c1c"
+    },
+    {
+      "path": "fan-study/qa/audit-principle-guide.cjs",
+      "bytes": 7784,
+      "sha256": "cc56488635a2ce3c4cfd18386250cd6807b375544d7a5276578bad91fb4a6acd"
+    },
+    {
+      "path": "fan-study/qa/audit-time-input-audio.cjs",
+      "bytes": 6596,
+      "sha256": "ab57b5de4c64c850be9af9577b6c6bd3517ec0422284280a677032ed981f74b9"
+    },
+    {
+      "path": "fan-study/qa/audit-time-integration.cjs",
+      "bytes": 8186,
+      "sha256": "2259194dcf1a3b40bfe1eabe63690088f3644adc00c800b2486f3546b881bd6c"
+    },
+    {
+      "path": "fan-study/qa/baselines/307604eb8ecd2e990257355a2b424dd4df9eb96e/dist/engine.js",
+      "bytes": 1748,
+      "sha256": "1c213f1269843d8dda3f474e86f5e6a3f62ef97e8b3332384bc74672da469e17"
+    },
+    {
+      "path": "fan-study/qa/baselines/307604eb8ecd2e990257355a2b424dd4df9eb96e/dist/fan.js",
+      "bytes": 22732,
+      "sha256": "51542cf6f414aa607c6a903bafd160aa043f08e91d727c6fed9b858cef479f48"
+    },
+    {
+      "path": "fan-study/qa/baselines/307604eb8ecd2e990257355a2b424dd4df9eb96e/dist/index.html",
+      "bytes": 4461,
+      "sha256": "d5d5b2a48e8ee2020af2df70a12e91626c983c512066e3141aa30ece71919f76"
+    },
+    {
+      "path": "fan-study/qa/baselines/307604eb8ecd2e990257355a2b424dd4df9eb96e/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "fan-study/qa/baselines/307604eb8ecd2e990257355a2b424dd4df9eb96e/dist/observation.js",
+      "bytes": 6188,
+      "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c"
+    },
+    {
+      "path": "fan-study/qa/baselines/a6d752e48bdce751bf6afd7a0c3db7230c37c512/dist/fan.js",
+      "bytes": 26217,
+      "sha256": "b8e2cf5207e67c26013cdf47bd44952d5a66ab1c19b2bf24c2829e17f5b64ec0"
+    },
+    {
+      "path": "fan-study/qa/baselines/d98afd3236959b6c61ceef19e3847a4539d4b228/dist/fan.js",
+      "bytes": 21165,
+      "sha256": "83dfe9004e67bcc0425bcf039d1012cd73973d6fd96cb27608eed7785c287b8e"
+    },
+    {
+      "path": "fan-study/qa/baselines/manifest.json",
+      "bytes": 1602,
+      "sha256": "b5e591a2c273a26d18027be82d34de08b6f293c17a79819eaf3c7e3a58b85d5a"
+    },
+    {
+      "path": "fan-study/qa/dynamic-audit-d98afd3/capture-guards.cjs",
+      "bytes": 1982,
+      "sha256": "ebf3abfac695e539039643cff6c70fac202fd9931fb4b4a4013783d228fc93aa"
+    },
+    {
+      "path": "fan-study/qa/dynamic-audit-d98afd3/check-guards.py",
+      "bytes": 2742,
+      "sha256": "cb7fbec9105839b158b3f40b48090b470946ade716af151a571e802dd40f261a"
+    },
+    {
+      "path": "fan-study/qa/dynamic-audit-d98afd3/dense-regression.cjs",
+      "bytes": 3019,
+      "sha256": "5c54423db0dd16496f36c31debe67f20441a81e52ec1de3b59f06ee1d622173a"
+    },
+    {
+      "path": "fan-study/qa/dynamic-audit-d98afd3/full-oscillation-regression.cjs",
+      "bytes": 1027,
+      "sha256": "7b9e8dc1aabb44428ea715283e767d3e029d4b4d517e76a6ff2c9736910911c3"
+    },
+    {
+      "path": "fan-study/qa/dynamic-audit-d98afd3/lifecycle-regression.cjs",
+      "bytes": 2046,
+      "sha256": "391bb301c606281ec6f3e79931b744c1774583609b972a009cd2323d0f667b62"
+    },
+    {
+      "path": "fan-study/qa/dynamic-audit-d98afd3/performance-regression.cjs",
+      "bytes": 1338,
+      "sha256": "ab9580060a1fe22ff3fbbd0f3d0d7dcef1c3304da9847102beeec09a1b7f9c6f"
+    },
+    {
+      "path": "fan-study/qa/fan-time-harness.cjs",
+      "bytes": 3870,
+      "sha256": "8677d4f5fab18c3e9b60a579c729de37876d8976975782a324048f58ebed8e8a"
+    },
+    {
+      "path": "fan-study/qa/portable-baseline.cjs",
+      "bytes": 1876,
+      "sha256": "e1dc6eb9d892495d3d206c6b2eecfafa6e86b71b65a37ece06ff63c0fb79633f"
+    },
+    {
+      "path": "index.html",
+      "bytes": 401,
+      "sha256": "2272e26e2e204d7568de4c6ca20afcb1a9d1982445849ce46260df2c6f278cd4"
+    },
+    {
+      "path": "licenses/Colorfigures-LICENSE.txt",
+      "bytes": 1281,
+      "sha256": "bc54cadb579906c051d7aad84f41f88c0df6c50089e052134226fe0b76fd5280"
+    },
+    {
+      "path": "object-collection/dist/core.js",
+      "bytes": 52486,
+      "sha256": "b4a1f9848959a1d0f3c1c28b656ec32a7f76cf7e64cb0c2f2d6dbbcc882a11b3"
+    },
+    {
+      "path": "object-collection/dist/elevator-occlusion.js",
+      "bytes": 14068,
+      "sha256": "566e0f96d463e6ed57892dda0f966d392061b22e3158d0de3e718128a71770f0"
+    },
+    {
+      "path": "object-collection/dist/home.css",
+      "bytes": 17519,
+      "sha256": "aed1eb26369352a0311ac623e2f2ef35a7ef8f5724e73234a14d31bc9f520254"
+    },
+    {
+      "path": "object-collection/dist/home.js",
+      "bytes": 9068,
+      "sha256": "61b9b71944d9147d8e96f56a671d6d1a7b17710bebdd7c80f42db4a4243a859f"
+    },
+    {
+      "path": "object-collection/dist/index.html",
+      "bytes": 1134,
+      "sha256": "8f7e9066a1e67a13190518d9212ce8ee9d03e66bea6287074384554f38668056"
+    },
+    {
+      "path": "object-collection/dist/mechanical-audio.js",
+      "bytes": 20247,
+      "sha256": "fb054915b8db99f50cd4f12b0a33f9393fcfa668e8a88595a06c467109b4137a"
+    },
+    {
+      "path": "object-collection/dist/observation.js",
+      "bytes": 14519,
+      "sha256": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733"
+    },
+    {
+      "path": "object-collection/dist/previews/camera.svg",
+      "bytes": 34358,
+      "sha256": "0675aadd6d869169aa278b4008e2635638be32be9b32a041d4af5578e41b6416"
+    },
+    {
+      "path": "object-collection/dist/previews/claw.svg",
+      "bytes": 531467,
+      "sha256": "f0af70b543d34081bfe85acf1e330d8ae668bb3a2684c6b5c8b1b09a976b38ec"
+    },
+    {
+      "path": "object-collection/dist/previews/coffee.svg",
+      "bytes": 78687,
+      "sha256": "7b20d2eeb430bbe2a62c5d4b553b136a04d56010c8d9b6a8bdcd007264d3db2e"
+    },
+    {
+      "path": "object-collection/dist/previews/elevator.svg",
+      "bytes": 251901,
+      "sha256": "94836c02d17605f5bb56d3165bb844b064a7d95ffba62a95c880af8a84c23641"
+    },
+    {
+      "path": "object-collection/dist/previews/fan.svg",
+      "bytes": 229184,
+      "sha256": "c6d5b5038019fb8e13e9b9f51576b63f4987539daac4abe149ca3ce1d307d9d1"
+    },
+    {
+      "path": "object-collection/dist/previews/musicbox.svg",
+      "bytes": 146901,
+      "sha256": "45e1aa836c784ad2d567d4994b5a450efb6b7e60ff20b2589c92fffb9d9decba"
+    },
+    {
+      "path": "object-collection/dist/previews/toaster.svg",
+      "bytes": 47039,
+      "sha256": "0685b7b97d42bb2da1c84415cbabac55b850085b7a16f53b9aa3071143b743a6"
+    },
+    {
+      "path": "object-collection/dist/previews/turntable.svg",
+      "bytes": 103974,
+      "sha256": "aab91659917782ccd4ce1a05e1ad6f07a6c3852f7d64296f461902912fba079d"
+    },
+    {
+      "path": "object-collection/dist/previews/vending.svg",
+      "bytes": 73284,
+      "sha256": "d54597051a989fc16e9f38dab432c3fce4efda27f2a98e16d23df7c2edf23efe"
+    },
+    {
+      "path": "object-collection/dist/previews/washer.svg",
+      "bytes": 106449,
+      "sha256": "804ec8b935409a0cd5349ce5a6d5f721703238723cc9fbb53eb38ccbf2cdb26a"
+    },
+    {
+      "path": "object-collection/dist/scenes/camera.js",
+      "bytes": 27477,
+      "sha256": "7008040a4df75948242638baefe6fd2efac2537cb04099b938fd3319253cce47"
+    },
+    {
+      "path": "object-collection/dist/scenes/coffee.js",
+      "bytes": 25955,
+      "sha256": "806b7910fd8bc7e0dc3c2cce7b6ac75b6e00bce4689464cd6dfb1e574a8098b8"
+    },
+    {
+      "path": "object-collection/dist/scenes/elevator.js",
+      "bytes": 29413,
+      "sha256": "2906fd79392f844cc44149f8b593189906de8b2a0ca049905f708db3b4b9ede8"
+    },
+    {
+      "path": "object-collection/dist/scenes/musicbox.js",
+      "bytes": 22293,
+      "sha256": "22cdfcf2a008dfb06b9c200911dbe0f08263e5dd68cc4b3e863cd836f5776c15"
+    },
+    {
+      "path": "object-collection/dist/scenes/toaster.js",
+      "bytes": 21198,
+      "sha256": "8844dc00575f63bd58cb102ee0773a2d5e565a8e29fe1dfbea910892cc415c9b"
+    },
+    {
+      "path": "object-collection/dist/scenes/turntable.js",
+      "bytes": 22519,
+      "sha256": "e7c76ec46cdad2c61ed2a90dc4f339e320645ab31ca128297807fd7fa8b18d98"
+    },
+    {
+      "path": "object-collection/dist/scenes/vending.js",
+      "bytes": 33081,
+      "sha256": "5e942bf537b016f174c2784067ab068d74e66dfc4bd115d9a9f5eebac0d431b6"
+    },
+    {
+      "path": "object-collection/dist/shared-shell.css",
+      "bytes": 11227,
+      "sha256": "65e0e85266fa50e9b4ba14282d645470d1fce7b53805640b5413dee59a885bdf"
+    },
+    {
+      "path": "object-collection/dist/shell.js",
+      "bytes": 7143,
+      "sha256": "93fbfac9082adea6c313c4bb8f68f98727f98c5c16d1d4d0fb15b7ee417ce281"
+    },
+    {
+      "path": "object-collection/qa/audit-camera-lesson.cjs",
+      "bytes": 24015,
+      "sha256": "bfedca9c7888659a8d18525e8ff31ecf43a3b3ad4474e4a8552479d5492246d7"
+    },
+    {
+      "path": "object-collection/qa/audit-camera-paper-path.cjs",
+      "bytes": 19741,
+      "sha256": "e383f47802af699d0e8ba61b289edcb684c489d78d2be3bec01c5d3b9234b605"
+    },
+    {
+      "path": "object-collection/qa/audit-coffee-process.cjs",
+      "bytes": 20603,
+      "sha256": "f5d83e3f6637df4333a808adb31e6803e5bee7f8af52bc8d25b917e0aad46c36"
+    },
+    {
+      "path": "object-collection/qa/audit-coffee-step-guide.cjs",
+      "bytes": 26421,
+      "sha256": "1d25588293acdc8d8c30fab6a3562b8faac36186710eb9a740f34182d72b76fd"
+    },
+    {
+      "path": "object-collection/qa/audit-core-input-accessibility.cjs",
+      "bytes": 13229,
+      "sha256": "17dec9e5aa04342ba25a7b5484ec8b2ab75b65057744ff7df9b977e7006c0a70"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-dynamic-order.cjs",
+      "bytes": 2884,
+      "sha256": "2e3c8ca1657d0a362f56ca83b0757bcb88e3b3f0fb13e61a4141d0962001eaca"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-integrated-visibility.cjs",
+      "bytes": 2884,
+      "sha256": "162e90c59ad7ea34fc686d9e1afb05b4b9f6fa10b434e11a64780907d1bb3c03"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-interaction.cjs",
+      "bytes": 2034,
+      "sha256": "7280be21ab3b23acf85731dd5f597fd257184b24b4ef294826002d733b2a25a8"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-interlock-lesson.cjs",
+      "bytes": 15322,
+      "sha256": "8be7b3323605acfd7d345b5b4b67e138321a2dae6e4c421e773cf03bb97e86d9"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-occlusion.cjs",
+      "bytes": 5241,
+      "sha256": "691614a126d9e7dce785ee8654fc6bd2eea45601df85ea3c15ec72f233653198"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-time.cjs",
+      "bytes": 7037,
+      "sha256": "524e7ae7510180c1f642446e7cec9bf9230f7ad9623fbf3a65ee6eeeea4a674c"
+    },
+    {
+      "path": "object-collection/qa/audit-elevator-traction.cjs",
+      "bytes": 11499,
+      "sha256": "b16d0a9fbd35ffa1b58ef8e4e14648a2b3e60027a6fa60203e243c4ab98aae72"
+    },
+    {
+      "path": "object-collection/qa/audit-food-dynamic-regression.cjs",
+      "bytes": 9130,
+      "sha256": "eb4f959740329c1a97f6bc66d1db21ade867230287af846e3b0377a438dcf631"
+    },
+    {
+      "path": "object-collection/qa/audit-food-dynamic-v10.cjs",
+      "bytes": 7088,
+      "sha256": "0a4eec234ee77d76f4b30cd8ba299ce88fd6ca6e9084c366e386ce9660aaf2e9"
+    },
+    {
+      "path": "object-collection/qa/audit-food-observation.cjs",
+      "bytes": 8633,
+      "sha256": "75eade22bf2abcdee8263b6dd7032b731dba09f86d182930751dc6149f24244c"
+    },
+    {
+      "path": "object-collection/qa/audit-instrument-camera-observation.cjs",
+      "bytes": 13288,
+      "sha256": "db9b12ea5b5cee8e06cef43e5bde51c1c260cdab3918c3708494ce5737db029b"
+    },
+    {
+      "path": "object-collection/qa/audit-instrument-lessons.cjs",
+      "bytes": 25419,
+      "sha256": "0de1dfe312d704b8049488fa38f18d84d90acb458a2bb009a0bc18b9d846fa61"
+    },
+    {
+      "path": "object-collection/qa/audit-instrument-structural-regression.cjs",
+      "bytes": 5156,
+      "sha256": "90abb375d6d421a2b482f1000ceab1ab02324d0536aa99992129144415cc616f"
+    },
+    {
+      "path": "object-collection/qa/audit-lesson-focus.cjs",
+      "bytes": 9376,
+      "sha256": "1a276513c21613b8a98d56e6002f2e83c2fc91d22cc93c827c512b3e5c27a6c4"
+    },
+    {
+      "path": "object-collection/qa/audit-mechanical-audio.cjs",
+      "bytes": 17128,
+      "sha256": "a011db10fd253063c40a9f840f360ac367b9d7b16156237b3ef5a8dabfa7f169"
+    },
+    {
+      "path": "object-collection/qa/audit-mechanics-four.cjs",
+      "bytes": 13829,
+      "sha256": "957ea927cefbd1872ae6c9f6412f8ea361266662d3ef2a6ffce992507f29b293"
+    },
+    {
+      "path": "object-collection/qa/audit-motion-frames.cjs",
+      "bytes": 5164,
+      "sha256": "c96b741922e76e3081c737ab77075f7319a34a6cee1930399f65a9c3f5f8ae38"
+    },
+    {
+      "path": "object-collection/qa/audit-process-audio.cjs",
+      "bytes": 3881,
+      "sha256": "a218fa52da92b2c30f0a45ba01d6af6cf375bdf49eb3d68d3b1f159e3f348ab4"
+    },
+    {
+      "path": "object-collection/qa/audit-toaster-cut-ink.cjs",
+      "bytes": 5500,
+      "sha256": "a27119491e6d59745f04c0b8e945e486fd658f497c2612ced66f87788af7dc68"
+    },
+    {
+      "path": "object-collection/qa/audit-toaster-lesson.cjs",
+      "bytes": 19621,
+      "sha256": "bb3d5da17c25be2076de7a1eeb019f8f41360b914f3317213ea6fc7f6b4ed061"
+    },
+    {
+      "path": "object-collection/qa/audit-vending-jam.cjs",
+      "bytes": 23952,
+      "sha256": "ba5434e540d0461a69c26b65d50f11136a93470a135442dc69ef862d800585ad"
+    },
+    {
+      "path": "object-collection/qa/audit-vending-lesson.cjs",
+      "bytes": 28335,
+      "sha256": "7edbe6e309180ff680f3b6d3c5121187cde174917350493b673f5f5913f4e680"
+    },
+    {
+      "path": "object-collection/qa/baselines/162e4f5a9b923809450e6c4062540dba139543da/dist/scenes/coffee.js",
+      "bytes": 21530,
+      "sha256": "9b54803cd871db906da83c57b98155f325e9489750380b96839b5a3c3c5c9c45"
+    },
+    {
+      "path": "object-collection/qa/baselines/4292d844656475f80ddf1bfde02c857976bee866/dist/scenes/elevator.js",
+      "bytes": 28536,
+      "sha256": "e40cb49f505e49eabc94aa97e5a4390786711a0d43b5e96bd60b07e681582ba1"
+    },
+    {
+      "path": "object-collection/qa/baselines/5bb23cb6b1cb4f901af9d07a45a919b4bcd2931f/dist/scenes/coffee.js",
+      "bytes": 16661,
+      "sha256": "0103351d2e6bbda116916e455fb322ea2e7b76c388bbf3a116dba546bd934392"
+    },
+    {
+      "path": "object-collection/qa/baselines/5bb23cb6b1cb4f901af9d07a45a919b4bcd2931f/dist/scenes/toaster.js",
+      "bytes": 15928,
+      "sha256": "5d654e2c593e993b20fbb93f98e1e3445b2e0d72f4af656f32fb90be7e824761"
+    },
+    {
+      "path": "object-collection/qa/baselines/5bb23cb6b1cb4f901af9d07a45a919b4bcd2931f/dist/scenes/vending.js",
+      "bytes": 15800,
+      "sha256": "210ef9d783db3a9d9ff342be1d2950606d97712f41153db996981c9c6c0fb1df"
+    },
+    {
+      "path": "object-collection/qa/baselines/898db54ee7a84e4a6161e467bd045cec15fb4b30/dist/elevator-occlusion.js",
+      "bytes": 14068,
+      "sha256": "566e0f96d463e6ed57892dda0f966d392061b22e3158d0de3e718128a71770f0"
+    },
+    {
+      "path": "object-collection/qa/baselines/898db54ee7a84e4a6161e467bd045cec15fb4b30/dist/observation.js",
+      "bytes": 6188,
+      "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c"
+    },
+    {
+      "path": "object-collection/qa/baselines/898db54ee7a84e4a6161e467bd045cec15fb4b30/dist/scenes/camera.js",
+      "bytes": 22553,
+      "sha256": "fecf7c1652f7de7b9b7c36ee59fc6bb5fd45a35258301ddf9e05ec1947566ab4"
+    },
+    {
+      "path": "object-collection/qa/baselines/898db54ee7a84e4a6161e467bd045cec15fb4b30/dist/scenes/coffee.js",
+      "bytes": 31549,
+      "sha256": "4ad9f509070f2afa1d6981cc5dc1160adad05806343861b65b2d452a17857bce"
+    },
+    {
+      "path": "object-collection/qa/baselines/898db54ee7a84e4a6161e467bd045cec15fb4b30/dist/scenes/elevator.js",
+      "bytes": 22332,
+      "sha256": "6c5f7bd460c09a4dfdbe4a02c24b8ba0427c6d46f43f805392ea1d099f8b637d"
+    },
+    {
+      "path": "object-collection/qa/baselines/898db54ee7a84e4a6161e467bd045cec15fb4b30/dist/scenes/vending.js",
+      "bytes": 25140,
+      "sha256": "9e0d32c8b9f6f3125ed50bfceefdfce34cd69bffce02f1f39e3f6da67a3e8a0b"
+    },
+    {
+      "path": "object-collection/qa/baselines/eb9c7426671b4707910670d105cc071426042367/dist/scenes/musicbox.js",
+      "bytes": 18665,
+      "sha256": "8db5662f14d2ee075226ef5dced43411f9ab08ef2e32d6765a1775f05932b11d"
+    },
+    {
+      "path": "object-collection/qa/baselines/eb9c7426671b4707910670d105cc071426042367/dist/scenes/toaster.js",
+      "bytes": 17306,
+      "sha256": "e981cd54aad123246a160ddca85b02b345060663fc708eece31973a5db7915b3"
+    },
+    {
+      "path": "object-collection/qa/baselines/eb9c7426671b4707910670d105cc071426042367/dist/scenes/turntable.js",
+      "bytes": 16337,
+      "sha256": "af8dd9010989d88df442fc3484212d4f173f3058d7c916be367615aeb8f9fbe8"
+    },
+    {
+      "path": "object-collection/qa/baselines/f9a0acb64984abc0549873957d36350ac5dc9bff/dist/scenes/camera.js",
+      "bytes": 15393,
+      "sha256": "b95566f5565957a8c5de13fcc36cea7c48a2e9e4c3f89f067c9673d84fd163b3"
+    },
+    {
+      "path": "object-collection/qa/baselines/f9a0acb64984abc0549873957d36350ac5dc9bff/dist/scenes/vending.js",
+      "bytes": 15800,
+      "sha256": "210ef9d783db3a9d9ff342be1d2950606d97712f41153db996981c9c6c0fb1df"
+    },
+    {
+      "path": "object-collection/qa/baselines/manifest.json",
+      "bytes": 3520,
+      "sha256": "ff48c858cccf5c3abbad33f88aade2fb86450832587b1b09eeae06866386f54a"
+    },
+    {
+      "path": "object-collection/qa/benchmark-lesson-observer.cjs",
+      "bytes": 1745,
+      "sha256": "54423cfe314975dbf01f37f81cbf61d627dd93ce1a76274df2a2027050a6fb3f"
+    },
+    {
+      "path": "object-collection/qa/fixture-provenance.json",
+      "bytes": 1036,
+      "sha256": "1448af1825442e3fe70993db685b7d5a9d5e095d6c0a84f733abeec33ed706e9"
+    },
+    {
+      "path": "object-collection/qa/instrument-contact/musicbox-before.js",
+      "bytes": 15218,
+      "sha256": "35cda343120885198609c7c06cb141a6798ca02b40e351d88e8c7f92a063b446"
+    },
+    {
+      "path": "object-collection/qa/instrument-dynamic-v11/baseline/camera.js",
+      "bytes": 15336,
+      "sha256": "57e182d2d1d21ec2f19445f20e0ca34a8fb8ab8eb724d9e042a289afa441f809"
+    },
+    {
+      "path": "object-collection/qa/instrument-dynamic-v11/baseline/musicbox.js",
+      "bytes": 15359,
+      "sha256": "39212f64f372ff6783014f1327face4c0061f6e569968c074a424805ea02023d"
+    },
+    {
+      "path": "object-collection/qa/instrument-dynamic-v11/baseline/turntable.js",
+      "bytes": 15327,
+      "sha256": "7c9031790cee50ce7b4aaa53960640f6ab9ffefcd20910accad981b0786fa2f2"
+    },
+    {
+      "path": "object-collection/qa/instrument-dynamic-v11/benchmark.cjs",
+      "bytes": 1528,
+      "sha256": "ae4bb86a3e745f680b7f370817a5cfd44ddc1e0770d463b4ca57d71d2f7bbe28"
+    },
+    {
+      "path": "object-collection/qa/instrument-dynamic-v11/harness.cjs",
+      "bytes": 3114,
+      "sha256": "61a209edd47e40b3bef0f6bf7167e2fdf53c03e3c494252cb60a3b41e1556815"
+    },
+    {
+      "path": "object-collection/qa/instrument-dynamic-v11/regression.cjs",
+      "bytes": 8711,
+      "sha256": "d3abd8a79b2897ada4ed780b48b2e87b28c84369335dfe6a638bfc8ea2d3e3f7"
+    },
+    {
+      "path": "object-collection/qa/motion-contact-invariants.cjs",
+      "bytes": 11547,
+      "sha256": "141b47eff442cecdfb5b44563b1951e6f6640e4722fcc01b05466bb17593e060"
+    },
+    {
+      "path": "object-collection/qa/motion-frame-fixture.cjs",
+      "bytes": 5473,
+      "sha256": "36b461b78b82de79fc20e295b9f419da37f4af1e92ef68081dd216dad3635ae2"
+    },
+    {
+      "path": "object-collection/qa/motion-frame-output.cjs",
+      "bytes": 3451,
+      "sha256": "17294e951cfc5b17ad5ed8d4003c6f6f01e50376a635c146c2ac5d0fad529f47"
+    },
+    {
+      "path": "object-collection/qa/portable-baseline.cjs",
+      "bytes": 1876,
+      "sha256": "e1dc6eb9d892495d3d206c6b2eecfafa6e86b71b65a37ece06ff63c0fb79633f"
+    },
+    {
+      "path": "object-collection/qa/PORTABLE-TESTS.md",
+      "bytes": 472,
+      "sha256": "7eb80a4c6ac8079e929c0b957413b442c774164810b50769756147b7bd1958b2"
+    },
+    {
+      "path": "object-collection/qa/render-food-crossings.cjs",
+      "bytes": 2522,
+      "sha256": "dbafc70c544d76ceb12a64a7617f1ad760d05e98f10cd75faa02c418f0ffb97b"
+    },
+    {
+      "path": "object-collection/qa/review-process-invariants.cjs",
+      "bytes": 31133,
+      "sha256": "2a4666f4c76987e7f2483c054400bba1ac33d982e20943e536bfc3349a57e5b3"
+    },
+    {
+      "path": "object-collection/qa/review-six-lessons.cjs",
+      "bytes": 16777,
+      "sha256": "cb2c493b4b3eaf669ba4ffd8bfa493a745508004c8d496007bcb87a4a71f8c42"
+    },
+    {
+      "path": "object-collection/qa/six-principles/make-contact.py",
+      "bytes": 2059,
+      "sha256": "e794ad1a022215cdca0b3ddb6852534dc5b8fe4c10142dfa351aae5fc0fe1930"
+    },
+    {
+      "path": "object-collection/qa/six-principles/mobile.html",
+      "bytes": 776,
+      "sha256": "7f1ae981106317d492232033ce1a64fb11337a9c10bfb9a976a08a197df07ea6"
+    },
+    {
+      "path": "object-collection/SCENE_CONTRACT.md",
+      "bytes": 2319,
+      "sha256": "388c557a22222045a409fbd28fe83058902368b162eed725cc12b42d456e847b"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 18847,
+      "sha256": "ebe26f0286ee21f2d880f178d7a501fab656f837f1481c70d8f296de3ab69b52"
+    },
+    {
+      "path": "package.json",
+      "bytes": 737,
+      "sha256": "38c7c28f5de1440899b57e9232a2c4848ae0649ff0cc40ba972102e8d446e066"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4120,
+      "sha256": "4b50a69333b242f798a9b958566106e5fd12e0924f8c583e544a958a73cb76d5"
+    },
+    {
+      "path": "scripts/manifest.cjs",
+      "bytes": 1030,
+      "sha256": "857d7ed53573b10888acb7e53f70270fe84d52c9d899bf24cc4803a4fad21c06"
+    },
+    {
+      "path": "scripts/server.cjs",
+      "bytes": 1863,
+      "sha256": "6465fb2d7139794dcf0c18220f7438e6bada960cfae25def141f8060d64fa472"
+    },
+    {
+      "path": "scripts/test.cjs",
+      "bytes": 6818,
+      "sha256": "05b0dd3594047d38263e91df3d943e104fc351f8ec3714144a126a3eb5a882a4"
+    },
+    {
+      "path": "scripts/verify.cjs",
+      "bytes": 2786,
+      "sha256": "11ac8acb86566b524c88e6be9edc257f013f1c0d687012ca43a3f979574859b8"
+    },
+    {
+      "path": "SOURCE-PROVENANCE.json",
+      "bytes": 49556,
+      "sha256": "fdb73bb306b22ad2903ce0803f5853afa51fe5282b8468e75c5e6589510ad82e"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 1231,
+      "sha256": "8f9fa3b8620f37824e50ea8a2bb0ff46c59925d217a8803bbae832edb5a73bf0"
+    },
+    {
+      "path": "vercel.json",
+      "bytes": 144,
+      "sha256": "35ed47fc4ee28cfea8e4cf0dd7400c4ebf74683011b38d2e6143a414b48c9ac6"
+    },
+    {
+      "path": "washer-study/dist/index.html",
+      "bytes": 128547,
+      "sha256": "db505967b196a41a1acf3ad5be86e157f3d41c726e8c38a9fa17f9e4b34bf728"
+    },
+    {
+      "path": "washer-study/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "washer-study/dist/observation.js",
+      "bytes": 14519,
+      "sha256": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733"
+    },
+    {
+      "path": "washer-study/dist/shared-shell.css",
+      "bytes": 18999,
+      "sha256": "2fc8ccd98be1b53c190d5512cf35edc3a3fbb5740b8206f7bebc05450c6ba6eb"
+    },
+    {
+      "path": "washer-study/qa/audit-dynamic-legacy.cjs",
+      "bytes": 5928,
+      "sha256": "6394324192f4cf74df155b6974a17c7007a00d1d15330f3572308bd928a217b9"
+    },
+    {
+      "path": "washer-study/qa/audit-dynamic-transfer.cjs",
+      "bytes": 2288,
+      "sha256": "06ae32bb0655169ae0ad4a638e4b77b105bd9a3937589da1ee455696e1d00ab0"
+    },
+    {
+      "path": "washer-study/qa/audit-principle-guide.cjs",
+      "bytes": 9061,
+      "sha256": "22c7b6eb4e3246b38736600332b60ec5a5454f1f60b27115b5f88352c78f5b44"
+    },
+    {
+      "path": "washer-study/qa/audit-scene-input.cjs",
+      "bytes": 11017,
+      "sha256": "c2005c15844c1d239e86191d05a916ad1f29eb9bfe50cf414dca4a9d82c14163"
+    },
+    {
+      "path": "washer-study/qa/audit-structural-sequences.cjs",
+      "bytes": 4432,
+      "sha256": "819f5afc0dc8f653df5f7556b5854a5fe23284df2c5f11563647bd1b10c8a972"
+    },
+    {
+      "path": "washer-study/qa/baselines/a704c6e3a9eba5178f679b8ffcdb9850d63010cd/dist/index.html",
+      "bytes": 123022,
+      "sha256": "2931c60d34db403777b7db59edbc2c2fcec0776ad2ed15619726021938c30cc5"
+    },
+    {
+      "path": "washer-study/qa/baselines/ab481e9b9b53390dcef46bf400a3cfe7a70623c8/dist/index.html",
+      "bytes": 128573,
+      "sha256": "b85fbe5de74653ee33f6f3e8ccd30d7fc958e742c92f87c72f50641f67ae7292"
+    },
+    {
+      "path": "washer-study/qa/baselines/addba29a7df34dd566fb8b740bb9a63758f87d2c/dist/index.html",
+      "bytes": 124478,
+      "sha256": "3d2e269c4960fb57a03cb319974a91752714df7c9a2fbc64a450122c4e516725"
+    },
+    {
+      "path": "washer-study/qa/baselines/addba29a7df34dd566fb8b740bb9a63758f87d2c/dist/mechanical-audio.js",
+      "bytes": 19956,
+      "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3"
+    },
+    {
+      "path": "washer-study/qa/baselines/addba29a7df34dd566fb8b740bb9a63758f87d2c/dist/observation.js",
+      "bytes": 6188,
+      "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c"
+    },
+    {
+      "path": "washer-study/qa/baselines/manifest.json",
+      "bytes": 1314,
+      "sha256": "f18783db4766143744bfba18dc6990f67644230db25a0a130c0a23ade623b88b"
+    },
+    {
+      "path": "washer-study/qa/benchmark-principle-guides.cjs",
+      "bytes": 1883,
+      "sha256": "be970157f72c21e5abec02946e6142de6a240f9a6c07cd298500ac29a615c1e2"
+    },
+    {
+      "path": "washer-study/qa/check-dynamic-transfer.py",
+      "bytes": 2502,
+      "sha256": "fd298ca0f31e2fe96e5f05b7a483938558a34252fd6d98986acc5a021c28c671"
+    },
+    {
+      "path": "washer-study/qa/observation-harness.cjs",
+      "bytes": 5936,
+      "sha256": "9325e9cd114ef6313e69e970f643a9d74383ba27ca86d4b07d7e1259088e50aa"
+    },
+    {
+      "path": "washer-study/qa/portable-baseline.cjs",
+      "bytes": 1876,
+      "sha256": "e1dc6eb9d892495d3d206c6b2eecfafa6e86b71b65a37ece06ff63c0fb79633f"
+    },
+    {
+      "path": "washer-study/qa/principle-dom-harness.cjs",
+      "bytes": 3775,
+      "sha256": "71509cbfc99866bcfdda46e0a6400f9e6503546ffb1b045f36f31a08c6d5271c"
+    }
+  ],
+  "total_files_excluding_manifest": 184,
+  "total_bytes_excluding_manifest": 4197080
+}

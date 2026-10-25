@@ -1,7 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "installCommand": "",
-  "buildCommand": "npm test",
-  "outputDirectory": "dist"
+  "git": {
+    "deploymentEnabled": {
+      "complete-museum-source": false
+    }
+  }
 }

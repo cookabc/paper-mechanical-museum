@@ -1,0 +1,41 @@
+// Scene-owned markup only. The application owns page chrome and navigation.
+export const fanTemplate = `  <main id="fan" class="play-layout">
+    <section class="intro play-dock" aria-label="电风扇操作区">
+      <h2 class="dock-title">让风转起来</h2>
+      <p class="lede">直接点底座按钮，或在这里操作。<br>拖动风扇，看看它的每一面。</p>
+      <div class="fan-controls" id="btns">
+        <div class="control-topline"><span class="status" role="status" aria-live="polite"><i aria-hidden="true"></i><span id="status">电源关闭</span></span></div>
+        <div class="actions">
+          <button id="power" class="power act" aria-pressed="false"><span class="power-icon" aria-hidden="true">⏻</span><span id="power-label">开启电源</span><span class="dot" aria-hidden="true"></span></button>
+          <button id="reset" class="reset act">重置视角</button>
+        </div>
+        <div class="control-label"><span>风速</span><span id="speed-label">一档 · 轻风</span></div>
+        <div class="speeds" role="group" aria-label="风速">
+          <button data-speed="1" aria-pressed="true">一档 <small>轻风</small></button>
+          <button data-speed="2" aria-pressed="false">二档 <small>和风</small></button>
+          <button data-speed="3" aria-pressed="false">三档 <small>劲风</small></button>
+        </div>
+      </div>
+      <div class="dock-extras">
+    <details class="settings">
+        <summary><span>更多设置与玩法<small>摇头 · 配色 · 操作</small></span><span class="details-icon" aria-hidden="true">＋</span></summary>
+        <div class="settings-body">
+          <button id="oscillate" class="toggle" aria-pressed="false"><span>左右摇头 <small>让清风走得更远</small></span><span class="switch" aria-hidden="true"><i></i></span></button>
+          <div class="palette-row"><span class="section-label">机身颜色</span><div class="palettes" role="group" aria-label="机身颜色">
+            <button data-color="mustard" style="--swatch:#f4b829" aria-label="芥末黄" aria-pressed="false"></button>
+            <button data-color="tomato" style="--swatch:#ef6a4c" aria-label="番茄红" aria-pressed="false"></button>
+            <button data-color="mint" style="--swatch:#93d3b0" aria-label="薄荷绿" aria-pressed="true"></button>
+            <button data-color="cobalt" style="--swatch:#76a0e2" aria-label="钴蓝" aria-pressed="false"></button>
+            <button data-color="blush" style="--swatch:#f3a6bb" aria-label="浅粉" aria-pressed="false"></button>
+          </div></div>
+          <div class="help"><p class="section-label">怎么玩</p><p>直接点底座按钮开关电源、切换风速；转到侧后方，点机头上的小旋钮，开启或关闭摇头。</p><p>拖动风扇，转一转视角；双击空白处或点“重置视角”回到起点。</p><p>选中风扇后，用方向键转动视角，空格键开关电源。</p><p class="mechanism">旋转的叶片推动空气，摇头机构让风走得更远。</p></div>
+        </div>
+    </details>
+
+      </div>
+    </section>
+    <section class="stage" aria-label="交互电风扇">
+      <svg id="figure" viewBox="0 0 800 760" role="group" aria-label="手绘电风扇，拖动旋转视角，底座按钮和机头旋钮可直接操作" tabindex="0"><defs id="fan-defs"></defs><g id="art"></g></svg>
+      <div class="drag-hint stage-note"><span id="interaction-hint" aria-live="polite">拖动转一转</span><span class="hint-rule" aria-hidden="true"></span><span>双击回到起点</span></div>
+    </section>
+  </main>`;

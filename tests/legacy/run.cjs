@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
-const root = path.resolve(__dirname, '..');
+const root = path.resolve(__dirname, '../fixtures/complete-source');
+const appRoot=path.resolve(__dirname,'../..');
 const args = new Set(process.argv.slice(2));
 const suite = (repo, file, ...argv) => ({ file: `${repo}/qa/${file}.cjs`, argv });
 const m = (name, ...a) => suite('object-collection', name, ...a);
@@ -61,8 +62,8 @@ try {
   for (const repo of ['object-collection', 'washer-study', 'fan-study', 'claw-studio']) {
     for (const dir of ['dist', 'qa']) fs.cpSync(path.join(root, repo, dir), path.join(work, repo, dir), { recursive: true });
   }
-  fs.cpSync(path.join(root, 'licenses'), path.join(work, 'licenses'), { recursive: true });
-  if (fs.existsSync(path.join(root, 'node_modules'))) fs.symlinkSync(path.join(root, 'node_modules'), path.join(work, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
+  fs.cpSync(path.join(appRoot, 'licenses'), path.join(work, 'licenses'), { recursive: true });
+  if (fs.existsSync(path.join(appRoot, 'node_modules'))) fs.symlinkSync(path.join(appRoot, 'node_modules'), path.join(work, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
   const cleanEnv = { ...process.env };
   // Historical /tmp overrides or another checkout must never silently select test inputs.
   for (const name of ['COFFEE_BASELINE', 'CORE_SOURCE', 'FOOD_DYNAMIC_OUT_DIR', 'MOTION_FRAME_OUT', 'FAN_REV', 'FAN_SOURCE', 'OUTPUT_DIR']) delete cleanEnv[name];

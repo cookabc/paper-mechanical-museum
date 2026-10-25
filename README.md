@@ -1,68 +1,60 @@
-# 纸上机械馆 · 十件展品完整源码
+# 纸上机械馆 · 统一工程（第一切片）
 
-此分支交付的是**完整机械馆**，不是只有抓娃娃机的空壳。包含首页、七件馆内展品，以及洗衣机、风扇、抓娃娃机三个独立页面的全部可读 HTML、CSS、JavaScript、SVG 素材、程序音效与回归测试。
+保留原来的纸感、手绘 SVG、配色与机械玩法，把十件展品逐步接入同一个可维护、可测试的应用。当前不是“十件全部迁移完成”：统一首页已列出十件藏品，**咖啡机与电风扇**接入真实 ES module 适配器；其余八件明确显示待迁移，不嵌套旧网页，也不跳往另一个站点。
 
-保持原有纸感、手绘线条、配色、几何、玩法和默认自由玩。没有后端、账号、数据库、环境变量或在线 CDN 依赖。`dist/` 就是可编辑源码，不是压缩后的不可维护产物，无构建转换。
+## 从哪里继续
 
-## 一条命令启动全部十件
+权威仓库为 [cookabc/little-claw-arcade](https://github.com/cookabc/little-claw-arcade)。本轮基线是 `main` 的 [ae56905eaae8a83764589d65dc96d54d4e922c38](https://github.com/cookabc/little-claw-arcade/commit/ae56905eaae8a83764589d65dc96d54d4e922c38)，tree 为 `61de7f271760a4f831249ad941c2e4d5236c8de5`。完整源码已通过 PR #1 合入 main，原 `complete-museum-source` 分支已删除；“main 仍只有抓娃娃机”是旧说明，不再适用。
 
-安装 Node.js 20 或更新版本后，在仓库根目录执行：
+统一重构在 `refactor/unified-museum` 分支继续。本切片不合并 main、不部署生产，也不改变任何现有网站的访问权限。
 
-```sh
-npm start
-```
+## 本地运行
 
-打开 **http://127.0.0.1:4180/**。不需要先安装依赖。端口被占用时可用 `PORT=4181 npm start`（Windows PowerShell: `$env:PORT=4181; npm start`）。按 Ctrl+C 停止。
-
-也可以在根目录运行 `python3 -m http.server 4180`。不要只发布某个 `dist/`，不要双击 `file://` 页面；整个目录的相对路径组成完整展馆。
-
-## 十件都在本地
-
-| 展品 | 本地路由 |
-| --- | --- |
-| 首页 | `/`（转到 `/object-collection/dist/`） |
-| 咖啡机 | `/object-collection/dist/#coffee` |
-| 手摇八音盒 | `/object-collection/dist/#musicbox` |
-| 售货机 | `/object-collection/dist/#vending` |
-| 烤面包机 | `/object-collection/dist/#toaster` |
-| 唱片机 | `/object-collection/dist/#turntable` |
-| 拍立得 | `/object-collection/dist/#camera` |
-| 电梯 | `/object-collection/dist/#elevator` |
-| 洗衣机 | `/washer-study/dist/` |
-| 风扇 | `/fan-study/dist/` |
-| 抓娃娃机 | `/claw-studio/dist/` |
-
-首页三件独立展品的按钮和各页面“返回小物馆”均使用相对本地地址。作者署名链接仍指向上游公开页面，它不是运行依赖。
-
-## 目录与开发
-
-- `object-collection/dist/`：首页、共用等距 SVG 核心、观察/声音模块、七个 `scenes/*.js` 和十张预览。
-- `washer-study/dist/`：洗衣机。原页面把核心和状态机放在 `index.html` 内；这是实际源码，不存在缺失的隐藏源目录。
-- `fan-study/dist/`：独立 `engine.js`、`fan.js`、手绘纹理及样式。
-- `claw-studio/dist/`：内联核心页面、`app.js` 状态机、观察与声音模块。
-- 每个子目录的 `qa/`：生产函数回归、时间一致性、输入、原理观察与动态几何检查。
-- `scripts/`：零依赖服务器、静态资源和路径校验、测试入口。
-- `docs/`：架构、交付范围与最小路径适配说明。
-- `licenses/`：实际使用的上游 MIT 许可全文。
-- `SOURCE-PROVENANCE.json` 与 `FILE-MANIFEST.json`：来源提交、原始字节与交付文件哈希。
-
-在各自 `dist/` 修改即可刷新看到结果。不要把几个目录中同名 `mechanical-audio.js` 或 `observation.js` 直接合并覆盖，它们来自不同已验收版本。缓存查询串只为更新资源；改动文件后需同步 `index.html` 中对应的 12 位 SHA-256 前缀。
-
-## 检查
+使用 **Node.js 22.13+（22.x）或 24.x** 和 npm；推荐 24.x，与 CI 一致。首次安装需要访问 npm registry；无需账号、应用密钥或后端。
 
 ```sh
-npm run verify   # 十件路由、43份运行资源、缓存签名与本地导航
-npm test         # 无第三方依赖的生产逻辑回归
+npm ci
+npm run dev
 ```
 
-扩展测试的依赖、命令、历史基线与边界见 `docs/TESTING.md`。自动检查不等同于所有视角视觉穷尽或音效试听；请保留真实浏览器的完整操作检查。
+打开 http://127.0.0.1:4182/ 。咖啡机为 `/#/coffee`，电风扇为 `/#/fan`，首页为 `/#/`。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
 
-## 分支与上线边界
+```sh
+npm run check      # lint → TypeScript 边界检查 → 当前切片测试 → Vite 构建
+npm run build
+npm run preview    # 以终端输出的地址检查构建产物
+```
 
-这是 `complete-museum-source` 源码交付分支。现有 `main` 仍是已经上线的独立抓娃娃机；本交付不改 main，不自动合并草稿 PR，也不更新任何生产站。
+修改 `src/`，不要编辑 `dist/`。这里的 `dist/` 已改为 Vite 生成的发布产物，不再是旧项目里的手写源码目录。不能用旧的 `npm start` 或直接打开 `file://` 代替 Vite 开发/预览流程。
 
-根 `vercel.json` **仅禁止 `complete-museum-source` 分支的自动部署**，不会全局停掉其他分支。若以后要把完整馆另行部署，应先确定静态输出根、导航与对应发布目标；不要不经审查直接把此分支合并到抓娃娃机生产 main。
+## 目录与边界
 
-## 署名与许可
+- `src/app/`：统一路由、控制器契约、资源作用域与局部 DOM 适配。
+- `src/exhibits/coffee/`、`src/exhibits/fan/`：真实场景模块，保留各自几何与运动模型。
+- `src/engines/`、`src/shared/`、`src/styles/`：渲染适配、音频/观察服务及共享视觉基础。
+- `public/previews/`：原十件预览素材。
+- `tests/*.test.ts`：直接导入新模块的回归与生命周期测试。
+- `tests/fixtures/complete-source/`：原“七件主馆 + 三件独立展品”的源码及历史 QA，仅供只读对照，不进入网站运行包。
+- `archive/`：原来源清单、哈希清单与旧工具；路径语义属于原源码包，不是新构建命令。
 
-详细来源见 `THIRD_PARTY_NOTICES.md`。上游 MIT 许可覆盖其原始代码与相应衍生部分，不应据此把全部独立场景和用户新增代码都署成上游作者。此交付不为用户原创部分擅自授予额外开源许可证。
+TypeScript 先覆盖应用与生命周期边界，机械模型仍是可读 JavaScript ES modules；这不是全量 TypeScript 改写。没有 iframe、eval 或把旧脚本重新拼接执行的运行时桥接。
+
+## 验证与后续
+
+```sh
+npm test                         # 新应用第一切片
+npm run test:legacy               # 独立旧源码基线，不代表新适配器通过
+npm run test:legacy -- --list     # 查看旧基线入口
+```
+
+CI 对 PR head / push 的精确提交执行检查，只有 `contents: read`，没有部署步骤。CI 配置存在不等于远端已经通过；以该提交的实际检查结果为准。自动测试也不等于桌面/手机真实浏览器、屏幕阅读器、音效试听或性能验收。
+
+后续依次接入其余八件，每件先保留状态/几何对照，再通过切换、暂停、重置、销毁和浏览器验收；全部迁移和独立验收后才讨论发布。不以“共用外壳”冒充机制统一，也不在测量前承诺性能提升。
+
+详见 [统一架构](docs/UNIFIED-ARCHITECTURE.md) 与 [核心差异审计](docs/CORE-DIFFERENCES.md)。旧的 `docs/ARCHITECTURE.md`、`docs/TESTING.md`、`docs/DELIVERY-SCOPE.md` 记录原完整源码交付，里面的命令、分支状态与通过数字**不是当前工程的操作说明或新验收结果**。
+
+## 发布与许可
+
+`vercel.json` 的构建输出为 `dist`，只对 `refactor/unified-museum`（并保留旧分支名）关闭 Git 自动部署，不是全局关闭其他分支。这个分支级设置不会保证未来合并 main 也不部署，因此不得把合并或上线视为本次授权的一部分。
+
+保留 [第三方来源与署名](THIRD_PARTY_NOTICES.md) 和 [上游 MIT 许可全文](licenses/Colorfigures-LICENSE.txt)。上游许可适用于对应原始代码及衍生部分，不代表所有独立场景与用户新增代码都署为上游作者，也不为整个仓库另行授予许可证。

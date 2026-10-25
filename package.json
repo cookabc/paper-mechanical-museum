@@ -1,0 +1,12 @@
+{
+  "name": "little-claw-arcade",
+  "version": "1.0.0",
+  "private": true,
+  "description": "小小抓物社：纸感手绘 SVG 抓娃娃机",
+  "scripts": {
+    "test": "node qa/run.cjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

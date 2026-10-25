@@ -2,7 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "complete-museum-source": false
+      "complete-museum-source": false,
+      "refactor/unified-museum": false
     }
-  }
+  },
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }

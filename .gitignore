@@ -4,3 +4,9 @@ qa-output/
 **/qa/*-results.json
 *.log
 .DS_Store
+
+# Unified application
+/dist/
+.vite/
+.vitest/
+coverage/

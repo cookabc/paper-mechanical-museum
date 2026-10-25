@@ -1,29 +1,31 @@
 {
   "name": "paper-mechanical-museum",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Complete source for the ten-object paper mechanical museum.",
-  "scripts": {
-    "start": "node scripts/server.cjs",
-    "verify": "node scripts/verify.cjs",
-    "test": "node scripts/test.cjs",
-    "test:extended": "node scripts/test.cjs --extended",
-    "test:benchmark": "node scripts/test.cjs --benchmark",
-    "test:raster": "node scripts/test.cjs --raster",
-    "test:legacy": "node scripts/test.cjs --legacy"
-  },
+  "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": "^22.13.0 || ^24.0.0 || >=26.0.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "lint": "eslint src tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:legacy": "node tests/legacy/run.cjs",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
   },
   "devDependencies": {
-    "jsdom": "26.1.0"
-  },
-  "peerDependencies": {
-    "sharp": "0.33.5"
-  },
-  "peerDependenciesMeta": {
-    "sharp": {
-      "optional": true
-    }
+    "@eslint/js": "10.0.1",
+    "@types/node": "22.19.7",
+    "acorn": "8.15.0",
+    "eslint": "10.13.0",
+    "jsdom": "26.1.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.0",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
   }
 }

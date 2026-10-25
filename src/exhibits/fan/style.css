@@ -1,0 +1,64 @@
+/* Original fan styling, constrained to its scene host. Shared shell owns page chrome. */
+.fan-exhibit {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42  0 0 0 0 .39  0 0 0 0 .33  .16 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"); line-height: 1.5;}
+.fan-exhibit .intro>* {flex-shrink: 0;}
+.fan-exhibit .intro .dock-extras {flex-shrink: 1;}
+.fan-exhibit .lede {font-size: 12px; line-height: 1.8; color: var(--muted); margin: 0 0 14px;}
+.fan-exhibit .fan-controls {width: 100%; margin-bottom: 18px;}
+.fan-exhibit .control-topline {min-height: 38px; display: flex; align-items: center; margin-bottom: 8px;}
+.fan-exhibit .status {display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 12px;}
+.fan-exhibit .status i {width: 6px; height: 6px; flex: none; border-radius: 50%; background: #b5ad9d;}
+.fan-exhibit.running .status i {background: #557c59;}
+.fan-exhibit .power {display: flex; align-items: center; justify-content: center; gap: 6px;}
+.fan-exhibit .power-icon {font-size: 18px; line-height: 1;}
+.fan-exhibit .dot {display: none;}
+.fan-exhibit .actions .power[aria-pressed=true] {background: #d7ecd8 !important;}
+.fan-exhibit .control-label {display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: var(--muted); margin: 0 0 8px;}
+.fan-exhibit .speeds {display: flex; gap: 7px;}
+.fan-exhibit .speeds button {min-width: 0; min-height: 44px; flex: 1; padding: 6px 4px; font-size: 12px; color: var(--ink); background: #fffdf8; border: 1px solid #6d6557; border-radius: 9px; box-shadow: 1px 2px 0 #ddd5c4;}
+.fan-exhibit .speeds small {display: block; font-size: 10px; color: var(--muted); margin-top: 1px;}
+.fan-exhibit .speeds button[aria-pressed=true] {background: #d7ecd8;}
+.fan-exhibit .speeds button:hover {background: #eaf0e4; transform: translateY(-1px);}
+.fan-exhibit .speeds button:active {transform: translateY(1px); box-shadow: none;}
+.fan-exhibit .settings {margin: 0;}
+.fan-exhibit .settings summary {font-size: 12px; gap: 10px;}
+.fan-exhibit .settings summary small {display: block; font-size: 10px; margin-top: 3px; color: var(--muted);}
+.fan-exhibit .details-icon {display: none;}
+.fan-exhibit .settings-body {padding: 0 0 12px;}
+.fan-exhibit .toggle {display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; min-height: 44px; padding: 9px 10px; font-size: 12px; text-align: left; background: #fffdf8; color: var(--ink); border: 1px solid var(--rule); border-radius: 9px;}
+.fan-exhibit .toggle small {display: block; color: var(--muted); font-size: 10px; margin-top: 2px;}
+.fan-exhibit .switch {flex: none; width: 32px; height: 18px; border: 1px solid #6d6557; border-radius: 20px; padding: 3px;}
+.fan-exhibit .switch i {display: block; width: 10px; height: 10px; background: #9c9486; border-radius: 50%; transition: transform .15s;}
+.fan-exhibit .toggle[aria-pressed=true] .switch {background: var(--accent);}
+.fan-exhibit .toggle[aria-pressed=true] .switch i {background: var(--ink); transform: translateX(13px);}
+.fan-exhibit .palette-row {margin: 17px 0 20px; display: flex; flex-direction: column; gap: 9px;}
+.fan-exhibit .section-label {font-size: 11px; color: var(--muted);}
+.fan-exhibit .palettes {display: flex; gap: 10px; padding: 4px;}
+.fan-exhibit .palettes button {width: 32px; height: 32px; min-width: 32px; border: 1px solid var(--ink); border-radius: 50%; padding: 0; background: var(--swatch);}
+.fan-exhibit .palettes button[aria-pressed=true] {outline: 2px solid var(--ink); outline-offset: 3px;}
+.fan-exhibit .help {border-top: 1px solid var(--rule); padding-top: 13px;}
+.fan-exhibit .help p {font-size: 12px; line-height: 1.8; margin: 0 0 12px;}
+.fan-exhibit .help .section-label {color: var(--ink);}
+.fan-exhibit #figure {display: block; width: 100%; height: calc(100svh - 194px); max-height: 740px; min-height: 0; overflow: visible; touch-action: none; user-select: none; cursor: grab;}
+.fan-exhibit #figure:focus-visible {outline: 2px solid var(--ink); outline-offset: 3px;}
+.fan-exhibit #figure.dragging,.fan-exhibit #figure.dragging .scene-control {cursor: grabbing;}
+.fan-exhibit .scene-control {cursor: pointer; outline: none;}
+.fan-exhibit .scene-control .hit-area {fill: transparent; stroke: transparent; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: all; transition: fill .12s,stroke .12s;}
+.fan-exhibit .scene-control:hover .hit-area,.fan-exhibit .scene-control:focus-visible .hit-area {fill: #f4b82930; stroke: var(--ink);}
+.fan-exhibit .scene-control:focus-visible .hit-area {stroke-width: 3; stroke-dasharray: 3 2;}
+.fan-exhibit .drag-hint {display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 22px; max-width: 100%; font-size: 11px; color: var(--muted);}
+.fan-exhibit #interaction-hint {min-width: 0; text-align: center; overflow-wrap: anywhere;}
+.fan-exhibit .hint-rule {height: 1px; width: 18px; background: var(--rule); flex: none;}
+@media (min-width:761px) {.fan-exhibit {height: 100svh; min-height: 0; overflow: hidden;}.fan-exhibit .play-layout {min-height: 0;}.fan-exhibit .stage {height: 100%; display: flex; flex-direction: column;}.fan-exhibit #figure {flex: 1; min-height: 0; height: 100%; max-height: none;}.fan-exhibit .drag-hint {flex: none;}.fan-exhibit .dock-extras {min-height: 70px;}}
+@media (max-width:760px) {.fan-exhibit .play-layout {margin-top: 8px;}.fan-exhibit .lede {display: none;}.fan-exhibit .fan-controls {margin-bottom: 16px;}.fan-exhibit .control-topline {justify-content: center; margin: 4px 0 8px; min-height: 30px;}.fan-exhibit .actions {margin-bottom: 15px !important;}.fan-exhibit .speeds button {min-height: 46px;}.fan-exhibit .speeds small {display: inline; margin-left: 5px;}.fan-exhibit #figure {height: 43svh; max-height: 390px; min-height: 260px;}.fan-exhibit .drag-hint {font-size: 10px; gap: 10px;}.fan-exhibit .intro .dock-extras {max-height: 280px; min-height: 0; overflow: auto; overscroll-behavior: contain; padding-right: 5px;}.fan-exhibit .palette-row {gap: 10px;}.fan-exhibit .palettes button {width: 32px; height: 32px;}.fan-exhibit .settings summary small {display: inline; margin-left: 10px;}}
+@media (prefers-reduced-motion:reduce) {.fan-exhibit * {transition: none !important;}}
+@media (max-width:760px) {.fan-exhibit #figure {height: min(75vw,330px); min-height: 240px; max-height: 330px;}}
+@media (min-width:761px) {.fan-exhibit .stage {height: calc(100svh - 153px); min-height: 0; max-height: 100%; overflow: hidden;}.fan-exhibit #figure {flex: none; height: calc(100svh - 181px); max-height: 100%; width: 100%;}}
+.fan-exhibit .scene-control.is-pressed .hit-area {fill: #f4b82955; stroke: #231e16; stroke-width: 2;}
+.fan-exhibit .status {line-height: 1.65; min-height: 24px;}
+.fan-exhibit .status i {transition: background .2s;}
+.fan-exhibit.coasting .status i {background: #b29556;}
+.fan-exhibit .fan-controls>.mechanical-audio {margin-top: 15px;}
+.fan-exhibit button {touch-action: manipulation;}
+.fan-exhibit .toggle:active {transform: translateY(1px); background: #e5f0df;}
+.fan-exhibit .power:active {transform: translateY(1px);}
+@media (min-width:761px) and (max-height:740px) {.fan-exhibit .play-dock {overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 5px !important;}.fan-exhibit .intro .dock-extras {min-height: 70px; flex-shrink: 0;}}

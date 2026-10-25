@@ -1,12 +1,12 @@
 # 纸上机械馆 · 统一工程（渐进迁移）
 
-保留原来的纸感、手绘 SVG、配色与机械玩法，把十件展品逐步接入同一个可维护、可测试的应用。当前不是“十件全部迁移完成”：统一首页已列出十件藏品，**咖啡机、电风扇、拍立得相机、自动售货机、烤面包机、手摇八音盒、唱片机与电梯**接入真实 ES module 适配器；其余两件明确显示待迁移，不嵌套旧网页，也不跳往另一个站点。
+保留原来的纸感、手绘 SVG、配色与机械玩法，把十件展品逐步接入同一个可维护、可测试的应用。当前十件展品均已接入真实 ES module 适配器，共用一个应用入口、路由、资源生命周期、声音与观察服务；不嵌套旧网页，也不跳往另一个站点。本分支仍是候选，不等于已合并或发布。
 
 ## 从哪里继续
 
 权威仓库为 [cookabc/little-claw-arcade](https://github.com/cookabc/little-claw-arcade)。原完整源码基线是 `main` 的 [ae56905eaae8a83764589d65dc96d54d4e922c38](https://github.com/cookabc/little-claw-arcade/commit/ae56905eaae8a83764589d65dc96d54d4e922c38)，tree 为 `61de7f271760a4f831249ad941c2e4d5236c8de5`。完整源码已通过 PR #1 合入 main，原 `complete-museum-source` 分支已删除；“main 仍只有抓娃娃机”是旧说明，不再适用。
 
-统一重构在 `refactor/unified-museum` 分支继续。首个两件切片已同步到远端提交 `5c9636c25bd8a4170710645a334f052e4875bffb`，本轮增量以该状态为基础，跟踪 [Issue #2](https://github.com/cookabc/little-claw-arcade/issues/2) 与草稿 PR #3。
+统一重构在 `refactor/unified-museum` 分支继续。前三批2/5/8件切片已同步远端，最终两件增量以第三批 `2d80d2bb2eed8fb47d5eb2bb581856b7553db109` 为基础，跟踪 [Issue #2](https://github.com/cookabc/little-claw-arcade/issues/2) 与草稿 PR #3。
 
 本切片不合并 main、不部署生产，也不改变任何现有网站的访问权限。
 
@@ -19,7 +19,7 @@ npm ci
 npm run dev
 ```
 
-打开 http://127.0.0.1:4182/ 。咖啡机为 `/#/coffee`，电风扇为 `/#/fan`，首页为 `/#/`。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
+打开 http://127.0.0.1:4182/ 。首页为 `/#/`，例如咖啡机 `/#/coffee`、电风扇 `/#/fan`、洗衣机 `/#/washer`、抓娃娃机 `/#/claw`；完整十件路由见[最终切片验收](docs/FINAL-SLICE-VALIDATION.md)。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
 
 ```sh
 npm run check      # lint → TypeScript 边界检查 → 当前切片测试 → Vite 构建
@@ -51,9 +51,11 @@ npm run test:legacy -- --list     # 查看旧基线入口
 
 CI 对 PR head / push 的精确提交执行检查，只有 `contents: read`，没有部署步骤。CI 配置存在不等于远端已经通过；以该提交的实际检查结果为准。自动测试也不等于桌面/手机真实浏览器、屏幕阅读器、音效试听或性能验收。
 
-后续依次接入其余两件，每件先保留状态/几何对照，再通过切换、暂停、重置、销毁和浏览器验收；全部迁移和独立验收后才讨论发布。不以“共用外壳”冒充机制统一，也不在测量前承诺性能提升。
+十件迁移分别保留状态/几何对照，逐批检查切换、暂停、重置、销毁及浏览器表现；合并与发布需要独立确认。不以“共用外壳”冒充机制统一，也不在测量前承诺性能提升。
 
-详见 [统一架构](docs/UNIFIED-ARCHITECTURE.md) 与 [核心差异审计](docs/CORE-DIFFERENCES.md)。旧的 `docs/ARCHITECTURE.md`、`docs/TESTING.md`、`docs/DELIVERY-SCOPE.md` 记录原完整源码交付，里面的命令、分支状态与通过数字**不是当前工程的操作说明或新验收结果**。
+原理观察区的退出/重入保留当前机器进度；离开展品路由则销毁该实例，重新进入会新建初始状态，不是跨展品进度持久化。
+
+详见 [最终切片验收](docs/FINAL-SLICE-VALIDATION.md)、[统一架构](docs/UNIFIED-ARCHITECTURE.md) 与 [核心差异审计](docs/CORE-DIFFERENCES.md)。旧的 `docs/ARCHITECTURE.md`、`docs/TESTING.md`、`docs/DELIVERY-SCOPE.md` 记录原完整源码交付，里面的命令、分支状态与通过数字**不是当前工程的操作说明或新验收结果**。
 
 ## 发布与许可
 

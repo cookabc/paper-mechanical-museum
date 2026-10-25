@@ -1,0 +1,9 @@
+# Washer adapter
+
+The renderer in `../../engines/washer/runtime.js` is a static extraction of the washer-specific historical inline ColorFigures core. `model.js` preserves the complete washer geometry, layered painter order, native actions, program integration, stable projected targets and optional observation/lesson from `tests/fixtures/complete-source/washer-study/dist/index.html`. It does not substitute the collection renderer or execute legacy scripts dynamically.
+
+The adaptation makes document access local to the exhibit root, routes event properties/listeners, timers, RAF and texture-image callbacks through its ResourceScope, and uses the host's shared audio and observation services. The museum host owns its heading and navigation. Scene-specific CSS is root-scoped; shared layout is not copied.
+
+`mountWasher(context)` returns pause, resume, reset, dispose and snapshot. Lifecycle pause stops held input and rebases the rendering clock without pressing the machine's own pause button. Snapshot `paused` is the original washer program state; `lifecyclePaused` and `pauseReasons` describe the host lifecycle. Snapshot state is deeply copied. Contract reset cancels all old drivers and timer/image epochs before restoring the initial machine and camera. The native “回到正面” remains a camera-only control.
+
+`createWasherRuntime` and `createWasherModel` are exported for source parity tests. The test suite runs the complete frozen source and the actual static model against identical controlled animation callbacks, comparing every physical state transition and sampled SVG at multiple views. Separate tests execute the real adapter with ResourceScope, shared audio and observation, checking pause, reset, disposal and retained old DOM callbacks. Browser/raster/accessibility acceptance is separate from these JSDOM checks.

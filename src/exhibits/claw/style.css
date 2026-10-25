@@ -1,0 +1,23 @@
+/* Claw-only interaction and dock details. The museum owns page layout and tokens. */
+.claw-exhibit #art{pointer-events:none}
+.claw-exhibit #art [data-act],.claw-exhibit #art [data-act] *, .claw-exhibit #art [data-solid],.claw-exhibit #art [data-solid] *{pointer-events:all}
+.claw-exhibit .gamepad{width:100%;text-align:center;margin:0 0 15px;flex:none}
+.claw-exhibit .pad{display:flex;justify-content:center;gap:8px}
+.claw-exhibit .pad button{touch-action:none;user-select:none;min-height:36px;background:#fffdf8;border:1px solid #6d6557;box-shadow:1px 2px 0 #ddd5c4;font:inherit;padding:5px 9px}
+.claw-exhibit #collection{color:var(--muted);font-size:11px;min-height:1.5em}
+.claw-exhibit .preferences>.stepwrap button{background:#fffdf8;font:inherit}
+.claw-exhibit #fig [data-act]{cursor:pointer;outline:none}
+.claw-exhibit #fig [data-act]:focus-visible{filter:drop-shadow(0 0 2px #bf8728)}
+.claw-exhibit #fig [data-act].is-pressed{filter:brightness(.88)}
+.claw-exhibit .pad button.is-held{transform:translateY(1px);box-shadow:none!important;background:#d7e7cd}
+.claw-exhibit .pad button[aria-disabled=true]{opacity:.5}
+.claw-exhibit .actions button[aria-disabled=true]{color:var(--muted);background:#eeeade!important}
+.claw-exhibit .actions button.is-next{border-color:#527451!important;background:#e5f0df!important}
+.claw-exhibit .toy-progress{height:4px;background:#e5dfd1;border-radius:8px;overflow:hidden;margin:0 0 12px;flex:none}
+.claw-exhibit .toy-progress>span{height:100%;display:block;width:0;background:#72916a;transition:width .2s linear}
+.claw-exhibit .toy-progress[hidden]{display:none}
+.claw-exhibit .toast[data-kind=blocked]{border-color:#a67c45}
+.claw-exhibit #fig:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.claw-exhibit #fig>circle[role=button]:focus-visible{stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke}
+.claw-exhibit .play-dock>.dock-title,.claw-exhibit .play-dock>#readout,.claw-exhibit .play-dock>.actions,.claw-exhibit .play-dock>.extras-scroll-hint{flex-shrink:0}
+@media(prefers-reduced-motion:reduce){.claw-exhibit .toy-progress>span{transition:none}}

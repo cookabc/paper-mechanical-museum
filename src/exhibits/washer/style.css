@@ -1,0 +1,35 @@
+/* Original washer-specific controls and hit areas. Shared shell owns layout. */
+.washer-exhibit.nolabels #fig .tag{display:none}
+.washer-exhibit .vset{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:0 0 15px;flex-shrink:0}
+.washer-exhibit .vrow{display:flex;gap:6px;width:100%}
+.washer-exhibit .vrow .act{flex:1;min-height:38px;font-size:12px;background:#fffdf8;border:1px solid #6d6557;border-radius:9px;box-shadow:1px 2px 0 #ddd5c4}
+.washer-exhibit .vrow .act[aria-pressed=true]{background:#eaf0e4;color:var(--ink)}
+.washer-exhibit .vset .act[hidden]{display:none}
+.washer-exhibit .disclosure-scroll{padding:0;overflow:visible;max-height:none}
+.washer-exhibit .scene-help,.washer-exhibit .mcap{text-align:left;max-width:none;min-height:0;margin:0 0 13px;font-size:12px;line-height:1.8;color:var(--muted)}
+.washer-exhibit .mcap{transition:opacity .3s}
+.washer-exhibit #art [data-act]{pointer-events:none}
+.washer-exhibit #scene-targets [data-act]{cursor:pointer;fill:transparent;stroke:transparent;stroke-width:2;vector-effect:non-scaling-stroke;pointer-events:all;outline:none;transition:fill .12s,stroke .12s}
+.washer-exhibit #scene-targets [data-act]:hover,.washer-exhibit #scene-targets [data-act]:focus-visible{fill:#f4b82922;stroke:#675b39;stroke-dasharray:4 3}
+.washer-exhibit #scene-targets [data-act]:active{fill:#f4b82944}
+.washer-exhibit #scene-targets [data-act].is-pressed{fill:#f4b82955;stroke:#231e16;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.washer-exhibit #fig.drag #scene-targets [data-act]{fill:transparent;stroke:transparent}
+.washer-exhibit .scene-hint{position:absolute;right:0;bottom:34px;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:5px 9px;max-width:70%;font-size:11px;color:var(--ink);pointer-events:none;opacity:0}
+.washer-exhibit .scene-hint.on{opacity:1}
+.washer-exhibit .made-with{text-align:left;margin:14px 0;font-size:10px}
+.washer-exhibit .play-layout .toast{display:none}
+.washer-exhibit .play-dock .chips{width:100%;box-shadow:none;border:0;padding:6px 0;max-width:none;left:auto;right:auto;top:auto;bottom:auto;gap:5px}
+.washer-exhibit .play-dock .stepwrap.open{grid-column:1/-1}
+.washer-exhibit .play-dock .stepwrap.open .chips{display:flex;justify-content:flex-start}
+.washer-exhibit .play-dock .chip{color:var(--ink);min-height:34px;padding:6px 10px;box-shadow:none}
+.washer-exhibit .play-dock .chip.current{background:var(--accent);color:var(--ink)}
+.washer-exhibit .toy-progress{height:4px;background:#e5dfd1;border-radius:8px;overflow:hidden;margin:0 0 12px;flex:none}
+.washer-exhibit .toy-progress>span{height:100%;display:block;width:0;background:#72916a;transition:width .2s linear}
+.washer-exhibit .toy-progress[hidden]{display:none}
+.washer-exhibit .actions button[aria-disabled=true]{color:var(--muted);background:#eeeade!important}
+.washer-exhibit .actions button.is-next{border-color:#527451!important;background:#e5f0df!important}
+.washer-exhibit .actions button.is-complete{background:#e8eddf!important}
+.washer-exhibit .actions .act{white-space:normal;overflow-wrap:anywhere}
+@media(pointer:coarse){.washer-exhibit #scene-targets [data-act]:focus-visible{stroke-width:3}}
+@media(max-width:760px){.washer-exhibit .vrow .act{white-space:normal}.washer-exhibit .scene-hint{max-width:85%}}
+@media(prefers-reduced-motion:reduce){.washer-exhibit .toy-progress>span{transition:none}}

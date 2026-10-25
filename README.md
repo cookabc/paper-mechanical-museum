@@ -1,12 +1,12 @@
-# 纸上机械馆 · 统一工程（渐进迁移）
+# 纸上机械馆 · 统一工程
 
-保留原来的纸感、手绘 SVG、配色与机械玩法，把十件展品逐步接入同一个可维护、可测试的应用。当前十件展品均已接入真实 ES module 适配器，共用一个应用入口、路由、资源生命周期、声音与观察服务；不嵌套旧网页，也不跳往另一个站点。本分支仍是候选，不等于已合并或发布。
+保留纸感、手绘 SVG、配色与机械玩法，共用一个应用入口、路由、资源生命周期、声音与观察服务；不嵌套旧网页，也不跳往另一个站点。
 
-## 从哪里继续
+## 当前状态
 
-权威仓库为 [cookabc/little-claw-arcade](https://github.com/cookabc/little-claw-arcade)。原完整源码基线是 `main` 的 [ae56905eaae8a83764589d65dc96d54d4e922c38](https://github.com/cookabc/little-claw-arcade/commit/ae56905eaae8a83764589d65dc96d54d4e922c38)，tree 为 `61de7f271760a4f831249ad941c2e4d5236c8de5`。完整源码已通过 PR #1 合入 main，原 `complete-museum-source` 分支已删除；“main 仍只有抓娃娃机”是旧说明，不再适用。
+权威仓库：[cookabc/paper-mechanical-museum](https://github.com/cookabc/paper-mechanical-museum)。生产网站：[纸上机械馆](https://paper-mechanical-museum.vercel.app/)。原十件统一版已通过 PR #3 合入 main，基线提交 `767198c7e722a33d3a605d7c4d8204c881b3f337`，tree `07b6f2cb1729a107a579db70a8c1dab21ea14258`。
 
-统一重构在 `refactor/unified-museum` 分支继续。前三批2/5/8件切片已同步远端，最终两件增量以第三批 `2d80d2bb2eed8fb47d5eb2bb581856b7553db109` 为基础，跟踪 [Issue #2](https://github.com/cookabc/little-claw-arcade/issues/2) 与草稿 PR #3。
+本分支 `feat/bicycle-drivetrain` 新增第 11 件「自行车变速器」，当前为开发候选，不表示已合并或发布。它使用新的 TypeScript 教学模型与原创 SVG 侧视绘图，接入既有共享服务，不替换原十件机械渲染器。详见[自行车设计与验收](docs/BICYCLE-EXHIBIT.md)。
 
 本切片不合并 main、不部署生产，也不改变任何现有网站的访问权限。
 
@@ -19,7 +19,7 @@ npm ci
 npm run dev
 ```
 
-打开 http://127.0.0.1:4182/ 。首页为 `/#/`，例如咖啡机 `/#/coffee`、电风扇 `/#/fan`、洗衣机 `/#/washer`、抓娃娃机 `/#/claw`；完整十件路由见[最终切片验收](docs/FINAL-SLICE-VALIDATION.md)。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
+打开 http://127.0.0.1:4182/ 。首页为 `/#/`，例如咖啡机 `/#/coffee`、电风扇 `/#/fan`、洗衣机 `/#/washer`、抓娃娃机 `/#/claw`；新增自行车为 `/#/bicycle`；原十件路由见[最终切片验收](docs/FINAL-SLICE-VALIDATION.md)。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
 
 ```sh
 npm run check      # lint → TypeScript 边界检查 → 当前切片测试 → Vite 构建
@@ -34,12 +34,12 @@ npm run preview    # 以终端输出的地址检查构建产物
 - `src/app/`：统一路由、控制器契约、资源作用域与局部 DOM 适配。
 - `src/exhibits/`：真实场景模块，保留各自几何与运动模型。
 - `src/engines/`、`src/shared/`、`src/styles/`：渲染适配、音频/观察服务及共享视觉基础。
-- `public/previews/`：原十件预览素材。
+- `public/previews/`：十一件场景预览；自行车预览由同一个原创绘图函数导出。
 - `tests/*.test.ts`：直接导入新模块的回归与生命周期测试。
 - `tests/fixtures/complete-source/`：原“七件主馆 + 三件独立展品”的源码及历史 QA，仅供只读对照，不进入网站运行包。
 - `archive/`：原来源清单、哈希清单与旧工具；路径语义属于原源码包，不是新构建命令。
 
-TypeScript 先覆盖应用与生命周期边界，机械模型仍是可读 JavaScript ES modules；这不是全量 TypeScript 改写。没有 iframe、eval 或把旧脚本重新拼接执行的运行时桥接。
+TypeScript 先覆盖应用与生命周期边界，原十件机械模型仍是可读 JavaScript ES modules，自行车模型及适配器为 TypeScript；这不是全量 TypeScript 改写。没有 iframe、eval 或把旧脚本重新拼接执行的运行时桥接。
 
 ## 验证与后续
 

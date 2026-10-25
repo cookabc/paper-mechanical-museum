@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - refactor/unified-museum
 
 permissions:
   contents: read

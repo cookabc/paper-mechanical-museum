@@ -21,6 +21,7 @@ export interface SceneContext {
   root: HTMLElement;
   scope: ResourceScope;
   audio: AudioService;
+  catalog?: ReadonlyArray<{id:string;name:string}>;
   observation: ReturnType<typeof import('../shared/observation.js').createObservation>;
 }
 export interface ExhibitDefinition {id:string;name:string;mount(context:SceneContext):SceneController;}

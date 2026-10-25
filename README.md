@@ -1,12 +1,14 @@
-# 纸上机械馆 · 统一工程（第一切片）
+# 纸上机械馆 · 统一工程（渐进迁移）
 
-保留原来的纸感、手绘 SVG、配色与机械玩法，把十件展品逐步接入同一个可维护、可测试的应用。当前不是“十件全部迁移完成”：统一首页已列出十件藏品，**咖啡机与电风扇**接入真实 ES module 适配器；其余八件明确显示待迁移，不嵌套旧网页，也不跳往另一个站点。
+保留原来的纸感、手绘 SVG、配色与机械玩法，把十件展品逐步接入同一个可维护、可测试的应用。当前不是“十件全部迁移完成”：统一首页已列出十件藏品，**咖啡机、电风扇、拍立得相机、自动售货机与烤面包机**接入真实 ES module 适配器；其余五件明确显示待迁移，不嵌套旧网页，也不跳往另一个站点。
 
 ## 从哪里继续
 
-权威仓库为 [cookabc/little-claw-arcade](https://github.com/cookabc/little-claw-arcade)。本轮基线是 `main` 的 [ae56905eaae8a83764589d65dc96d54d4e922c38](https://github.com/cookabc/little-claw-arcade/commit/ae56905eaae8a83764589d65dc96d54d4e922c38)，tree 为 `61de7f271760a4f831249ad941c2e4d5236c8de5`。完整源码已通过 PR #1 合入 main，原 `complete-museum-source` 分支已删除；“main 仍只有抓娃娃机”是旧说明，不再适用。
+权威仓库为 [cookabc/little-claw-arcade](https://github.com/cookabc/little-claw-arcade)。原完整源码基线是 `main` 的 [ae56905eaae8a83764589d65dc96d54d4e922c38](https://github.com/cookabc/little-claw-arcade/commit/ae56905eaae8a83764589d65dc96d54d4e922c38)，tree 为 `61de7f271760a4f831249ad941c2e4d5236c8de5`。完整源码已通过 PR #1 合入 main，原 `complete-museum-source` 分支已删除；“main 仍只有抓娃娃机”是旧说明，不再适用。
 
-统一重构在 `refactor/unified-museum` 分支继续。本切片不合并 main、不部署生产，也不改变任何现有网站的访问权限。
+统一重构在 `refactor/unified-museum` 分支继续。首个两件切片已同步到远端提交 `5c9636c25bd8a4170710645a334f052e4875bffb`，本轮增量以该状态为基础，跟踪 [Issue #2](https://github.com/cookabc/little-claw-arcade/issues/2) 与草稿 PR #3。
+
+本切片不合并 main、不部署生产，也不改变任何现有网站的访问权限。
 
 ## 本地运行
 
@@ -30,7 +32,7 @@ npm run preview    # 以终端输出的地址检查构建产物
 ## 目录与边界
 
 - `src/app/`：统一路由、控制器契约、资源作用域与局部 DOM 适配。
-- `src/exhibits/coffee/`、`src/exhibits/fan/`：真实场景模块，保留各自几何与运动模型。
+- `src/exhibits/`：真实场景模块，保留各自几何与运动模型。
 - `src/engines/`、`src/shared/`、`src/styles/`：渲染适配、音频/观察服务及共享视觉基础。
 - `public/previews/`：原十件预览素材。
 - `tests/*.test.ts`：直接导入新模块的回归与生命周期测试。
@@ -42,14 +44,14 @@ TypeScript 先覆盖应用与生命周期边界，机械模型仍是可读 JavaS
 ## 验证与后续
 
 ```sh
-npm test                         # 新应用第一切片
+npm test                         # 当前已迁移模块
 npm run test:legacy               # 独立旧源码基线，不代表新适配器通过
 npm run test:legacy -- --list     # 查看旧基线入口
 ```
 
 CI 对 PR head / push 的精确提交执行检查，只有 `contents: read`，没有部署步骤。CI 配置存在不等于远端已经通过；以该提交的实际检查结果为准。自动测试也不等于桌面/手机真实浏览器、屏幕阅读器、音效试听或性能验收。
 
-后续依次接入其余八件，每件先保留状态/几何对照，再通过切换、暂停、重置、销毁和浏览器验收；全部迁移和独立验收后才讨论发布。不以“共用外壳”冒充机制统一，也不在测量前承诺性能提升。
+后续依次接入其余五件，每件先保留状态/几何对照，再通过切换、暂停、重置、销毁和浏览器验收；全部迁移和独立验收后才讨论发布。不以“共用外壳”冒充机制统一，也不在测量前承诺性能提升。
 
 详见 [统一架构](docs/UNIFIED-ARCHITECTURE.md) 与 [核心差异审计](docs/CORE-DIFFERENCES.md)。旧的 `docs/ARCHITECTURE.md`、`docs/TESTING.md`、`docs/DELIVERY-SCOPE.md` 记录原完整源码交付，里面的命令、分支状态与通过数字**不是当前工程的操作说明或新验收结果**。
 

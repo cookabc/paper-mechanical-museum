@@ -2,3 +2,9 @@
 :root{--paper:#faf8f2;--ink:#231e16;--muted:#766d5f;--rule:#d8d1c3;--accent:#93d3b0;--font-ui:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;--font-sm:12px;--radius-control:7px;--space-dock:38px}
 #app,.scene-root{display:contents}
 .migration-note{max-width:650px;margin:50px auto;font-size:14px;line-height:1.8;padding:25px;border:1px solid var(--rule);border-radius:12px}
+
+/* Pale active controls need ink, not the legacy renderer's inverse-button ink. */
+.fan-exhibit .actions .power[aria-pressed=true],
+.observation-rate button[aria-pressed=true],
+.mechanical-audio button[aria-pressed=true]{color:var(--ink)}
+.fan-exhibit .toggle[aria-pressed=true]{background:#d7ecd8;color:var(--ink)}

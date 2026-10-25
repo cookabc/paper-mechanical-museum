@@ -11,11 +11,11 @@ export function mountCoffee(context){
  arrangePlayDock(context,cfg,ui,[{id:'coffee',name:'咖啡机'},{id:'fan',name:'电风扇'}],'coffee');
  const reasons=new Set();let disposed=false;
  return {
-  pause(reason='manual'){if(disposed||reasons.has(reason))return;reasons.add(reason);ui.pause();},
-  resume(reason='manual'){if(disposed||!reasons.delete(reason)||reasons.size)return;ui.resume();},
-  reset(){if(disposed)return;ui.clearTransient();cfg.acts.reset(ui.st,null,ui);ui.render();},
+  pause(reason='manual'){if(disposed||!scope.active||reasons.has(reason))return;reasons.add(reason);ui.pause();},
+  resume(reason='manual'){if(disposed||!scope.active||!reasons.delete(reason)||reasons.size)return;ui.resume();},
+  reset(){if(disposed||!scope.active)return;ui.clearTransient();cfg.acts.reset(ui.st,null,ui);ui.render();},
   dispose(){if(disposed)return;disposed=true;ui.dispose();},
-  snapshot(){return {...ui.st,paused:reasons.size>0,disposed};}
+  snapshot(){return {...structuredClone(ui.st),paused:reasons.size>0,disposed:disposed||!scope.active};}
  };
 }
 export default mountCoffee;

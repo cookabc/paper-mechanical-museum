@@ -1,0 +1,32 @@
+[
+  {
+    "file": "object-collection/dist/shell.js",
+    "old": "https://colorfigures-washer.chuangcius.chatgpt.site",
+    "new": "../../washer-study/dist/"
+  },
+  {
+    "file": "object-collection/dist/shell.js",
+    "old": "https://paper-fan-studio.chuangcius.chatgpt.site",
+    "new": "../../fan-study/dist/"
+  },
+  {
+    "file": "object-collection/dist/shell.js",
+    "old": "https://little-claw-arcade.vercel.app",
+    "new": "../../claw-studio/dist/"
+  },
+  {
+    "file": "washer-study/dist/index.html",
+    "old": "https://paper-mechanical-museum.chuangcius.chatgpt.site",
+    "new": "../../object-collection/dist/"
+  },
+  {
+    "file": "fan-study/dist/index.html",
+    "old": "https://paper-mechanical-museum.chuangcius.chatgpt.site",
+    "new": "../../object-collection/dist/"
+  },
+  {
+    "file": "claw-studio/dist/app.js",
+    "old": "https://paper-mechanical-museum.chuangcius.chatgpt.site",
+    "new": "../../object-collection/dist/"
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "description": "Read-only historical production-source fixtures. These are test inputs, not old test results. Git is not required to execute the tests.",
+  "revisions": {
+    "a704c6e3a9eba5178f679b8ffcdb9850d63010cd": {
+      "commit": "a704c6e3a9eba5178f679b8ffcdb9850d63010cd",
+      "files": {
+        "dist/index.html": {
+          "sha256": "2931c60d34db403777b7db59edbc2c2fcec0776ad2ed15619726021938c30cc5",
+          "bytes": 123022
+        }
+      }
+    },
+    "addba29": {
+      "commit": "addba29a7df34dd566fb8b740bb9a63758f87d2c",
+      "files": {
+        "dist/index.html": {
+          "sha256": "3d2e269c4960fb57a03cb319974a91752714df7c9a2fbc64a450122c4e516725",
+          "bytes": 124478
+        },
+        "dist/observation.js": {
+          "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c",
+          "bytes": 6188
+        },
+        "dist/mechanical-audio.js": {
+          "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+          "bytes": 19956
+        }
+      }
+    },
+    "HEAD": {
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "files": {
+        "dist/index.html": {
+          "sha256": "b85fbe5de74653ee33f6f3e8ccd30d7fc958e742c92f87c72f50641f67ae7292",
+          "bytes": 128573
+        }
+      }
+    }
+  }
+}

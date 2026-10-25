@@ -1,46 +1,68 @@
-# 小小抓物社 · Little Claw Arcade
+# 纸上机械馆 · 十件展品完整源码
 
-纸上机械馆的独立抓娃娃机：纸感配色、手绘 SVG 立体模型、可直接操作的抓取流程，以及可选的原理观察。默认自由玩、声音默认关闭。
+此分支交付的是**完整机械馆**，不是只有抓娃娃机的空壳。包含首页、七件馆内展品，以及洗衣机、风扇、抓娃娃机三个独立页面的全部可读 HTML、CSS、JavaScript、SVG 素材、程序音效与回归测试。
 
-## 运行
+保持原有纸感、手绘线条、配色、几何、玩法和默认自由玩。没有后端、账号、数据库、环境变量或在线 CDN 依赖。`dist/` 就是可编辑源码，不是压缩后的不可维护产物，无构建转换。
 
-这是纯静态 HTML / CSS / JavaScript 项目，没有后端、环境变量、数据库或运行时 npm 依赖。`dist/` 同时是可读源码和部署产物，不需要构建转换。
+## 一条命令启动全部十件
+
+安装 Node.js 20 或更新版本后，在仓库根目录执行：
 
 ```sh
-python3 -m http.server 4180 --directory dist
+npm start
 ```
 
-打开 `http://localhost:4180`。也可使用任意静态文件服务器。
+打开 **http://127.0.0.1:4180/**。不需要先安装依赖。端口被占用时可用 `PORT=4181 npm start`（Windows PowerShell: `$env:PORT=4181; npm start`）。按 Ctrl+C 停止。
 
-## 操作
+也可以在根目录运行 `python3 -m http.server 4180`。不要只发布某个 `dist/`，不要双击 `file://` 页面；整个目录的相对路径组成完整展馆。
 
-- 点击目标玩偶或使用摇杆移动，按下抓取按钮开始。
-- 键盘方向键移动，空格抓取；画面中的帮助说明各控件。
-- 成功出货后领取；原理观察按原速跟随，退出观察保留当前动作，不设手动暂停或慢速关卡。
-- 音效只在主动开启后播放，切入后台会暂停。
+## 十件都在本地
+
+| 展品 | 本地路由 |
+| --- | --- |
+| 首页 | `/`（转到 `/object-collection/dist/`） |
+| 咖啡机 | `/object-collection/dist/#coffee` |
+| 手摇八音盒 | `/object-collection/dist/#musicbox` |
+| 售货机 | `/object-collection/dist/#vending` |
+| 烤面包机 | `/object-collection/dist/#toaster` |
+| 唱片机 | `/object-collection/dist/#turntable` |
+| 拍立得 | `/object-collection/dist/#camera` |
+| 电梯 | `/object-collection/dist/#elevator` |
+| 洗衣机 | `/washer-study/dist/` |
+| 风扇 | `/fan-study/dist/` |
+| 抓娃娃机 | `/claw-studio/dist/` |
+
+首页三件独立展品的按钮和各页面“返回小物馆”均使用相对本地地址。作者署名链接仍指向上游公开页面，它不是运行依赖。
+
+## 目录与开发
+
+- `object-collection/dist/`：首页、共用等距 SVG 核心、观察/声音模块、七个 `scenes/*.js` 和十张预览。
+- `washer-study/dist/`：洗衣机。原页面把核心和状态机放在 `index.html` 内；这是实际源码，不存在缺失的隐藏源目录。
+- `fan-study/dist/`：独立 `engine.js`、`fan.js`、手绘纹理及样式。
+- `claw-studio/dist/`：内联核心页面、`app.js` 状态机、观察与声音模块。
+- 每个子目录的 `qa/`：生产函数回归、时间一致性、输入、原理观察与动态几何检查。
+- `scripts/`：零依赖服务器、静态资源和路径校验、测试入口。
+- `docs/`：架构、交付范围与最小路径适配说明。
+- `licenses/`：实际使用的上游 MIT 许可全文。
+- `SOURCE-PROVENANCE.json` 与 `FILE-MANIFEST.json`：来源提交、原始字节与交付文件哈希。
+
+在各自 `dist/` 修改即可刷新看到结果。不要把几个目录中同名 `mechanical-audio.js` 或 `observation.js` 直接合并覆盖，它们来自不同已验收版本。缓存查询串只为更新资源；改动文件后需同步 `index.html` 中对应的 12 位 SHA-256 前缀。
 
 ## 检查
 
-需要 Node.js 20 或更新版本，无需 `npm install`：
-
 ```sh
-npm test
+npm run verify   # 十件路由、43份运行资源、缓存签名与本地导航
+npm test         # 无第三方依赖的生产逻辑回归
 ```
 
-测试直接读取本仓库的产品函数，覆盖输入去重、抓取/领取守恒、时间分区与边界。测试范围和限制见 [qa/README.md](qa/README.md)。浏览器实际画面、声音和移动端体验不能由这些 Node 检查替代。
+扩展测试的依赖、命令、历史基线与边界见 `docs/TESTING.md`。自动检查不等同于所有视角视觉穷尽或音效试听；请保留真实浏览器的完整操作检查。
 
-## Vercel
+## 分支与上线边界
 
-导入本仓库，Framework Preset 选 **Other**，Root Directory 为仓库根目录，Output Directory 为 `dist`。仓库内 `vercel.json` 配置校验命令和静态输出；不需要服务器、数据库、环境变量或付费附加资源。GitHub 仓库可保持私有，网站公开访问由 Vercel 项目访问设置控制。
+这是 `complete-museum-source` 源码交付分支。现有 `main` 仍是已经上线的独立抓娃娃机；本交付不改 main，不自动合并草稿 PR，也不更新任何生产站。
 
-部署前运行 `npm test`，部署后检查默认自由玩、完整抓取/领取、后台暂停与恢复、观察退出重入、键盘操作和 390px 窄屏。不要把一次构建成功当作交互验收完成。
-
-## 来源与迁移范围
-
-五个产品文件从已验收源提交 `0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d` 原样导出，未改变机型、几何、布局、玩法或绘制路径。另补上游许可证文件和可独立运行的回归测试；没有复制原托管项目身份、凭据、私有日志、截图、部署归档或 Git 历史。
-
-原有“返回纸上机械馆”链接仍指向机械馆，不涉及其他展品迁移。保留时间步长上限和后台暂停策略；时间一致性测试比较的是相同模拟时长，不承诺任意卡顿下与墙钟等速。
+根 `vercel.json` **仅禁止 `complete-museum-source` 分支的自动部署**，不会全局停掉其他分支。若以后要把完整馆另行部署，应先确定静态输出根、导航与对应发布目标；不要不经审查直接把此分支合并到抓娃娃机生产 main。
 
 ## 署名与许可
 
-渲染基础来自 April Zhu 的 Colorfigures，继承其 MIT 版权声明及对 ISO-GLOW、Tolga Cohce 的 iso-figure 的署名。详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 与 [上游许可全文](licenses/Colorfigures-LICENSE.txt)。
+详细来源见 `THIRD_PARTY_NOTICES.md`。上游 MIT 许可覆盖其原始代码与相应衍生部分，不应据此把全部独立场景和用户新增代码都署成上游作者。此交付不为用户原创部分擅自授予额外开源许可证。

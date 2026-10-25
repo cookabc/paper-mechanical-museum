@@ -1,0 +1,250 @@
+const svg=document.querySelector('#figure'),art=document.querySelector('#art'),engine=new Paper3D();
+const PALS={mustard:{l:'#f4b829',m:'#d49c1f',d:'#4e4a18'},tomato:{l:'#ef6a4c',m:'#cf5038',d:'#4a2219'},mint:{l:'#93d3b0',m:'#71b693',d:'#1f4034'},cobalt:{l:'#76a0e2',m:'#5a82c6',d:'#1c2948'},blush:{l:'#f3a6bb',m:'#d8869c',d:'#4b2430'}};
+const palettes=Object.fromEntries(Object.entries(PALS).map(([key,m])=>[key,[m.l,m.m,m.d]]));
+const INK='#231e16',SHADOW='#41538f';
+let observationRate=1,fanObservation=null;
+const state={on:false,speed:1,oscillate:false,color:'mint',angle:0,velocity:0,phase:0,headYaw:0,knob:0,pressed:null,pressLeft:0};
+const sceneControls=document.createElementNS('http://www.w3.org/2000/svg','g');
+sceneControls.id='scene-controls';
+svg.append(sceneControls);
+const controlDefinitions=[
+ {id:'scene-power',action:'power',label:'电源开关'},
+ {id:'scene-speed-1',action:'speed',value:1,label:'一档 · 轻风'},
+ {id:'scene-speed-2',action:'speed',value:2,label:'二档 · 和风'},
+ {id:'scene-speed-3',action:'speed',value:3,label:'三档 · 劲风'},
+ {id:'scene-oscillate',action:'oscillate',label:'左右摇头开关'}
+];
+const sceneTargets=controlDefinitions.map(def=>{
+ const node=document.createElementNS(svg.namespaceURI,'g');
+ node.id=def.id;node.classList.add('scene-control');node.dataset.fanAction=def.action;
+ if(def.value)node.dataset.value=def.value;
+ node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',def.label);
+ const hit=document.createElementNS(svg.namespaceURI,'path');hit.classList.add('hit-area');node.append(hit);
+ const title=document.createElementNS(svg.namespaceURI,'title');title.textContent=def.label;node.append(title);
+ sceneControls.append(node);return node;
+});
+const sceneHint=document.querySelector('#interaction-hint');
+let feedbackTimer=0,feedbackUntil=0;
+const idleHint=()=>state.on?'点底座切换风速 · 拖动旋转观察':'点电源开始 · 也可先选择风速';
+function showHint(text,temporary=false){clearTimeout(feedbackTimer);sceneHint.textContent=text;feedbackUntil=temporary?performance.now()+2200:0;if(temporary)feedbackTimer=setTimeout(()=>{sceneHint.textContent=idleHint()},2200)}
+sceneTargets.forEach(node=>{
+ const hint=()=>showHint(node.getAttribute('aria-label'));
+ node.onpointerenter=hint;node.onfocus=hint;
+ node.onclick=ev=>{if(pointerClick&&node===pointerClick.target&&ev.pointerId===pointerClick.id&&ev.pointerType===pointerClick.type){pointerClick=null;clearTimeout(pointerClickTimer);return;}if(ev.detail===0&&keyActivation?.target!==node)activate(node.dataset.fanAction,node.dataset.value)};
+ node.onpointerleave=node.onblur=()=>{if(!drag&&performance.now()>feedbackUntil)showHint(idleHint())};
+});
+function ellipse(x,y,z,rx,ry,n=64){return Array.from({length:n},(_,i)=>{let a=i/n*Math.PI*2;return[x+rx*Math.cos(a),y+ry*Math.sin(a),z]})}
+function bezier(a,b,c,d,n=12){return Array.from({length:n},(_,i)=>{let t=i/n,u=1-t;return[0,1].map(j=>u*u*u*a[j]+3*u*u*t*b[j]+3*u*t*t*c[j]+t*t*t*d[j])})}
+let bladeShape=[...bezier([9,-2],[19,-38],[42,-82],[62,-46]),...bezier([62,-46],[86,-11],[48,9],[13,12]),...bezier([13,12],[5,12],[4,3],[9,-2])];
+function render(){let e=engine,m=palettes[state.color];e.parts=[];
+ const observeFrom=(from,id)=>{for(let i=from;i<e.parts.length;i++)e.parts[i].svg=`<g data-observe-part="${id}">${e.parts[i].svg}</g>`;};
+ // Grounded, blue-ink cast shadow, derived from the silhouette rather than an image.
+ e.add([[-92,-20,0],[-102,36,0],[-35,85,0],[145,135,0],[191,95,0],[42,-15,0]],SHADOW,'none',0,true,1);
+ e.parts[e.parts.length-1].depth=-1e6;
+ let lower=ellipse(0,0,7,64,43),upper=ellipse(0,0,17,65,44);e.mesh(lower,upper,[m[2],m[1]]);e.add(upper,m[0],INK,2.4);
+ e.line(ellipse(0,0,10,64,43),INK,1.6);
+ // Base rubber feet and raised switch bed.
+ for(let x of [-43,43])e.mesh(ellipse(x,-19,2,8,6,20),ellipse(x,-19,7,8,6,20),['#3a4237','#444d40']);
+ let bed=[[-37,-35,18],[37,-35,18],[37,-12,18],[-37,-12,18]];e.add(bed,'#c9d0bf',INK,1.3);
+ const buttonFaces=[];
+ for(let i=0;i<4;i++){
+  const x=-27+i*18,pressed=i===0?state.on:i===state.speed,touch=state.pressed===(i===0?'power':'speed'+i),drop=(pressed?1.2:0)+(touch?.8:0);
+  const bottom=[[x-7,-33,18],[x+7,-33,18],[x+7,-14,18],[x-7,-14,18]];
+  const top=[[x-7,-33,22-drop],[x+7,-33,22-drop],[x+7,-14,29-drop],[x-7,-14,29-drop]];
+  const fill=i===0?(state.on?'#a9bf9a':'#c87862'):(pressed?'#68896a':'#eeeadd');
+  e.mesh(bottom,top,['#7b8974','#a2ad98','#7b8974','#b8c1ac']);e.add(top,fill,INK,1.3);buttonFaces.push(top);
+  // Labels share the actual inclined button plane, rather than floating over the scene.
+  const centre=[x,-23.5,25.65-drop],o=e.project(centre),ux=e.project([x+1,centre[1],centre[2]]),vy=e.project([x,centre[1]-1,centre[2]-7/19]);
+  const matrix=[ux[0]-o[0],ux[1]-o[1],vy[0]-o[0],vy[1]-o[1],o[0],o[1]].map(n=>n.toFixed(3)).join(' ');
+  e.parts.push({depth:e.depth(centre)+.02,svg:`<text transform="matrix(${matrix})" font-family="system-ui,sans-serif" font-size="${i?8.7:10}" font-weight="700" text-anchor="middle" dominant-baseline="central" fill="${pressed&&i?'#fffbed':'#283524'}" pointer-events="none">${['⏻','一','二','三'][i]}</text>`});
+ }
+ // Neck, sleeve, and a knurled tilt joint.
+ let postBot=ellipse(0,10,18,14,12,40),postTop=ellipse(0,31,181,8,8,40);
+ const postRing=t=>ellipse(0,10+21*t,18+163*t,14-6*t,12-4*t,40);
+ for(let i=0;i<7;i++)e.mesh(postRing(i/7),postRing((i+1)/7),[m[1],m[0],m[2],m[1]],false);
+ e.add(postBot,m[1],INK,1);e.add(postTop,m[0],INK,1);e.line([[-7,0,25],[-5,23,177]],'#d4e3ce',1.5);
+ e.mesh(ellipse(0,10,25,16,13,40),ellipse(0,10,43,15,12,40),[m[1],m[2]]);e.add(ellipse(0,10,43,15,12,40),m[0]);
+ const H=205,R=84,a=state.headYaw,ca=Math.cos(a),sa=Math.sin(a);
+ const trans=p=>[p[0]*ca-(p[1]-31)*sa,31+p[0]*sa+(p[1]-31)*ca,p[2]+H];
+ const tr=pts=>pts.map(trans);
+ // Short wire spans depth-sort locally instead of painting a whole rear ring over nearer mechanics.
+ const wire=(pts,color=INK,width=1.4)=>{for(let i=0;i<pts.length-1;i+=3)e.line(pts.slice(i,i+4),color,width)};
+ const ring=(r,y,n=72)=>Array.from({length:n+1},(_,i)=>{let t=i/n*Math.PI*2;return trans([r*Math.cos(t),y,r*Math.sin(t)])});
+ // The rear bearing stays on the fixed neck while the cage swings around it.
+ e.mesh(ellipse(0,31,176,10,10,32),ellipse(0,31,184,10,10,32),[m[2],m[1]]);
+ // Rear motor housing, cooling vents and pivot pin.
+ const motorStart=e.parts.length;
+ // The motor shaft reaches the blade hub; the front grille cap is a separate fixed part.
+ e.mesh(ring(3.2,-2,24),ring(3.2,6.5,24),['#8f989b','#c6ccce']);
+ e.mesh(ring(24,6,40),ring(27,45,40),[m[1],m[2],m[1]]);e.add(ring(24,46),m[0],INK,2.4);
+ for(let i=-3;i<=3;i++){let x=i*5;e.line(tr([[x,46.5,-12],[x,46.5,12]]),'#556c56',1.7)}
+ e.mesh(ring(9,47,30),ring(9,51,30),[m[1],m[2]]);
+ observeFrom(motorStart,'fan-motor');
+ // Oscillation pull knob.
+ const swingStart=e.parts.length;
+ let knobBase=ellipse(0,31,H+23,5,5,20),knobTop=ellipse(0,31,H+35-state.knob*4,5,5,20);
+ e.mesh(knobBase.map(p=>trans([p[0],p[1],p[2]-H])),knobTop.map(p=>trans([p[0],p[1],p[2]-H])),['#4e5a49','#e6e5d5']);
+ observeFrom(swingStart,'fan-swing');
+ // Back grille: bowed radial wires, reinforcing concentric rings.
+ for(let i=0;i<24;i++){let t=i/24*Math.PI*2;let points=[];for(let j=0;j<=10;j++){let r=27+(R-27)*j/10,y=5+18*(1-Math.pow(r/R,2));points.push(trans([r*Math.cos(t),y,r*Math.sin(t)]))}wire(points,INK,1.1)}
+ for(let r of [39,61,82])wire(ring(r,5+18*(1-Math.pow(r/R,2))),INK,1.3);
+ // Broad, curved blades. Rotation is geometry, not a pre-rendered asset.
+ const bladeStart=e.parts.length;
+ for(let i=0;i<3;i++){let theta=state.angle+i*Math.PI*2/3,ct=Math.cos(theta),st=Math.sin(theta);let pts=bladeShape.map(([x,z])=>trans([x*ct-z*st,-3,x*st+z*ct]));e.add(pts,m[1],INK,2.4);let hilite=bladeShape.slice(0,12).map(([x,z])=>trans([x*ct-z*st,-3.2,x*st+z*ct]));e.line(hilite,m[0],2.6)}
+ e.mesh(ring(11,-5,32),ring(11,-1,32),[m[1],m[2]]);
+ observeFrom(bladeStart,'fan-blades');
+ // Double rolled rim; the front guard is convex, keeping the cage readable from every angle.
+ wire(ring(R,5),INK,3.6);wire(ring(R,-9),INK,3.6);wire(ring(R-1,-9.5),m[0],1.5);
+ for(let i=0;i<28;i++){let t=i/28*Math.PI*2;let pts=[];for(let j=0;j<=12;j++){let r=13+(R-13)*j/12,y=-9-22*(1-Math.pow(r/R,2));pts.push(trans([r*Math.cos(t),y,r*Math.sin(t)]))}wire(pts,INK,1.45)}
+ for(let r of [31,51,69])wire(ring(r,-9-22*(1-Math.pow(r/R,2))),INK,1.6);
+ // Cage clamps.
+ for(let i=0;i<4;i++){let t=i*Math.PI/2+.3; e.line(tr([[84*Math.cos(t),7,84*Math.sin(t)],[86*Math.cos(t),-2,86*Math.sin(t)],[84*Math.cos(t),-13,84*Math.sin(t)]]),'#e7e5d4',4);e.line(tr([[84*Math.cos(t),7,84*Math.sin(t)],[86*Math.cos(t),-2,86*Math.sin(t)],[84*Math.cos(t),-13,84*Math.sin(t)]]),INK,1)}
+ // Circular ceramic centre cap, fine concentric ink line.
+ e.mesh(ring(15,-31,48),ring(15,-34,48),['#b9c5af','#eae8d9']);e.add(ring(12,-34.3),'#e8e7d6',INK,.8);e.line(tr([[-5,-34.5,0],[-2,-34.5,3],[2,-34.5,-2],[5,-34.5,1]]),INK,1.4);
+ // Power cord, resting on the paper.
+ const cord=[];for(let i=0;i<=30;i++){let t=i/30;cord.push([15+110*t,22+18*Math.sin(t*5),3])}e.line(cord,'#555c4d',3);e.add([[123,4,2],[137,7,2],[136,15,2],[122,11,2]],'#4b5345');
+ art.innerHTML=e.output();
+ // Persistent projected hit areas stay aligned with the real controls at every angle.
+ const eye=[Math.sin(e.yaw)*Math.cos(e.pitch),-Math.cos(e.yaw)*Math.cos(e.pitch),Math.sin(e.pitch)];
+ const baseVisible=eye[2]-eye[1]*7/19>.015;
+ function setTargetVisibility(node,visible){node.setAttribute('visibility',visible?'visible':'hidden');node.setAttribute('aria-hidden',!visible);node.setAttribute('tabindex',visible?'0':'-1');if(!visible&&document.activeElement===node)svg.focus({preventScroll:true})}
+ for(let i=0;i<4;i++){sceneTargets[i].firstElementChild.setAttribute('d',e.path(buttonFaces[i]));setTargetVisibility(sceneTargets[i],baseVisible)}
+ const knobHeight=35-state.knob*4;
+ const knobHit=[...ellipse(0,31,H+knobHeight+.8,7,7,24),...ellipse(0,31,H+23,7,7,24)].map(p=>trans([p[0],p[1],p[2]-H]));
+ const projectedKnob=knobHit.map(p=>e.project(p)),xs=projectedKnob.map(p=>p[0]),ys=projectedKnob.map(p=>p[1]);
+ const x0=Math.min(...xs)-2,x1=Math.max(...xs)+2,y0=Math.min(...ys)-2,y1=Math.max(...ys)+2;
+ sceneTargets[4].firstElementChild.setAttribute('d',`M${x0},${y0}H${x1}V${y1}H${x0}Z`);
+ // Ray-test the rear knob against the guard disc so it cannot be clicked through the fan head.
+ const eyeLocal=[eye[0]*ca+eye[1]*sa,-eye[0]*sa+eye[1]*ca,eye[2]];
+ const hitDistance=eyeLocal[1]<-.0001?(-9-31)/eyeLocal[1]:-1;
+ const hiddenByGuard=hitDistance>0&&Math.hypot(hitDistance*eyeLocal[0],knobHeight+hitDistance*eyeLocal[2])<R+5;
+ setTargetVisibility(sceneTargets[4],!hiddenByGuard);
+ fanObservation?.update();
+}
+
+function sync(){
+ document.body.classList.toggle('running',state.on);
+ document.querySelector('#power').setAttribute('aria-pressed',state.on);
+ document.querySelector('#power-label').textContent=state.on?'关闭电源':'开启电源';
+ document.querySelector('#oscillate').setAttribute('aria-pressed',state.oscillate);
+ document.querySelector('#speed-label').textContent=['','一档 · 轻风','二档 · 和风','三档 · 劲风'][state.speed];
+ const target=state.on?[0,4,8,13][state.speed]:0;let status=!state.on?(state.velocity>.05?'电源已关 · 叶片惯性停转中':'电源关闭 · 叶片已停稳'):Math.abs(state.velocity-target)>.5?(state.velocity<target?'正在加速至':'正在减速至')+['','一档','二档','三档'][state.speed]:['','轻风缓缓','和风徐徐','劲风习习'][state.speed];if(state.on&&state.oscillate)status+=' · 摇头中';const statusEl=document.querySelector('#status');if(statusEl.textContent!==status)statusEl.textContent=status;
+ document.body.classList.toggle('coasting',!state.on&&state.velocity>.05);
+ sceneTargets.forEach(n=>n.classList.toggle('is-pressed',state.pressed===n.dataset.fanAction+(n.dataset.value||'')));
+ window.MechanicalAudio?.update('fan',state);
+ document.querySelectorAll('[data-speed]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.speed===state.speed));
+ document.querySelectorAll('[data-color]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.color===state.color));
+ sceneTargets[0].setAttribute('aria-pressed',state.on);
+ sceneTargets[0].setAttribute('aria-label',state.on?'关闭电源':'开启电源');
+ for(let i=1;i<=3;i++)sceneTargets[i].setAttribute('aria-pressed',state.speed===i);
+ sceneTargets[4].setAttribute('aria-pressed',state.oscillate);
+ sceneTargets[4].setAttribute('aria-label',state.oscillate?'关闭左右摇头':'开启左右摇头');
+}
+function activate(action,value){
+ state.pressed=action+(value||'');state.pressLeft=.16;
+ if(action==='power'){state.on=!state.on;showHint(state.on?'电源开启，清风将至':'电源关闭，叶片慢慢停下',true)}
+ else if(action==='speed'){if(state.speed===Number(value)){showHint('已经是'+['','一档轻风','二档和风','三档劲风'][state.speed]+(state.on?'':' · 点击电源开机'),true);window.MechanicalAudio?.pulse('tick');render();wakeAnimation();return;}state.speed=Number(value);showHint(['','一档轻风','二档和风','三档劲风'][state.speed]+(state.on?'':' · 开机后生效'),true)}
+ else if(action==='oscillate'){state.oscillate=!state.oscillate;showHint(state.oscillate?(state.on?'左右摇头已开启':'摇头已开启 · 开机后生效'):'左右摇头已关闭',true)}
+ sync();render();wakeAnimation();
+}
+document.querySelector('#power').onclick=()=>activate('power');
+document.querySelector('#oscillate').onclick=()=>activate('oscillate');
+document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>activate('speed',b.dataset.speed));
+document.querySelectorAll('[data-color]').forEach(b=>b.onclick=()=>{state.color=b.dataset.color;sync();render();showHint('换成'+b.getAttribute('aria-label'),true)});
+const reset=()=>{engine.yaw=-.4;engine.pitch=.19;render();showHint('已回到初始视角',true)};
+document.querySelector('#reset').onclick=reset;
+svg.ondblclick=ev=>{if(!ev.target.closest('[data-fan-action]'))reset()};
+let drag=null,keyActivation=null,keyReleaseTimer=0,pointerClick=null,pointerClickTimer=0;
+// Ignore only the synthetic click paired with a handled Enter/Space press.
+// Releasing on the next task covers keyup's default click without a click cooldown.
+const clearKeyActivation=()=>{clearTimeout(keyReleaseTimer);keyActivation=null};
+const releaseKeyActivation=()=>{clearTimeout(keyReleaseTimer);keyReleaseTimer=setTimeout(clearKeyActivation,0)};
+svg.onpointerdown=ev=>{
+ if(drag||ev.isPrimary===false||(ev.button!==0&&ev.pointerType==='mouse'))return;
+ const target=ev.target.closest('[data-fan-action]');
+ drag={x:ev.clientX,y:ev.clientY,yaw:engine.yaw,pitch:engine.pitch,moved:false,target,pointerId:ev.pointerId,pointerType:ev.pointerType};
+ svg.setPointerCapture(ev.pointerId);
+ if(target){target.focus({preventScroll:true});state.pressed=target.dataset.fanAction+(target.dataset.value||'');state.pressLeft=0;sync();render();}
+};
+svg.onpointermove=ev=>{
+ if(!drag||ev.pointerId!==drag.pointerId)return;
+ const dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;
+ if(!drag.moved&&Math.hypot(dx,dy)<5)return;
+ drag.moved=true;state.pressed=null;state.pressLeft=0;sceneTargets.forEach(node=>node.classList.remove('is-pressed'));svg.classList.add('dragging');
+ engine.yaw=drag.yaw+dx*.008;engine.pitch=Math.max(-.12,Math.min(.8,drag.pitch+dy*.005));render();
+};
+function endDrag(ev,cancelled=false){
+ if(!drag||ev.pointerId!==drag.pointerId)return;
+ const old=drag;drag=null;state.pressed=null;svg.classList.remove('dragging');
+ // A detail-zero compatibility click must not re-activate a tap or turn a
+ // canceled/dragged gesture into a tap. Independent click-only input still works.
+ clearTimeout(pointerClickTimer);pointerClick=old.target?{target:old.target,id:old.pointerId,type:old.pointerType}:null;pointerClickTimer=setTimeout(()=>pointerClick=null,0);
+ if(svg.hasPointerCapture(ev.pointerId))svg.releasePointerCapture(ev.pointerId);
+ if(!cancelled&&!old.moved&&old.target)activate(old.target.dataset.fanAction,old.target.dataset.value);
+ else if(old.moved)showHint(idleHint());
+ sync();render();
+}
+svg.onpointerup=ev=>endDrag(ev);
+svg.onpointercancel=ev=>endDrag(ev,true);
+svg.onlostpointercapture=ev=>endDrag(ev,true);
+window.addEventListener('blur',()=>{clearKeyActivation();if(drag)endDrag({pointerId:drag.pointerId},true)});
+svg.onkeydown=ev=>{
+ if(ev.altKey||ev.ctrlKey||ev.metaKey||ev.isComposing||ev.defaultPrevented)return;
+ const target=ev.target.closest('[data-fan-action]');
+ if(target&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();if(!ev.repeat){clearKeyActivation();keyActivation={target,key:ev.key};activate(target.dataset.fanAction,target.dataset.value)}return}
+ if(ev.key==='ArrowLeft')engine.yaw-=.1;
+ else if(ev.key==='ArrowRight')engine.yaw+=.1;
+ else if(ev.key==='ArrowUp')engine.pitch=Math.min(.8,engine.pitch+.05);
+ else if(ev.key==='ArrowDown')engine.pitch=Math.max(-.12,engine.pitch-.05);
+ else if(ev.key===' '){ev.preventDefault();if(!ev.repeat)activate('power');return}
+ else return;
+ ev.preventDefault();render();
+};
+svg.onkeyup=ev=>{if(keyActivation?.key===ev.key)releaseKeyActivation()};
+svg.onfocusout=()=>releaseKeyActivation();
+let animationFrame=0,last=0,acc=0;
+const needsAnimation=()=>state.on||state.velocity||Math.abs(state.knob-(state.oscillate?1:0))>.002||state.pressLeft>0;
+function wakeAnimation(){if(!document.hidden&&!animationFrame&&needsAnimation()){last=performance.now();animationFrame=requestAnimationFrame(frame)}}
+function frame(now){
+ animationFrame=0;const realDt=Math.max(0,Math.min((now-last)/1000,.05)),dt=realDt*observationRate;last=now;
+ const target=state.on?[0,4,8,13][state.speed]:0;
+ state.velocity+=(target-state.velocity)*Math.min(1,dt*1.8);
+ if(state.velocity<.01&&!state.on)state.velocity=0;
+ state.angle=(state.angle+state.velocity*dt)%(Math.PI*2);
+ const knobTarget=state.oscillate?1:0;state.knob+=(knobTarget-state.knob)*Math.min(1,realDt*15);if(Math.abs(state.knob-knobTarget)<.002)state.knob=knobTarget;
+ if(state.oscillate&&state.velocity){state.phase+=dt*.48*Math.min(1,state.velocity/4);state.headYaw=Math.sin(state.phase)*.65}
+ if(state.pressLeft>0){state.pressLeft=Math.max(0,state.pressLeft-realDt);if(!state.pressLeft)state.pressed=null}
+ acc+=realDt;if(acc>=1/30||!state.velocity){sync();render();acc%=1/30}
+ // Let an idle scene sleep instead of keeping an unnecessary animation loop alive.
+ if(needsAnimation())animationFrame=requestAnimationFrame(frame);
+}
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden){clearKeyActivation();state.pressed=null;state.pressLeft=0;if(drag)endDrag({pointerId:drag.pointerId},true);cancelAnimationFrame(animationFrame);animationFrame=0}
+ else{sync();render();wakeAnimation();}
+});
+sync();render();
+
+window.MechanicalAudio?.attach('fan',document.querySelector('.fan-controls'));
+addEventListener('pagehide',()=>{cancelAnimationFrame(animationFrame);animationFrame=0;window.MechanicalAudio?.reset()});
+addEventListener('pageshow',()=>{sync();render();wakeAnimation()});
+window.__fanState=state;
+showHint(idleHint());sync();
+
+/* A single, opt-in explanation reads the same state that drives the drawing. */
+function readFanObservation(){
+ const target=state.on?[0,4,8,13][state.speed]:0,moving=state.velocity>.01;
+ const changing=Math.abs(target-state.velocity)>.08;
+ const swing=state.oscillate&&moving;
+ let stage=!moving&&!state.on?'停稳':!state.on?'惯性停转':changing?(state.velocity<target?'加速':'减速'):'稳定送风';
+ let text=!moving&&!state.on?'电源断开，叶片已停稳。先选风档，再开机，观察转速逐渐追上目标。':!state.on?'电机不再驱动，但叶片不会立刻停下；余速逐渐减小。'+(swing?' 摇头也随传动慢下来。':''):changing?'风档改变的是目标转速；电机带动叶片逐渐加速或减速，不会瞬间跳档。':'电机带动叶片保持转动，弯曲的叶片推动空气。';
+ if(state.on)text+=swing?' 摇头机构借用同一传动，让机头往复偏转。':' 摇头关闭时，机头停在当前方向，叶片仍可独立转动。';
+ const active=moving?['fan-blades',...(state.on?['fan-motor']:[]),...(swing?['fan-swing']:[])]:[];
+ return {stage,text,active,readouts:[
+  {label:'叶片模型转速',value:(state.velocity/(Math.PI*2)).toFixed(2)+' 转/秒'},
+  {label:'目标模型转速',value:(target/(Math.PI*2)).toFixed(2)+' 转/秒'},
+  {label:'机头偏转',value:Math.round(state.headYaw*180/Math.PI)+'°'+(swing?' · 往复':' · 保持')},
+  {label:'当前部件',value:!moving?'无 · 已停稳':swing?(state.on?'电机 → 叶片 → 摇头机构':'叶片 → 摇头机构 · 惯性'):state.on?'电机 → 叶片':'叶片 · 惯性转动'}
+ ]};
+}
+fanObservation=window.MuseumObservation?.mount({host:document.querySelector('.dock-extras'),scope:svg,state,read:readFanObservation,title:'看动作懂原理',intro:'读数来自模型当前运动，不是风档的预设值。慢放只放慢机械演示，操作仍即时响应。',slow:true,onRate:rate=>{observationRate=rate;window.MechanicalAudio?.setRate?.(rate);},onChange:()=>render()});
+render();

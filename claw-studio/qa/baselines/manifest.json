@@ -1,0 +1,55 @@
+{
+  "description": "Read-only historical production-source fixtures. These are test inputs, not old test results. Git is not required to execute the tests.",
+  "revisions": {
+    "d44c817": {
+      "commit": "d44c817472c48e1a9b6b01067d7c14febcdaa214",
+      "files": {
+        "dist/index.html": {
+          "sha256": "831f6e24bca8b55facbda275f91e3a9cb74fc19fdc2197e867053e2174015cba",
+          "bytes": 41740
+        },
+        "dist/app.js": {
+          "sha256": "b1fa7d123177aa92bbc00fae887f3443e2460429e1195328a82b423d6f0272af",
+          "bytes": 35894
+        },
+        "dist/mechanical-audio.js": {
+          "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+          "bytes": 19956
+        },
+        "dist/observation.js": {
+          "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c",
+          "bytes": 6188
+        },
+        "dist/shared-shell.css": {
+          "sha256": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771",
+          "bytes": 23256
+        }
+      }
+    },
+    "00f2e2267245e5d7cfbe3e142852c111c405ec96": {
+      "commit": "00f2e2267245e5d7cfbe3e142852c111c405ec96",
+      "files": {
+        "dist/index.html": {
+          "sha256": "3bcdb533167fdedff4c7a6b13b40c16c1aa6739f519e5db40aab305678119b00",
+          "bytes": 41740
+        },
+        "dist/app.js": {
+          "sha256": "531470e36c47227342d9d6147a603eac56dd5cdb3cafd61afddcfc4af8b4f849",
+          "bytes": 39892
+        },
+        "dist/mechanical-audio.js": {
+          "sha256": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+          "bytes": 19956
+        },
+        "dist/observation.js": {
+          "sha256": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+          "bytes": 14519
+        },
+        "dist/shared-shell.css": {
+          "sha256": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771",
+          "bytes": 23256
+        }
+      }
+    }
+  }
+}

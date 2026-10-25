@@ -1,0 +1,30 @@
+'use strict';
+/* Real app, shared RAF, guide and mechanical-audio.js. Only Web Audio hardware
+ * nodes and a trusted opt-in fixture are mocked; this is not a listening test. */
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {fixture}=require('./lesson-harness.cjs');
+function installAudio(c,w){
+ const contexts=[],clicks=new WeakMap(),original=w.EventTarget.prototype.addEventListener;
+ w.EventTarget.prototype.addEventListener=function(name,fn,...rest){if(name==='click')clicks.set(this,fn);return original.call(this,name,fn,...rest);};
+ class Param{constructor(value=0){this.value=value;}cancelScheduledValues(){}setValueAtTime(v){this.initial??=v;this.value=v;}linearRampToValueAtTime(v){this.value=v;}exponentialRampToValueAtTime(v){this.value=v;}}
+ class Node{constructor(context,kind){this.context=context;this.kind=kind;for(const key of ['gain','frequency','threshold','knee','ratio','attack','release'])this[key]=new Param();context.nodes.push(this);}connect(){}disconnect(){this.disconnected=true;}start(t){this.started=true;this.startAt=t;}stop(t){this.stopAt=t;if(t<=this.context.currentTime)this.end();}end(){if(!this.ended){this.ended=true;this.onended?.();}}}
+ class Audio{constructor(){this.currentTime=0;this.state='suspended';this.sampleRate=1000;this.nodes=[];this.destination={};contexts.push(this);}createGain(){return new Node(this,'gain');}createDynamicsCompressor(){return new Node(this,'compressor');}createOscillator(){return new Node(this,'oscillator');}createBufferSource(){return new Node(this,'noise');}createBiquadFilter(){return new Node(this,'filter');}createBuffer(ch,n){return{getChannelData:()=>new Float32Array(n)};}async resume(){this.state='running';}async close(){this.state='closed';}tick(dt){this.currentTime+=dt;for(const n of this.nodes)if(n.stopAt!=null&&n.stopAt<=this.currentTime)n.end();}}
+ c.AudioContext=Audio;return{contexts,enable:()=>clicks.get(w.document.querySelector('.mechanical-audio button'))({isTrusted:true})};
+}
+function make(){const f=fixture({full:true,audio:installAudio});f.ui.render=()=>{f.c.MechanicalAudio.update('claw',f.s);f.ui.observation?.update();};return f;}
+function pulses(f,hz){return f.audio.contexts.flatMap(c=>c.nodes).filter(n=>n.kind==='oscillator'&&n.started&&n.stopAt!=null&&n.frequency.initial===hz).length;}
+function alive(f){return f.audio.contexts.flatMap(c=>c.nodes).filter(n=>n.started&&!n.ended).length;}
+const results=[];async function test(name,fn){const f=make();try{await fn(f);results.push({name,ok:true});console.log('PASS '+name);}catch(e){results.push({name,ok:false,error:e.stack});console.error('FAIL '+name+'\n'+e.stack);}finally{f.close();}}
+(async()=>{
+ await test('Actual successful phase edges and repeated controls sound once, with one inventory award',async f=>{
+  f.action('aim',0);f.finish();assert.equal(f.audio.contexts.length,0,'default silent');await f.audio.enable();const drop=f.d.querySelector('#btns button'),collect=f.d.querySelectorAll('#btns button')[1];for(let n=0;n<12;n++)drop.click();f.finish();assert.equal(f.s.phase,'prize');assert.equal(f.s.tries,1);assert.equal(pulses(f,460),1,'one drop-button click');assert.equal(pulses(f,280),2,'close and release latches');assert.equal(pulses(f,100),1,'one chute drop');for(const hz of [660,825,990])assert.equal(pulses(f,hz),1,'one prize note '+hz);
+  const count=f.audio.contexts[0].nodes.length;for(let n=0;n<20;n++)f.ui.render();assert.equal(f.audio.contexts[0].nodes.length,count,'same snapshot cannot replay sound');for(let n=0;n<12;n++)collect.click();f.finish();assert.equal(f.s.won.length,1);assert.equal(f.s.stock.length,3);assert.equal(pulses(f,130),1,'one collection pop');assert.equal(pulses(f,1397),1,'one collection note');assert.equal(pulses(f,280),2,'return adds no latch');assert.equal(f.pending,0);f.tick(1);assert.equal(alive(f),0);
+ });
+ await test('Miss closes and reopens once without prize/collection sounds; guide changes never replay edges',async f=>{
+  await f.audio.enable();f.s.x=31;f.s.y=37;f.action('drop');f.tick(.2);f.open();for(let i=0;i<8;i++){f.d.querySelector('.mechanism-lesson-exit').click();f.open();}f.finish();assert.equal(f.s.result,'miss');assert.equal(f.s.tries,1);assert.equal(f.s.won.length,0);assert.equal(pulses(f,280),2,'close/reopen only');for(const hz of [100,660,825,990,130,1397])assert.equal(pulses(f,hz),0,'no success sound '+hz);const count=f.audio.contexts[0].nodes.length;f.open();f.action('restock');for(let i=0;i<20;i++)f.ui.render();assert.equal(f.audio.contexts[0].nodes.length,count,'reset does not replay prior phase');
+ });
+ await test('Hidden/pagehide mute actual audio; returning does not replay old prize sounds or duplicate collection',async f=>{
+  f.action('aim',0);f.finish();await f.audio.enable();f.action('drop');f.tick(.2);f.d.hidden=true;f.d.dispatchEvent(new f.dom.window.Event('visibilitychange'));const parked=f.snapshot();f.tick(5);assert.deepEqual(f.snapshot(),parked);assert.equal(alive(f),0);f.d.hidden=false;f.d.dispatchEvent(new f.dom.window.Event('visibilitychange'));f.finish();assert.equal(f.s.phase,'prize');assert.equal(alive(f),0);assert.equal(pulses(f,660),0,'hidden resume does not autoplay prize');await f.audio.enable();assert.equal(pulses(f,660),0,'opt-in does not replay old edge');f.action('collect');f.finish();assert.equal(f.s.won.length,1);assert.equal(pulses(f,130),1);f.event('pagehide');assert.equal(alive(f),0);f.event('pageshow');f.ui.render();assert.equal(alive(f),0);assert.equal(f.s.won.length,1);
+ });
+ const report={scope:'Production claw controller/core/guide/audio with mocked Web Audio and trusted opt-in. Not timbre, device volume, native browser or performance validation.',results};fs.writeFileSync(path.join(__dirname,'claw-audio-time-results.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({passed:results.filter(r=>r.ok).length,total:results.length}));if(results.some(r=>!r.ok))process.exitCode=1;
+})().catch(error=>{console.error(error);process.exitCode=1;});

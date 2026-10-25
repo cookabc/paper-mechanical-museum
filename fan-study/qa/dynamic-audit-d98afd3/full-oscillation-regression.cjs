@@ -1,0 +1,5 @@
+const fs=require('fs'),assert=require('assert/strict'),{fan}=require('../../../washer-study/qa/observation-harness.cjs'),h=fan();
+h.ids.power.onclick();h.speeds[2].onclick();h.ids.oscillate.onclick();let minimum=1,maximum=-1,signChanges=0,prior=0,samples=0;
+for(let i=0;i<90;i++){h.advance(200);const a=h.run('state.headYaw');minimum=Math.min(minimum,a);maximum=Math.max(maximum,a);if(prior*a<0)signChanges++;if(a)prior=a;assert(!/NaN|Infinity|undefined/.test(h.ids.art.innerHTML));samples++;}
+assert(minimum<-.64&&maximum>.64&&signChanges>=2);h.ids.oscillate.onclick();const locked=h.run('state.headYaw');h.advance(1800);assert.equal(h.run('state.headYaw'),locked);h.ids.power.onclick();h.advance(7000);assert.equal(h.run('state.velocity'),0);assert.equal(h.frames.size,0);
+const report={samples,seconds:18,minimum,maximum,signChanges,fullOscillationCycle:true,oscillationDisableHoldsYaw:true,offCoastToIdle:true};fs.writeFileSync(__dirname+'/full-oscillation-results.json',JSON.stringify(report,null,2));console.log(report);

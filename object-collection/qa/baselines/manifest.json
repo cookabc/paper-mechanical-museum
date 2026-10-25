@@ -1,0 +1,99 @@
+{
+  "description": "Read-only historical production-source fixtures. These are test inputs, not old test results. Git is not required to execute the tests.",
+  "revisions": {
+    "898db54": {
+      "commit": "898db54ee7a84e4a6161e467bd045cec15fb4b30",
+      "files": {
+        "dist/scenes/camera.js": {
+          "sha256": "fecf7c1652f7de7b9b7c36ee59fc6bb5fd45a35258301ddf9e05ec1947566ab4",
+          "bytes": 22553
+        },
+        "dist/scenes/elevator.js": {
+          "sha256": "6c5f7bd460c09a4dfdbe4a02c24b8ba0427c6d46f43f805392ea1d099f8b637d",
+          "bytes": 22332
+        },
+        "dist/scenes/vending.js": {
+          "sha256": "9e0d32c8b9f6f3125ed50bfceefdfce34cd69bffce02f1f39e3f6da67a3e8a0b",
+          "bytes": 25140
+        },
+        "dist/scenes/coffee.js": {
+          "sha256": "4ad9f509070f2afa1d6981cc5dc1160adad05806343861b65b2d452a17857bce",
+          "bytes": 31549
+        },
+        "dist/observation.js": {
+          "sha256": "a1ae205f71533f606687d301e5a2aefc4b7f22d46503ded1831a9c781574149c",
+          "bytes": 6188
+        },
+        "dist/elevator-occlusion.js": {
+          "sha256": "566e0f96d463e6ed57892dda0f966d392061b22e3158d0de3e718128a71770f0",
+          "bytes": 14068
+        }
+      }
+    },
+    "f9a0acb64984abc0549873957d36350ac5dc9bff": {
+      "commit": "f9a0acb64984abc0549873957d36350ac5dc9bff",
+      "files": {
+        "dist/scenes/camera.js": {
+          "sha256": "b95566f5565957a8c5de13fcc36cea7c48a2e9e4c3f89f067c9673d84fd163b3",
+          "bytes": 15393
+        },
+        "dist/scenes/vending.js": {
+          "sha256": "210ef9d783db3a9d9ff342be1d2950606d97712f41153db996981c9c6c0fb1df",
+          "bytes": 15800
+        }
+      }
+    },
+    "eb9c742": {
+      "commit": "eb9c7426671b4707910670d105cc071426042367",
+      "files": {
+        "dist/scenes/musicbox.js": {
+          "sha256": "8db5662f14d2ee075226ef5dced43411f9ab08ef2e32d6765a1775f05932b11d",
+          "bytes": 18665
+        },
+        "dist/scenes/turntable.js": {
+          "sha256": "af8dd9010989d88df442fc3484212d4f173f3058d7c916be367615aeb8f9fbe8",
+          "bytes": 16337
+        },
+        "dist/scenes/toaster.js": {
+          "sha256": "e981cd54aad123246a160ddca85b02b345060663fc708eece31973a5db7915b3",
+          "bytes": 17306
+        }
+      }
+    },
+    "4292d844656475f80ddf1bfde02c857976bee866": {
+      "commit": "4292d844656475f80ddf1bfde02c857976bee866",
+      "files": {
+        "dist/scenes/elevator.js": {
+          "sha256": "e40cb49f505e49eabc94aa97e5a4390786711a0d43b5e96bd60b07e681582ba1",
+          "bytes": 28536
+        }
+      }
+    },
+    "5bb23cb6b1cb4f901af9d07a45a919b4bcd2931f": {
+      "commit": "5bb23cb6b1cb4f901af9d07a45a919b4bcd2931f",
+      "files": {
+        "dist/scenes/coffee.js": {
+          "sha256": "0103351d2e6bbda116916e455fb322ea2e7b76c388bbf3a116dba546bd934392",
+          "bytes": 16661
+        },
+        "dist/scenes/toaster.js": {
+          "sha256": "5d654e2c593e993b20fbb93f98e1e3445b2e0d72f4af656f32fb90be7e824761",
+          "bytes": 15928
+        },
+        "dist/scenes/vending.js": {
+          "sha256": "210ef9d783db3a9d9ff342be1d2950606d97712f41153db996981c9c6c0fb1df",
+          "bytes": 15800
+        }
+      }
+    },
+    "162e4f5a9b923809450e6c4062540dba139543da": {
+      "commit": "162e4f5a9b923809450e6c4062540dba139543da",
+      "files": {
+        "dist/scenes/coffee.js": {
+          "sha256": "9b54803cd871db906da83c57b98155f325e9489750380b96839b5a3c3c5c9c45",
+          "bytes": 21530
+        }
+      }
+    }
+  }
+}

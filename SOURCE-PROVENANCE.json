@@ -1,0 +1,1038 @@
+{
+  "upstream_sources": {
+    "museum": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+    "washer": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+    "fan": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+    "claw_github": "13dca4ba3fdb9fb9fa41a4ec4365811b073baa90",
+    "claw_product": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d"
+  },
+  "files": [
+    {
+      "file": "object-collection/SCENE_CONTRACT.md",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "SCENE_CONTRACT.md",
+      "sha256_original": "388c557a22222045a409fbd28fe83058902368b162eed725cc12b42d456e847b",
+      "sha256_delivered": "388c557a22222045a409fbd28fe83058902368b162eed725cc12b42d456e847b",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/core.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/core.js",
+      "sha256_original": "b4a1f9848959a1d0f3c1c28b656ec32a7f76cf7e64cb0c2f2d6dbbcc882a11b3",
+      "sha256_delivered": "b4a1f9848959a1d0f3c1c28b656ec32a7f76cf7e64cb0c2f2d6dbbcc882a11b3",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/elevator-occlusion.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/elevator-occlusion.js",
+      "sha256_original": "566e0f96d463e6ed57892dda0f966d392061b22e3158d0de3e718128a71770f0",
+      "sha256_delivered": "566e0f96d463e6ed57892dda0f966d392061b22e3158d0de3e718128a71770f0",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/home.css",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/home.css",
+      "sha256_original": "aed1eb26369352a0311ac623e2f2ef35a7ef8f5724e73234a14d31bc9f520254",
+      "sha256_delivered": "aed1eb26369352a0311ac623e2f2ef35a7ef8f5724e73234a14d31bc9f520254",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/home.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/home.js",
+      "sha256_original": "61b9b71944d9147d8e96f56a671d6d1a7b17710bebdd7c80f42db4a4243a859f",
+      "sha256_delivered": "61b9b71944d9147d8e96f56a671d6d1a7b17710bebdd7c80f42db4a4243a859f",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/index.html",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/index.html",
+      "sha256_original": "9636583af0951a844a42a06c8c62c64f6d7eedcc53b757d8a8e643feb09860fd",
+      "sha256_delivered": "8f7e9066a1e67a13190518d9212ce8ee9d03e66bea6287074384554f38668056",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/dist/mechanical-audio.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/mechanical-audio.js",
+      "sha256_original": "fb054915b8db99f50cd4f12b0a33f9393fcfa668e8a88595a06c467109b4137a",
+      "sha256_delivered": "fb054915b8db99f50cd4f12b0a33f9393fcfa668e8a88595a06c467109b4137a",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/observation.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/observation.js",
+      "sha256_original": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "sha256_delivered": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/camera.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/camera.svg",
+      "sha256_original": "0675aadd6d869169aa278b4008e2635638be32be9b32a041d4af5578e41b6416",
+      "sha256_delivered": "0675aadd6d869169aa278b4008e2635638be32be9b32a041d4af5578e41b6416",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/claw.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/claw.svg",
+      "sha256_original": "f0af70b543d34081bfe85acf1e330d8ae668bb3a2684c6b5c8b1b09a976b38ec",
+      "sha256_delivered": "f0af70b543d34081bfe85acf1e330d8ae668bb3a2684c6b5c8b1b09a976b38ec",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/coffee.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/coffee.svg",
+      "sha256_original": "7b20d2eeb430bbe2a62c5d4b553b136a04d56010c8d9b6a8bdcd007264d3db2e",
+      "sha256_delivered": "7b20d2eeb430bbe2a62c5d4b553b136a04d56010c8d9b6a8bdcd007264d3db2e",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/elevator.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/elevator.svg",
+      "sha256_original": "94836c02d17605f5bb56d3165bb844b064a7d95ffba62a95c880af8a84c23641",
+      "sha256_delivered": "94836c02d17605f5bb56d3165bb844b064a7d95ffba62a95c880af8a84c23641",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/fan.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/fan.svg",
+      "sha256_original": "c6d5b5038019fb8e13e9b9f51576b63f4987539daac4abe149ca3ce1d307d9d1",
+      "sha256_delivered": "c6d5b5038019fb8e13e9b9f51576b63f4987539daac4abe149ca3ce1d307d9d1",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/musicbox.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/musicbox.svg",
+      "sha256_original": "45e1aa836c784ad2d567d4994b5a450efb6b7e60ff20b2589c92fffb9d9decba",
+      "sha256_delivered": "45e1aa836c784ad2d567d4994b5a450efb6b7e60ff20b2589c92fffb9d9decba",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/toaster.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/toaster.svg",
+      "sha256_original": "0685b7b97d42bb2da1c84415cbabac55b850085b7a16f53b9aa3071143b743a6",
+      "sha256_delivered": "0685b7b97d42bb2da1c84415cbabac55b850085b7a16f53b9aa3071143b743a6",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/turntable.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/turntable.svg",
+      "sha256_original": "aab91659917782ccd4ce1a05e1ad6f07a6c3852f7d64296f461902912fba079d",
+      "sha256_delivered": "aab91659917782ccd4ce1a05e1ad6f07a6c3852f7d64296f461902912fba079d",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/vending.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/vending.svg",
+      "sha256_original": "d54597051a989fc16e9f38dab432c3fce4efda27f2a98e16d23df7c2edf23efe",
+      "sha256_delivered": "d54597051a989fc16e9f38dab432c3fce4efda27f2a98e16d23df7c2edf23efe",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/previews/washer.svg",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/previews/washer.svg",
+      "sha256_original": "804ec8b935409a0cd5349ce5a6d5f721703238723cc9fbb53eb38ccbf2cdb26a",
+      "sha256_delivered": "804ec8b935409a0cd5349ce5a6d5f721703238723cc9fbb53eb38ccbf2cdb26a",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/camera.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/camera.js",
+      "sha256_original": "7008040a4df75948242638baefe6fd2efac2537cb04099b938fd3319253cce47",
+      "sha256_delivered": "7008040a4df75948242638baefe6fd2efac2537cb04099b938fd3319253cce47",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/coffee.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/coffee.js",
+      "sha256_original": "806b7910fd8bc7e0dc3c2cce7b6ac75b6e00bce4689464cd6dfb1e574a8098b8",
+      "sha256_delivered": "806b7910fd8bc7e0dc3c2cce7b6ac75b6e00bce4689464cd6dfb1e574a8098b8",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/elevator.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/elevator.js",
+      "sha256_original": "2906fd79392f844cc44149f8b593189906de8b2a0ca049905f708db3b4b9ede8",
+      "sha256_delivered": "2906fd79392f844cc44149f8b593189906de8b2a0ca049905f708db3b4b9ede8",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/musicbox.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/musicbox.js",
+      "sha256_original": "22cdfcf2a008dfb06b9c200911dbe0f08263e5dd68cc4b3e863cd836f5776c15",
+      "sha256_delivered": "22cdfcf2a008dfb06b9c200911dbe0f08263e5dd68cc4b3e863cd836f5776c15",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/toaster.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/toaster.js",
+      "sha256_original": "8844dc00575f63bd58cb102ee0773a2d5e565a8e29fe1dfbea910892cc415c9b",
+      "sha256_delivered": "8844dc00575f63bd58cb102ee0773a2d5e565a8e29fe1dfbea910892cc415c9b",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/turntable.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/turntable.js",
+      "sha256_original": "e7c76ec46cdad2c61ed2a90dc4f339e320645ab31ca128297807fd7fa8b18d98",
+      "sha256_delivered": "e7c76ec46cdad2c61ed2a90dc4f339e320645ab31ca128297807fd7fa8b18d98",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/scenes/vending.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/scenes/vending.js",
+      "sha256_original": "5e942bf537b016f174c2784067ab068d74e66dfc4bd115d9a9f5eebac0d431b6",
+      "sha256_delivered": "5e942bf537b016f174c2784067ab068d74e66dfc4bd115d9a9f5eebac0d431b6",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/shared-shell.css",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/shared-shell.css",
+      "sha256_original": "65e0e85266fa50e9b4ba14282d645470d1fce7b53805640b5413dee59a885bdf",
+      "sha256_delivered": "65e0e85266fa50e9b4ba14282d645470d1fce7b53805640b5413dee59a885bdf",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/dist/shell.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "dist/shell.js",
+      "sha256_original": "519a0fe5988e46745cf07ab315947bf05eecbee4844d7e4308914e932d03dc8f",
+      "sha256_delivered": "93fbfac9082adea6c313c4bb8f68f98727f98c5c16d1d4d0fb15b7ee417ce281",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-camera-lesson.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-camera-lesson.cjs",
+      "sha256_original": "7caad0620a5d7b134d769801f91276cc3f3d477690ddfad3e98ad74fca8b8e33",
+      "sha256_delivered": "bfedca9c7888659a8d18525e8ff31ecf43a3b3ad4474e4a8552479d5492246d7",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-camera-paper-path.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-camera-paper-path.cjs",
+      "sha256_original": "f24bcc3eb5f19af5da5fc5745de416d165f3fe65ad1d31714da23f328af02ba6",
+      "sha256_delivered": "e383f47802af699d0e8ba61b289edcb684c489d78d2be3bec01c5d3b9234b605",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-coffee-process.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-coffee-process.cjs",
+      "sha256_original": "f5d83e3f6637df4333a808adb31e6803e5bee7f8af52bc8d25b917e0aad46c36",
+      "sha256_delivered": "f5d83e3f6637df4333a808adb31e6803e5bee7f8af52bc8d25b917e0aad46c36",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-coffee-step-guide.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-coffee-step-guide.cjs",
+      "sha256_original": "f3f04f9ea595b9ae37504a46cb287bd1d9a24485bcc8acf6074ef7d3f0e9fc3a",
+      "sha256_delivered": "1d25588293acdc8d8c30fab6a3562b8faac36186710eb9a740f34182d72b76fd",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-core-input-accessibility.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-core-input-accessibility.cjs",
+      "sha256_original": "17dec9e5aa04342ba25a7b5484ec8b2ab75b65057744ff7df9b977e7006c0a70",
+      "sha256_delivered": "17dec9e5aa04342ba25a7b5484ec8b2ab75b65057744ff7df9b977e7006c0a70",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-dynamic-order.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-dynamic-order.cjs",
+      "sha256_original": "2e3c8ca1657d0a362f56ca83b0757bcb88e3b3f0fb13e61a4141d0962001eaca",
+      "sha256_delivered": "2e3c8ca1657d0a362f56ca83b0757bcb88e3b3f0fb13e61a4141d0962001eaca",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-integrated-visibility.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-integrated-visibility.cjs",
+      "sha256_original": "162e90c59ad7ea34fc686d9e1afb05b4b9f6fa10b434e11a64780907d1bb3c03",
+      "sha256_delivered": "162e90c59ad7ea34fc686d9e1afb05b4b9f6fa10b434e11a64780907d1bb3c03",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-interaction.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-interaction.cjs",
+      "sha256_original": "7280be21ab3b23acf85731dd5f597fd257184b24b4ef294826002d733b2a25a8",
+      "sha256_delivered": "7280be21ab3b23acf85731dd5f597fd257184b24b4ef294826002d733b2a25a8",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-interlock-lesson.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-interlock-lesson.cjs",
+      "sha256_original": "bbf88c22f6c765d6163aa5811ff13f037b927fe8baf80f6a0f32fc6cab2edfb5",
+      "sha256_delivered": "8be7b3323605acfd7d345b5b4b67e138321a2dae6e4c421e773cf03bb97e86d9",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-occlusion.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-occlusion.cjs",
+      "sha256_original": "691614a126d9e7dce785ee8654fc6bd2eea45601df85ea3c15ec72f233653198",
+      "sha256_delivered": "691614a126d9e7dce785ee8654fc6bd2eea45601df85ea3c15ec72f233653198",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-time.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-time.cjs",
+      "sha256_original": "9c3c6f6f0d84985f30bac3eb2cc80bbf86d1695d35ef89bbb20f4be98a26eca1",
+      "sha256_delivered": "524e7ae7510180c1f642446e7cec9bf9230f7ad9623fbf3a65ee6eeeea4a674c",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-elevator-traction.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-elevator-traction.cjs",
+      "sha256_original": "b16d0a9fbd35ffa1b58ef8e4e14648a2b3e60027a6fa60203e243c4ab98aae72",
+      "sha256_delivered": "b16d0a9fbd35ffa1b58ef8e4e14648a2b3e60027a6fa60203e243c4ab98aae72",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-food-dynamic-regression.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-food-dynamic-regression.cjs",
+      "sha256_original": "6c25909f9371691e86105d017eab5fb5a68b016e808d164f772d3e23deabf56c",
+      "sha256_delivered": "eb4f959740329c1a97f6bc66d1db21ade867230287af846e3b0377a438dcf631",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-food-dynamic-v10.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-food-dynamic-v10.cjs",
+      "sha256_original": "12753ff648b9ac5e2174cf82948df8ec35304a0096fe1d2fe906e0ab0f378fd1",
+      "sha256_delivered": "0a4eec234ee77d76f4b30cd8ba299ce88fd6ca6e9084c366e386ce9660aaf2e9",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-food-observation.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-food-observation.cjs",
+      "sha256_original": "cf5a8ba082d84df7c2b0b3765b82c33afd795b5402c03c8cf10e104733729214",
+      "sha256_delivered": "75eade22bf2abcdee8263b6dd7032b731dba09f86d182930751dc6149f24244c",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-instrument-camera-observation.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-instrument-camera-observation.cjs",
+      "sha256_original": "db9b12ea5b5cee8e06cef43e5bde51c1c260cdab3918c3708494ce5737db029b",
+      "sha256_delivered": "db9b12ea5b5cee8e06cef43e5bde51c1c260cdab3918c3708494ce5737db029b",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-instrument-lessons.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-instrument-lessons.cjs",
+      "sha256_original": "dcddc9bc88faa8db782d481674f28d0fed4b9672a0f42ea3ce067e9a72ab827e",
+      "sha256_delivered": "0de1dfe312d704b8049488fa38f18d84d90acb458a2bb009a0bc18b9d846fa61",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-instrument-structural-regression.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-instrument-structural-regression.cjs",
+      "sha256_original": "90abb375d6d421a2b482f1000ceab1ab02324d0536aa99992129144415cc616f",
+      "sha256_delivered": "90abb375d6d421a2b482f1000ceab1ab02324d0536aa99992129144415cc616f",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-lesson-focus.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-lesson-focus.cjs",
+      "sha256_original": "1a276513c21613b8a98d56e6002f2e83c2fc91d22cc93c827c512b3e5c27a6c4",
+      "sha256_delivered": "1a276513c21613b8a98d56e6002f2e83c2fc91d22cc93c827c512b3e5c27a6c4",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-mechanical-audio.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-mechanical-audio.cjs",
+      "sha256_original": "a011db10fd253063c40a9f840f360ac367b9d7b16156237b3ef5a8dabfa7f169",
+      "sha256_delivered": "a011db10fd253063c40a9f840f360ac367b9d7b16156237b3ef5a8dabfa7f169",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-mechanics-four.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-mechanics-four.cjs",
+      "sha256_original": "957ea927cefbd1872ae6c9f6412f8ea361266662d3ef2a6ffce992507f29b293",
+      "sha256_delivered": "957ea927cefbd1872ae6c9f6412f8ea361266662d3ef2a6ffce992507f29b293",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-motion-frames.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-motion-frames.cjs",
+      "sha256_original": "c96b741922e76e3081c737ab77075f7319a34a6cee1930399f65a9c3f5f8ae38",
+      "sha256_delivered": "c96b741922e76e3081c737ab77075f7319a34a6cee1930399f65a9c3f5f8ae38",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-process-audio.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-process-audio.cjs",
+      "sha256_original": "a218fa52da92b2c30f0a45ba01d6af6cf375bdf49eb3d68d3b1f159e3f348ab4",
+      "sha256_delivered": "a218fa52da92b2c30f0a45ba01d6af6cf375bdf49eb3d68d3b1f159e3f348ab4",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/audit-toaster-cut-ink.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-toaster-cut-ink.cjs",
+      "sha256_original": "29513bb87500ed5eec24dcde398fc910ca32330278859ed7126a850ec11ac788",
+      "sha256_delivered": "a27119491e6d59745f04c0b8e945e486fd658f497c2612ced66f87788af7dc68",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-toaster-lesson.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-toaster-lesson.cjs",
+      "sha256_original": "b22f6daf779b26829e8e64835dac0a709f6a8f243871a0683c9d33a4b8f73049",
+      "sha256_delivered": "bb3d5da17c25be2076de7a1eeb019f8f41360b914f3317213ea6fc7f6b4ed061",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-vending-jam.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-vending-jam.cjs",
+      "sha256_original": "f8e8723425ddc01856adc24d40a288ee2c30832f50318eb6d8fef559f6de6ae7",
+      "sha256_delivered": "ba5434e540d0461a69c26b65d50f11136a93470a135442dc69ef862d800585ad",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/audit-vending-lesson.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/audit-vending-lesson.cjs",
+      "sha256_original": "40a1cfb2eb612f581b29885675ff5aa6ee16edc8b5d3ffc19ef218ec79aa2b99",
+      "sha256_delivered": "7edbe6e309180ff680f3b6d3c5121187cde174917350493b673f5f5913f4e680",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/benchmark-lesson-observer.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/benchmark-lesson-observer.cjs",
+      "sha256_original": "c9a7d5fce6d9be1fb41e0af372fef00216c95542d352ad4680460e861caccc56",
+      "sha256_delivered": "54423cfe314975dbf01f37f81cbf61d627dd93ce1a76274df2a2027050a6fb3f",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/instrument-dynamic-v11/baseline/camera.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/instrument-dynamic-v11/baseline/camera.js",
+      "sha256_original": "57e182d2d1d21ec2f19445f20e0ca34a8fb8ab8eb724d9e042a289afa441f809",
+      "sha256_delivered": "57e182d2d1d21ec2f19445f20e0ca34a8fb8ab8eb724d9e042a289afa441f809",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/instrument-dynamic-v11/baseline/musicbox.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/instrument-dynamic-v11/baseline/musicbox.js",
+      "sha256_original": "39212f64f372ff6783014f1327face4c0061f6e569968c074a424805ea02023d",
+      "sha256_delivered": "39212f64f372ff6783014f1327face4c0061f6e569968c074a424805ea02023d",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/instrument-dynamic-v11/baseline/turntable.js",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/instrument-dynamic-v11/baseline/turntable.js",
+      "sha256_original": "7c9031790cee50ce7b4aaa53960640f6ab9ffefcd20910accad981b0786fa2f2",
+      "sha256_delivered": "7c9031790cee50ce7b4aaa53960640f6ab9ffefcd20910accad981b0786fa2f2",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/instrument-dynamic-v11/benchmark.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/instrument-dynamic-v11/benchmark.cjs",
+      "sha256_original": "ae4bb86a3e745f680b7f370817a5cfd44ddc1e0770d463b4ca57d71d2f7bbe28",
+      "sha256_delivered": "ae4bb86a3e745f680b7f370817a5cfd44ddc1e0770d463b4ca57d71d2f7bbe28",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/instrument-dynamic-v11/harness.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/instrument-dynamic-v11/harness.cjs",
+      "sha256_original": "61a209edd47e40b3bef0f6bf7167e2fdf53c03e3c494252cb60a3b41e1556815",
+      "sha256_delivered": "61a209edd47e40b3bef0f6bf7167e2fdf53c03e3c494252cb60a3b41e1556815",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/instrument-dynamic-v11/regression.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/instrument-dynamic-v11/regression.cjs",
+      "sha256_original": "d3abd8a79b2897ada4ed780b48b2e87b28c84369335dfe6a638bfc8ea2d3e3f7",
+      "sha256_delivered": "d3abd8a79b2897ada4ed780b48b2e87b28c84369335dfe6a638bfc8ea2d3e3f7",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/motion-contact-invariants.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/motion-contact-invariants.cjs",
+      "sha256_original": "141b47eff442cecdfb5b44563b1951e6f6640e4722fcc01b05466bb17593e060",
+      "sha256_delivered": "141b47eff442cecdfb5b44563b1951e6f6640e4722fcc01b05466bb17593e060",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/motion-frame-fixture.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/motion-frame-fixture.cjs",
+      "sha256_original": "36b461b78b82de79fc20e295b9f419da37f4af1e92ef68081dd216dad3635ae2",
+      "sha256_delivered": "36b461b78b82de79fc20e295b9f419da37f4af1e92ef68081dd216dad3635ae2",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/motion-frame-output.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/motion-frame-output.cjs",
+      "sha256_original": "17294e951cfc5b17ad5ed8d4003c6f6f01e50376a635c146c2ac5d0fad529f47",
+      "sha256_delivered": "17294e951cfc5b17ad5ed8d4003c6f6f01e50376a635c146c2ac5d0fad529f47",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/render-food-crossings.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/render-food-crossings.cjs",
+      "sha256_original": "41e3bd3bf1a452544a78f662d5e9d8595e469843ac5850202f931a67d6f96a10",
+      "sha256_delivered": "dbafc70c544d76ceb12a64a7617f1ad760d05e98f10cd75faa02c418f0ffb97b",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/review-process-invariants.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/review-process-invariants.cjs",
+      "sha256_original": "fd8f65c8727e99f581adef57204f22f673c117febd1048e45151c84d51805b8c",
+      "sha256_delivered": "2a4666f4c76987e7f2483c054400bba1ac33d982e20943e536bfc3349a57e5b3",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/review-six-lessons.cjs",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/review-six-lessons.cjs",
+      "sha256_original": "620d98053325c0041b675bb95e21abde8ec4e23ed52f626ebfb5bb2044aa2239",
+      "sha256_delivered": "cb2c493b4b3eaf669ba4ffd8bfa493a745508004c8d496007bcb87a4a71f8c42",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/six-principles/make-contact.py",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/six-principles/make-contact.py",
+      "sha256_original": "114b679b3879db2891a0906078425b4d9cf08dd65b6bd7b025f0c54292bce403",
+      "sha256_delivered": "e794ad1a022215cdca0b3ddb6852534dc5b8fe4c10142dfa351aae5fc0fe1930",
+      "adapted": true
+    },
+    {
+      "file": "object-collection/qa/six-principles/mobile.html",
+      "source": "object-collection",
+      "commit": "a2b67b72361478d3ce2fe5961bebfb99429ed716",
+      "source_path": "qa/six-principles/mobile.html",
+      "sha256_original": "7f1ae981106317d492232033ce1a64fb11337a9c10bfb9a976a08a197df07ea6",
+      "sha256_delivered": "7f1ae981106317d492232033ce1a64fb11337a9c10bfb9a976a08a197df07ea6",
+      "adapted": false
+    },
+    {
+      "file": "object-collection/qa/instrument-contact/musicbox-before.js",
+      "source": "object-collection",
+      "source_path": "qa/instrument-contact/musicbox-before.js",
+      "note": "原测试保留的旧版本输入，未包含在发布Git跟踪内",
+      "sha256_original": "35cda343120885198609c7c06cb141a6798ca02b40e351d88e8c7f92a063b446",
+      "sha256_delivered": "35cda343120885198609c7c06cb141a6798ca02b40e351d88e8c7f92a063b446",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/dist/index.html",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "dist/index.html",
+      "sha256_original": "b85fbe5de74653ee33f6f3e8ccd30d7fc958e742c92f87c72f50641f67ae7292",
+      "sha256_delivered": "db505967b196a41a1acf3ad5be86e157f3d41c726e8c38a9fa17f9e4b34bf728",
+      "adapted": true
+    },
+    {
+      "file": "washer-study/dist/mechanical-audio.js",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "dist/mechanical-audio.js",
+      "sha256_original": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+      "sha256_delivered": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/dist/observation.js",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "dist/observation.js",
+      "sha256_original": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "sha256_delivered": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/dist/shared-shell.css",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "dist/shared-shell.css",
+      "sha256_original": "2fc8ccd98be1b53c190d5512cf35edc3a3fbb5740b8206f7bebc05450c6ba6eb",
+      "sha256_delivered": "2fc8ccd98be1b53c190d5512cf35edc3a3fbb5740b8206f7bebc05450c6ba6eb",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/qa/audit-dynamic-legacy.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/audit-dynamic-legacy.cjs",
+      "sha256_original": "ee40671c9ce5b9e60c3f8a484ed090a5cccfce7b6309164446e01705e8e52697",
+      "sha256_delivered": "6394324192f4cf74df155b6974a17c7007a00d1d15330f3572308bd928a217b9",
+      "adapted": true
+    },
+    {
+      "file": "washer-study/qa/audit-dynamic-transfer.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/audit-dynamic-transfer.cjs",
+      "sha256_original": "c441d8c4c9fcfed4f2c3cd0ccd54f1a4bf2822d16f4268820d74f772b19fe5a1",
+      "sha256_delivered": "06ae32bb0655169ae0ad4a638e4b77b105bd9a3937589da1ee455696e1d00ab0",
+      "adapted": true
+    },
+    {
+      "file": "washer-study/qa/audit-principle-guide.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/audit-principle-guide.cjs",
+      "sha256_original": "03a77a8a26b50b0e27eacbdc491033769e736ff6ffab1d23fbff0702644b61df",
+      "sha256_delivered": "22c7b6eb4e3246b38736600332b60ec5a5454f1f60b27115b5f88352c78f5b44",
+      "adapted": true
+    },
+    {
+      "file": "washer-study/qa/audit-scene-input.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/audit-scene-input.cjs",
+      "sha256_original": "a20fc826af7875aca56eaff4f546b2aa3529bc0f8209dd0d0af2246043186a81",
+      "sha256_delivered": "c2005c15844c1d239e86191d05a916ad1f29eb9bfe50cf414dca4a9d82c14163",
+      "adapted": true
+    },
+    {
+      "file": "washer-study/qa/audit-structural-sequences.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/audit-structural-sequences.cjs",
+      "sha256_original": "819f5afc0dc8f653df5f7556b5854a5fe23284df2c5f11563647bd1b10c8a972",
+      "sha256_delivered": "819f5afc0dc8f653df5f7556b5854a5fe23284df2c5f11563647bd1b10c8a972",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/qa/benchmark-principle-guides.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/benchmark-principle-guides.cjs",
+      "sha256_original": "be970157f72c21e5abec02946e6142de6a240f9a6c07cd298500ac29a615c1e2",
+      "sha256_delivered": "be970157f72c21e5abec02946e6142de6a240f9a6c07cd298500ac29a615c1e2",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/qa/check-dynamic-transfer.py",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/check-dynamic-transfer.py",
+      "sha256_original": "fd298ca0f31e2fe96e5f05b7a483938558a34252fd6d98986acc5a021c28c671",
+      "sha256_delivered": "fd298ca0f31e2fe96e5f05b7a483938558a34252fd6d98986acc5a021c28c671",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/qa/observation-harness.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/observation-harness.cjs",
+      "sha256_original": "9325e9cd114ef6313e69e970f643a9d74383ba27ca86d4b07d7e1259088e50aa",
+      "sha256_delivered": "9325e9cd114ef6313e69e970f643a9d74383ba27ca86d4b07d7e1259088e50aa",
+      "adapted": false
+    },
+    {
+      "file": "washer-study/qa/principle-dom-harness.cjs",
+      "source": "washer-study",
+      "commit": "ab481e9b9b53390dcef46bf400a3cfe7a70623c8",
+      "source_path": "qa/principle-dom-harness.cjs",
+      "sha256_original": "78a087ae0e39c0377830273db2175929061c6fe79d9cba72179f37dfbd5f8c00",
+      "sha256_delivered": "71509cbfc99866bcfdda46e0a6400f9e6503546ffb1b045f36f31a08c6d5271c",
+      "adapted": true
+    },
+    {
+      "file": "fan-study/dist/engine.js",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/engine.js",
+      "sha256_original": "1c213f1269843d8dda3f474e86f5e6a3f62ef97e8b3332384bc74672da469e17",
+      "sha256_delivered": "1c213f1269843d8dda3f474e86f5e6a3f62ef97e8b3332384bc74672da469e17",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/dist/fan.js",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/fan.js",
+      "sha256_original": "b8e2cf5207e67c26013cdf47bd44952d5a66ab1c19b2bf24c2829e17f5b64ec0",
+      "sha256_delivered": "b8e2cf5207e67c26013cdf47bd44952d5a66ab1c19b2bf24c2829e17f5b64ec0",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/dist/hand-texture.js",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/hand-texture.js",
+      "sha256_original": "3073e9383894fa2e0e22dbf720b7be99f3b3c7f9ce10367b56c119a9d61654b9",
+      "sha256_delivered": "3073e9383894fa2e0e22dbf720b7be99f3b3c7f9ce10367b56c119a9d61654b9",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/dist/index.html",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/index.html",
+      "sha256_original": "3b00e69fbb299c85e06c121b9c1719f48973b85d9fe53b34531f73e6e7fe8fd6",
+      "sha256_delivered": "b5f8ce876f6ffbe5b525fa6112f1ec748e761b4227337de50bb7f55693c03b3c",
+      "adapted": true
+    },
+    {
+      "file": "fan-study/dist/mechanical-audio.js",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/mechanical-audio.js",
+      "sha256_original": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+      "sha256_delivered": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/dist/observation.js",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/observation.js",
+      "sha256_original": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "sha256_delivered": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/dist/shared-shell.css",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/shared-shell.css",
+      "sha256_original": "9958bb5c99ce12dbfac6d96527ad09183914286ed9577ecc042bd8fc857b6acf",
+      "sha256_delivered": "9958bb5c99ce12dbfac6d96527ad09183914286ed9577ecc042bd8fc857b6acf",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/dist/style.css",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "dist/style.css",
+      "sha256_original": "01812872f7a0a687dd4749e9b03a929c917fc63a0a5243fd0ffbf81e35db2c1c",
+      "sha256_delivered": "01812872f7a0a687dd4749e9b03a929c917fc63a0a5243fd0ffbf81e35db2c1c",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/audit-principle-guide.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/audit-principle-guide.cjs",
+      "sha256_original": "a6621ce7b80965d5a437d5e37539eca824219dc644a94d759d654533c424635d",
+      "sha256_delivered": "cc56488635a2ce3c4cfd18386250cd6807b375544d7a5276578bad91fb4a6acd",
+      "adapted": true
+    },
+    {
+      "file": "fan-study/qa/audit-time-input-audio.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/audit-time-input-audio.cjs",
+      "sha256_original": "ab57b5de4c64c850be9af9577b6c6bd3517ec0422284280a677032ed981f74b9",
+      "sha256_delivered": "ab57b5de4c64c850be9af9577b6c6bd3517ec0422284280a677032ed981f74b9",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/audit-time-integration.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/audit-time-integration.cjs",
+      "sha256_original": "2259194dcf1a3b40bfe1eabe63690088f3644adc00c800b2486f3546b881bd6c",
+      "sha256_delivered": "2259194dcf1a3b40bfe1eabe63690088f3644adc00c800b2486f3546b881bd6c",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/dynamic-audit-d98afd3/capture-guards.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/dynamic-audit-d98afd3/capture-guards.cjs",
+      "sha256_original": "6ffee8d52f4b7152a2905d8516293e11e80ffde86d68c04a2d4d243e41c0bf60",
+      "sha256_delivered": "ebf3abfac695e539039643cff6c70fac202fd9931fb4b4a4013783d228fc93aa",
+      "adapted": true
+    },
+    {
+      "file": "fan-study/qa/dynamic-audit-d98afd3/check-guards.py",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/dynamic-audit-d98afd3/check-guards.py",
+      "sha256_original": "cb7fbec9105839b158b3f40b48090b470946ade716af151a571e802dd40f261a",
+      "sha256_delivered": "cb7fbec9105839b158b3f40b48090b470946ade716af151a571e802dd40f261a",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/dynamic-audit-d98afd3/dense-regression.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/dynamic-audit-d98afd3/dense-regression.cjs",
+      "sha256_original": "5c54423db0dd16496f36c31debe67f20441a81e52ec1de3b59f06ee1d622173a",
+      "sha256_delivered": "5c54423db0dd16496f36c31debe67f20441a81e52ec1de3b59f06ee1d622173a",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/dynamic-audit-d98afd3/full-oscillation-regression.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/dynamic-audit-d98afd3/full-oscillation-regression.cjs",
+      "sha256_original": "7b9e8dc1aabb44428ea715283e767d3e029d4b4d517e76a6ff2c9736910911c3",
+      "sha256_delivered": "7b9e8dc1aabb44428ea715283e767d3e029d4b4d517e76a6ff2c9736910911c3",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/dynamic-audit-d98afd3/lifecycle-regression.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/dynamic-audit-d98afd3/lifecycle-regression.cjs",
+      "sha256_original": "391bb301c606281ec6f3e79931b744c1774583609b972a009cd2323d0f667b62",
+      "sha256_delivered": "391bb301c606281ec6f3e79931b744c1774583609b972a009cd2323d0f667b62",
+      "adapted": false
+    },
+    {
+      "file": "fan-study/qa/dynamic-audit-d98afd3/performance-regression.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/dynamic-audit-d98afd3/performance-regression.cjs",
+      "sha256_original": "966581e7982568a3aab9e28c7b939c09590a5be3fe7ca83be6922791e8927390",
+      "sha256_delivered": "ab9580060a1fe22ff3fbbd0f3d0d7dcef1c3304da9847102beeec09a1b7f9c6f",
+      "adapted": true
+    },
+    {
+      "file": "fan-study/qa/fan-time-harness.cjs",
+      "source": "fan-study",
+      "commit": "a6d752e48bdce751bf6afd7a0c3db7230c37c512",
+      "source_path": "qa/fan-time-harness.cjs",
+      "sha256_original": "7b5315212878f639134fb1ff447e91c66237e95664cb511b9c85c24f3f28da63",
+      "sha256_delivered": "8677d4f5fab18c3e9b60a579c729de37876d8976975782a324048f58ebed8e8a",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/dist/app.js",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "dist/app.js",
+      "sha256_original": "f842840ddfc51c923a63903da9ee100bb64566bbcfd4ca320be605a6d0c6cae8",
+      "sha256_delivered": "580fcd57654a8a22b10824653aa56f62528b7961e7f28584154cd5119f8ce7ba",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/dist/index.html",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "dist/index.html",
+      "sha256_original": "4e6e7ef74e2b4f2b37477e1244252b5f24aa5f4d1a1de46cbb8ae718aa03977e",
+      "sha256_delivered": "f99b0b3c298db287ff7ad8036c6aac00df610bde7f97e4ff7f239158ccd8fb2c",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/dist/mechanical-audio.js",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "dist/mechanical-audio.js",
+      "sha256_original": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+      "sha256_delivered": "7a51add0b8a4c787c605afef4b9c4ed04ba913b64cb64439924850cd23d42aa3",
+      "adapted": false
+    },
+    {
+      "file": "claw-studio/dist/observation.js",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "dist/observation.js",
+      "sha256_original": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "sha256_delivered": "9761c10cea96cc8a0f6e4b293943a62b3f179c574377ef9d49c9f3c7192d8733",
+      "adapted": false
+    },
+    {
+      "file": "claw-studio/dist/shared-shell.css",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "dist/shared-shell.css",
+      "sha256_original": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771",
+      "sha256_delivered": "a73eac159b4fba27ae7deb02a126b95d9a0b3e17c531b96df08781f47d3db771",
+      "adapted": false
+    },
+    {
+      "file": "claw-studio/qa/audit-claw-audio-time.cjs",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/audit-claw-audio-time.cjs",
+      "sha256_original": "41133df8164120abf453ec30e6b24397612fa5eb759b2402d4bf8b07432162e5",
+      "sha256_delivered": "41133df8164120abf453ec30e6b24397612fa5eb759b2402d4bf8b07432162e5",
+      "adapted": false
+    },
+    {
+      "file": "claw-studio/qa/audit-claw-lesson.cjs",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/audit-claw-lesson.cjs",
+      "sha256_original": "c05892cb88eb00fbbd46c7693d42502d6f413886b1c3c66d0431ac9f900b049d",
+      "sha256_delivered": "e868b4fff8dce4c449d25a12fb4dc80f46dc22c43a50f33c37c55592350d362f",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/qa/audit-claw-time.cjs",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/audit-claw-time.cjs",
+      "sha256_original": "38c57255c1b222fe9b2a67bc4d512030ac6adc478a9913f0cbfb91eab3e491cf",
+      "sha256_delivered": "f154ef97a3a082d515da22f978b8f27e053f6ce2b24a1ea6acec98a1b0eb9329",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/qa/input-harness.cjs",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/input-harness.cjs",
+      "sha256_original": "190bb5b5ecc85de22c5a758e94b8b2bdcf89e923f4831fefb83633647304a25a",
+      "migration_adapted_from": "cookabc/little-claw-arcade@13dca4ba3fdb9fb9fa41a4ec4365811b073baa90",
+      "sha256_delivered": "ab56ca4a5ce3e576037d37d0915d2edf5101a388554f0151d3d3c42d7278d00f",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/qa/input-regression.cjs",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/input-regression.cjs",
+      "sha256_original": "a5609f8ec186d379a9ffc164498f28f236d9691eead23c9c49d96c482e260168",
+      "migration_adapted_from": "cookabc/little-claw-arcade@13dca4ba3fdb9fb9fa41a4ec4365811b073baa90",
+      "sha256_delivered": "90a7675cadf03cc2884d6566e39ca047434d82ad3b5f0279df29dfcd7cc68820",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/qa/lesson-harness.cjs",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/lesson-harness.cjs",
+      "sha256_original": "715e744d0e49d50b206353a667b35eec09589f7866386d36e4752ce73d0898c7",
+      "sha256_delivered": "64cc0f928fd1eac8790c11de506304cf296e83f9feea8754de056d93da426457",
+      "adapted": true
+    },
+    {
+      "file": "claw-studio/qa/mobile.html",
+      "source": "claw-studio",
+      "commit": "0ff1eacfb4f44f1fa268c685982d9e570c7d6c2d",
+      "source_path": "qa/mobile.html",
+      "sha256_original": "56cb8d91c6c360f03da2fcb4f5dc799a028ff13866c2a19bfcce4e509d7a427e",
+      "sha256_delivered": "8ed73e7649210633a0b222813774afc40875eaa8474aef2398e62d0aa44a9972",
+      "adapted": true
+    }
+  ],
+  "verification": {
+    "remote_checked_utc": "2026-10-25",
+    "sites_sources": "三个远端与干净本地HEAD一致",
+    "claw_source": "GitHub main 13dca4b已复核，README已读取；运行五文件和批准产品源一致，路径适配除外",
+    "runtime_file_count": 43,
+    "runtime_byte_identical_count": 37,
+    "runtime_navigation_or_cache_adapted_count": 6
+  }
+}

@@ -1,5 +1,5 @@
 import {scopedDocument} from '../app/scoped-dom';
-export function arrangePlayDock(context,cfg,ui,items,id){const {root,scope,audio,observation}=context;const document=scopedDocument(root,scope);const window={MechanicalAudio:audio,MuseumObservation:observation};
+export function arrangePlayDock(context,cfg,ui,items,id){const {root,scope,audio,observation}=context;items=context.catalog||items;const document=scopedDocument(root,scope);const window={MechanicalAudio:audio,MuseumObservation:observation};
  const stage=document.querySelector('.stage'),actions=document.getElementById('btns'),readout=document.getElementById('readout'),settings=document.querySelector('.controls'),stats=document.getElementById('stats');
  const layout=document.createElement('main');layout.className='play-layout';const dock=document.createElement('aside');dock.className='play-dock';dock.setAttribute('aria-label','操作与设置');root.prepend(layout);layout.append(dock,stage);
  const dockTitle=document.createElement('p');dockTitle.className='dock-title';dockTitle.textContent=cfg.hint||'从第一步开始，动手试试。';dock.append(dockTitle,readout);readout.setAttribute('aria-live','polite');if(stats)dock.append(stats);if(actions){actions.querySelector('.cap')?.remove();dock.append(actions);}

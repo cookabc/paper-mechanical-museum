@@ -279,6 +279,26 @@ describe('real coffee and fan adapters with actual shared services', () => {
     }, 20_000);
   }
 
+  it('scope-only disposal makes the retained coffee controller terminal without muting another scene', async () => {
+    const {controller,scope,audio}=await mountActual('coffee');scope.dispose();
+    const before=snapshot(controller),changed=vi.fn(),off=audio.onChange(changed);
+    controller.pause('manual');controller.reset();controller.resume('manual');
+    expect(snapshot(controller)).toEqual(before);expect(before.disposed).toBe(true);expect(changed).not.toHaveBeenCalled();off();
+  });
+
+  it('releases ordinary model drag capture on pause, reset and scope-only disposal', async () => {
+    const { root, controller, scope } = await mountActual('coffee');
+    const svg = root.querySelector('svg#fig')!;
+    let captured: number | null = null;
+    svg.setPointerCapture = id => { captured = id; };
+    svg.hasPointerCapture = id => captured === id;
+    svg.releasePointerCapture = () => { captured = null; };
+    const down = () => { const event = new Event('pointerdown', {bubbles:true}); Object.assign(event,{pointerId:8,button:0,isPrimary:true,clientX:20,clientY:30}); svg.dispatchEvent(event); expect(captured).toBe(8); };
+    down(); controller.pause('manual'); expect(captured).toBeNull(); controller.resume('manual');
+    down(); controller.reset(); expect(captured).toBeNull();
+    down(); scope.dispose(); expect(captured).toBeNull();
+  });
+
   it('cancels a captured fan pointer before resume, so the old pointerup never toggles power', async () => {
     const { root, controller } = await mountActual('fan');
     const svg = root.querySelector('svg')!, target = root.querySelector('#scene-power')!;

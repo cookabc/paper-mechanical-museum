@@ -328,6 +328,7 @@ function mountFigure(cfg){
   const ui = { st, simulationRate: 1 };
   const audio = window.MechanicalAudio;
   const disposeAudio = audio?.attach(cfg.title, document.getElementById('btns') || document.querySelector('.controls'));
+  scope.onCleanup(()=>disposeAudio?.());
   ui.audio = audio;
   ui.dispose = () => { disposeAudio?.(); };
   // Optional scene metadata stays independent of the physical interaction handlers.
@@ -512,7 +513,7 @@ function mountFigure(cfg){
     ui.beforeAction?.(a.dataset.act);
     cfg.acts[a.dataset.act](st,a,ui);ui.invalidate();
   };
-  const cancelDrag=()=>{drag=null;svg.classList.remove('drag');};
+  const cancelDrag=()=>{const id=drag?.id;drag=null;svg.classList.remove('drag');if(id!==undefined){try{if(svg.hasPointerCapture?.(id))svg.releasePointerCapture(id);}catch{}}};
   const endDrag=e=>{if(!drag||e.pointerId!==drag.id)return;const candidate=!drag.moved&&e.type==='pointerup'?drag.candidate:null;cancelDrag();if(candidate)activate(candidate);};
   scope.listen(svg,'pointerup',endDrag);scope.listen(svg,'pointercancel',endDrag);
   for(const type of ['pointercancel','lostpointercapture'])scope.listen(svg,type,e=>{
@@ -520,6 +521,7 @@ function mountFigure(cfg){
     if(drag&&e.pointerId===drag.id)cancelDrag();
   },true);
   const cancelInput=()=>{cancelDrag();pointerActivation=null;keyActivation=null;suppressedClicks.clear();clearTimeout(clickReset);clickReset=0;};
+  scope.onCleanup(cancelInput);
   addEventListener('blur',cancelInput);
   scope.listen(document,'visibilitychange',()=>{if(document.hidden)cancelInput();});
   scope.listen(svg,'click',e=>{
@@ -604,10 +606,10 @@ function mountFigure(cfg){
       if (c && !c.disabled) c.click(); else noteErr(`no choice "${choice}" in "${label}"`); }, +ms || 0); });
   setLight(st.az); ui.render();
   if (art.querySelector('.tag')) lblctl.hidden = false;
-  ui.clearTransient=()=>{cancelInput();clearTimeout(flashT);ui._flash=false;toast.classList.remove('show');toast.textContent='';audio?.reset();ui.observation?.reset();};
-  ui.pause=()=>{cancelInput();cancelAnimationFrame(frameId);driving=false;scope.pause();audio?.suspend?.('pause');};
+  ui.clearTransient=()=>{if(!scope.active)return;cancelInput();clearTimeout(flashT);ui._flash=false;toast.classList.remove('show');toast.textContent='';audio?.reset();ui.observation?.reset();};
+  ui.pause=()=>{if(!scope.active)return;cancelInput();cancelAnimationFrame(frameId);driving=false;scope.pause();audio?.suspend?.('pause');};
   ui.resume=()=>{if(!scope.active)return;lastT=performance.now();lastPaint=0;scope.resume();ui.invalidate();};
-  ui.dispose=()=>{if(!scope.active)return;cancelInput();steps.clear();camAnim++;spinRun++;ui.observation?.dispose();disposeAudio?.();scope.dispose();};
+  ui.dispose=()=>{if(!scope.active)return;cancelInput();steps.clear();camAnim++;spinRun++;scope.dispose();};
   return ui;
 }
 

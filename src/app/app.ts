@@ -13,10 +13,11 @@ import {mountElevator} from '../exhibits/elevator/index.js';
 import {mountWasher} from '../exhibits/washer/index.js';
 import {mountClaw} from '../exhibits/claw/index.js';
 import {mountBicycle} from '../exhibits/bicycle';
+import {mountGenerator} from '../exhibits/generator';
 import {renderHome} from './home.js';
-const names={washer:'洗衣机',fan:'电风扇',claw:'抓娃娃机',coffee:'咖啡机',musicbox:'手摇八音盒',vending:'自动售货机',toaster:'烤面包机',turntable:'唱片机',camera:'拍立得相机',elevator:'电梯',bicycle:'自行车变速器'};
+const names={washer:'洗衣机',fan:'电风扇',claw:'抓娃娃机',coffee:'咖啡机',musicbox:'手摇八音盒',vending:'自动售货机',toaster:'烤面包机',turntable:'唱片机',camera:'拍立得相机',elevator:'电梯',bicycle:'自行车变速器',generator:'手摇发电机'};
 const items=Object.entries(names).map(([id,name])=>({id,name}));
-const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle};
+const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle,generator:mountGenerator};
 export function createApp(root:HTMLElement){
  const appScope=new ResourceScope();const audio=createAudioService(appScope);
  const previousRestoration=history.scrollRestoration;history.scrollRestoration='manual';

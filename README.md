@@ -6,9 +6,9 @@
 
 权威仓库：[cookabc/paper-mechanical-museum](https://github.com/cookabc/paper-mechanical-museum)。生产网站：[纸上机械馆](https://paper-mechanical-museum.vercel.app/)。原十件统一版已通过 PR #3 合入 main，基线提交 `767198c7e722a33d3a605d7c4d8204c881b3f337`，tree `07b6f2cb1729a107a579db70a8c1dab21ea14258`。
 
-本分支 `feat/bicycle-drivetrain` 新增第 11 件「自行车变速器」，当前为开发候选，不表示已合并或发布。它使用新的 TypeScript 教学模型与原创 SVG 侧视绘图，接入既有共享服务，不替换原十件机械渲染器。详见[自行车设计与验收](docs/BICYCLE-EXHIBIT.md)。
+第 12 件「手摇发电机」采用原创交流发电机示意与纯电阻教学模型，接入既有共享服务，详见[发电机设计与验收](docs/GENERATOR-EXHIBIT.md)。自行车设计说明见[传动与爬坡挑战](docs/BICYCLE-EXHIBIT.md)。分支合并与部署状态以 GitHub PR 和 Vercel 部署记录为准。
 
-本切片不合并 main、不部署生产，也不改变任何现有网站的访问权限。
+开发、验收、合并及部署分别记录；修改内容不改变现有网站访问权限。
 
 ## 本地运行
 
@@ -19,7 +19,7 @@ npm ci
 npm run dev
 ```
 
-打开 http://127.0.0.1:4182/ 。首页为 `/#/`，例如咖啡机 `/#/coffee`、电风扇 `/#/fan`、洗衣机 `/#/washer`、抓娃娃机 `/#/claw`；新增自行车为 `/#/bicycle`；原十件路由见[最终切片验收](docs/FINAL-SLICE-VALIDATION.md)。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
+打开 http://127.0.0.1:4182/ 。首页为 `/#/`，例如咖啡机 `/#/coffee`、电风扇 `/#/fan`、洗衣机 `/#/washer`、抓娃娃机 `/#/claw`；自行车为 `/#/bicycle`，新增发电机为 `/#/generator`；原十件路由见[最终切片验收](docs/FINAL-SLICE-VALIDATION.md)。端口被占用可运行 `npm run dev -- --port 4183`。停止服务按 Ctrl+C。
 
 ```sh
 npm run check      # lint → TypeScript 边界检查 → 当前切片测试 → Vite 构建
@@ -34,7 +34,7 @@ npm run preview    # 以终端输出的地址检查构建产物
 - `src/app/`：统一路由、控制器契约、资源作用域与局部 DOM 适配。
 - `src/exhibits/`：真实场景模块，保留各自几何与运动模型。
 - `src/engines/`、`src/shared/`、`src/styles/`：渲染适配、音频/观察服务及共享视觉基础。
-- `public/previews/`：十一件场景预览；自行车预览由同一个原创绘图函数导出。
+- `public/previews/`：十二件场景预览；自行车与发电机预览由各自原创绘图函数导出。
 - `tests/*.test.ts`：直接导入新模块的回归与生命周期测试。
 - `tests/fixtures/complete-source/`：原“七件主馆 + 三件独立展品”的源码及历史 QA，仅供只读对照，不进入网站运行包。
 - `archive/`：原来源清单、哈希清单与旧工具；路径语义属于原源码包，不是新构建命令。

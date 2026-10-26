@@ -1,8 +1,10 @@
 /** Static extraction of the complete washer model and its native controls. */
+import {layoutWasherCallouts,measureCalloutFrame} from './callout-layout.js';
 export function createWasherModel(geometry,environment){
 const {scope,document,window}=environment;
 const addEventListener=(...args)=>scope.listen(globalThis.window,...args);
 const {setTimeout,clearTimeout}=geometry.timers;
+let calloutPresentation=null,calloutLegend=null,calloutLegendKey='',calloutMotion=[0,0];
 
 /* ---------- geometry (x = depth, y = width, z = up) ---------- */
 const W = 62, D = 65, H = 88, PL = 4, RCR = 7;         // depth, width, height, foot height, corner radius (RC is core's turning centre)
@@ -483,11 +485,13 @@ function sideRight(m){                                     // the -y side
 const geometryMemo = new Map();let geometryView='';
 function memoGeo(key, build){if(geometryMemo.has(key))return geometryMemo.get(key);const v=build();geometryMemo.set(key,v);return v;}
 function scene(st, m){
+ calloutPresentation=null;
  const view=[geometry.YAW,geometry.PITCH,geometry.OX,geometry.OY,geometry.INK_K,st.pal,st.az].join('|');if(view!==geometryView){geometryMemo.clear();geometryView=view;}
  const p=prog(st),FRONT=geometry.facing([1,0,0]),BACK=geometry.facing([-1,0,0]),LEFT=geometry.facing([0,1,0]),RIGHT=geometry.facing([0,-1,0]);
  const showBasket=st.door>.02||st.laundry==='basket'||st.xfer;
  const om=st.run?omegaAt(p,st.tau)*(st.drive??1):0,shake=Math.max(0,(Math.abs(om)-8)/12);
  const jx=shake*(.55*Math.sin(st.tau*97)+.3*Math.sin(st.tau*151)),jy=shake*(.45*Math.sin(st.tau*123+1));
+ calloutMotion=[jx,jy];
  const motion=`translate(${jx.toFixed(3)} ${jy.toFixed(3)})`;
  const layers=[];const add=(key,svg,transform=motion,opacity=1)=>layers.push({key,svg,transform,opacity});
  let shadow=memoGeo('shadow',()=>geometry.castShadow([...geometry.on(geometry.PX(0),OUT),...geometry.on(geometry.PX(W),OUT)]));
@@ -559,7 +563,7 @@ return body;});
  add('drum',`<g data-observe-part="washer-drum">${inner}</g>`,motion,1-.8*k);add('shell',body,motion,1-.8*k);
  if(k>0)add('outline',memoGeo('outline',()=>geometry.hullInk([...geometry.on(geometry.PX(0),OUT),...geometry.on(geometry.PX(W),OUT)],2.8)),motion,.6*k);
  if(FRONT)front();else add('back',back);
- if(!document.documentElement.classList.contains('nolabels'))add('labels',k>.6?MECH_LABELS:callouts(surface部件名称(st,FRONT,BACK)));
+ if(!document.documentElement.classList.contains('nolabels'))add('labels',k>.6?MECH_LABELS:callouts(surface部件名称(st,FRONT,BACK)),'');
  scene.layers=layers;
  return layers.map(l=>`<g data-layer="${l.key}" transform="${l.transform}" opacity="${l.opacity}">${l.svg}</g>`).join('');
 }
@@ -710,35 +714,20 @@ function drawerBox(){
 // pills in two columns either side of the cabinet, sorted top to bottom so leaders never cross
 function callouts(items){
   const pts = []; for (const x of [0, W]) for (const y of [0, D]) for (const z of [0, H]) pts.push(geometry.P(x, y, z));
-  const xmin = Math.min(...pts.map(p => p[0])), xmax = Math.max(...pts.map(p => p[0])), cx = (xmin + xmax)/2;
-  const k = geometry.INK_K, fs = 8.6*k, hgt = fs*1.8, gap = hgt + 3*k;
-  const L = [], R = [];
-  const svgEl = document.getElementById('fig'), vb = svgEl.viewBox.baseVal, btn = document.getElementById('btns');
-  const textWidth=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)>127?1:.62),0)*fs;
-  const wMax=Math.max(...items.map(it=>textWidth(it.text)))+fs*1.5+12*k;
-  const roomL = xmin - vb.x >= wMax, roomR = vb.x + vb.width - xmax >= wMax;
-  for (const it of items){ const [X, Y] = geometry.P(...it.at); ((X < cx && roomL) || !roomR ? L : R).push({ ...it, X, Y }); }
+  const svgEl=document.getElementById('fig'),measured=measureCalloutFrame(svgEl,[document.getElementById('btns')]);
+  const projected=items.map(item=>{const [X,Y]=geometry.P(...item.at);return {...item,X,Y};});
+  const layout=layoutWasherCallouts(projected,{...measured,body:{left:Math.min(...pts.map(p=>p[0])),right:Math.max(...pts.map(p=>p[0]))}});
+  calloutPresentation=layout;
+  const fs=layout.fontSize,k=1/measured.scale;
   let s = '';
-  // keep clear of the button list (top left) and inside the frame
-  let top = { [-1]: fs, [1]: fs };
-  if (btn && svgEl.getScreenCTM()){ const r = btn.getBoundingClientRect(), q = new DOMPoint(r.right, r.bottom + 50).matrixTransform(svgEl.getScreenCTM().inverse());
-    if (q.y > 0) top[-1] = q.y + hgt; }
-  for (const [col, side] of [[L, -1], [R, 1]]){
-    col.sort((a, b) => a.Y - b.Y);
-    const place = () => { let y = -1e9; for (const c of col){ c.py = Math.max(c.Y, y + gap, top[side]); y = c.py; } };
-    place();
-    // pull the column back up toward its parts, but never above its top limit
-    const shift = col.length ? Math.max(0, col.reduce((a, c) => a + c.py - c.Y, 0) / col.length) : 0;
-    const room = col.length ? col[0].py - top[side] : 0; for (const c of col) c.py -= Math.min(shift, room);
-    for (const c of col){
-      const w=textWidth(c.text)+fs*1.5;
-      let px = side < 0 ? xmin - 10*k - w/2 : xmax + 10*k + w/2; px = Math.max(vb.x + w/2 + 2*k, Math.min(vb.x + vb.width - w/2 - 2*k, px));
+  for(const c of layout.labels){
+      const {px,side}=c,w=c.width,hgt=c.height;
+      const X=c.X+calloutMotion[0],Y=c.Y+calloutMotion[1];
       const ex = px - side*w/2;
-      s += `<g class="tag${c.on ? ' on' : ''}"><path d="M${geometry.f(c.X)} ${geometry.f(c.Y)}L${geometry.f(ex + side*-4*k)} ${geometry.f(c.py)}L${geometry.f(ex)} ${geometry.f(c.py)}" fill="none" stroke="${geometry.INK}" stroke-width="1"/>`
-        + `<circle cx="${geometry.f(c.X)}" cy="${geometry.f(c.Y)}" r="${geometry.f(1.4*k)}" fill="${geometry.INK}"/>`
+      s += `<g class="tag${c.on ? ' on' : ''}" data-callout="${c.number}" aria-label="${c.number} · ${c.text}"><title>${c.text}</title><path d="M${geometry.f(X)} ${geometry.f(Y)}L${geometry.f(ex - side*4*k)} ${geometry.f(c.py)}L${geometry.f(ex)} ${geometry.f(c.py)}" fill="none" stroke="${geometry.INK}" stroke-width="1"/>`
+        + `<circle cx="${geometry.f(X)}" cy="${geometry.f(Y)}" r="${geometry.f(1.4*k)}" fill="${geometry.INK}"/>`
         + `<rect x="${geometry.f(px - w/2)}" y="${geometry.f(c.py - hgt/2)}" width="${geometry.f(w)}" height="${geometry.f(hgt)}" rx="${geometry.f(hgt/2)}" fill="${c.on ? 'var(--accent,#f4b829)' : '#fff4d6'}" stroke="${geometry.INK}" stroke-width="1.2"/>`
-        + `<text x="${geometry.f(px)}" y="${geometry.f(c.py + fs*.36)}" font-size="${geometry.f(fs)}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="800" letter-spacing=".04em" fill="${geometry.INK}">${c.text}</text></g>`;
-    }
+        + `<text x="${geometry.f(px)}" y="${geometry.f(c.py + fs*.36)}" font-size="${fs}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="800" fill="${geometry.INK}">${layout.mode==='numbered'?c.number:c.text}</text></g>`;
   }
   return s;
 }
@@ -1035,6 +1024,24 @@ const readoutNode=document.getElementById('readout');sidebar.prepend(dockTitle,r
 settings.querySelector('summary').innerHTML='外观与视角';guide.querySelector('summary').innerHTML='怎么玩 · 制作原理';
 if(credit)secondary.append(credit);const stageNote=document.createElement('p');stageNote.className='stage-note';stageNote.textContent='拖动空白旋转观察 · 点击机器部件操作';stage.append(stageNote);
 
+// Names stay in normal, scrollable HTML when the stage cannot fit full pills.
+// This lives outside the action sequence and never takes height from the SVG.
+calloutLegend=document.createElement('section');calloutLegend.className='washer-callout-legend';calloutLegend.hidden=true;calloutLegend.setAttribute('aria-label','洗衣机部件名称');vset.after(calloutLegend);
+const syncCalloutLegend=()=>{
+ const layout=calloutPresentation,visible=layout&&layout.mode!=='names'&&!document.documentElement.classList.contains('nolabels');
+ sceneSvg.dataset.calloutMode=layout?.mode||'off';
+ calloutLegend.hidden=!visible;if(!visible)return;
+ const key=JSON.stringify([layout.mode,layout.items.map(item=>[item.number,item.text,!!item.on])]);if(key===calloutLegendKey)return;calloutLegendKey=key;
+ calloutLegend.replaceChildren();const caption=document.createElement('p');caption.textContent=layout.mode==='numbered'?'部件定位 · 对照画面编号':'部件名称 · 放大画面可显示定位编号';calloutLegend.append(caption);
+ const list=document.createElement('ol');for(const item of layout.items){const row=document.createElement('li');row.dataset.active=String(!!item.on);const number=document.createElement('span');number.className='callout-number';number.textContent=String(item.number);number.setAttribute('aria-hidden','true');row.append(number,document.createTextNode(item.text));list.append(row);}calloutLegend.append(list);
+};
+const calloutRender=ui.render;ui.render=()=>{calloutRender();syncCalloutLegend();};
+// ResizeObserver also handles dock/layout and font changes while the machine is
+// idle or program-paused. It is scene-owned and cannot revive a disposed scene.
+const reflowCallouts=()=>{if(scope.active&&!scope.paused)ui.invalidate();};
+if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(reflowCallouts);observer.observe(sceneSvg);scope.onCleanup(()=>observer.disconnect());}
+addEventListener('resize',reflowCallouts);
+
 
 const scrollHint=document.createElement('p');scrollHint.className='extras-scroll-hint';sidebar.append(scrollHint);const hintOverflow=()=>scrollHint.textContent=secondary.scrollHeight>secondary.clientHeight+2?'设置区可上下滚动 ↕':'';[settings,guide].forEach(el=>scope.listen(el,'toggle',hintOverflow));addEventListener('resize',hintOverflow);setTimeout(hintOverflow,200);
 
@@ -1046,8 +1053,8 @@ scope.onCleanup(()=>detachAudio?.());
 const tactileRender=ui.render;ui.render=()=>{tactileRender();const s=ui.st,waiting=locked(s),moving=busyLaundry(s),p=prog(s);
  const labels=[s.loading?'正在装入衣物…':s.laundry==='drum'?'衣物已装好':'装入衣物',s.soapAnim!=null?'正在加洗涤剂…':s.soapLvl>=1?'洗涤剂已加好':'添加洗涤剂','程序：'+p.name+(waiting?' · 锁定':''),s.latch==='locking'?'正在锁门…':s.latch==='unlocking'?'等待解锁…':s.run?(s.paused?'继续洗涤':'暂停洗涤'):s.done?'本轮已完成':'启动'+p.name,s.xfer?.dir==='out'?'正在取出衣物…':s.done?'开门取出衣物':'开门取衣',s.door===0&&s.doorT===0?'舱门已关闭':'关闭舱门'];
  const unavailable=[waiting||moving||s.laundry==='drum',waiting||s.done||s.soapAnim!=null||s.soapLvl>=1||!p.fill,waiting||s.done||s.soapAnim!=null,!!s.latch||moving||s.done,waiting||moving||s.laundry!=='drum',waiting||moving||!s.doorT];
- let next=s.done&&!s.latch?4:s.laundry==='basket'&&!moving?0:s.laundry==='drum'&&!waiting&&!moving?(p.fill&&s.soapLvl<.5?1:s.doorT?5:3):-1;
- washButtons.forEach((b,i)=>{const label=labels[i]+(i===2?' ▾':'');if(b.textContent!==label)b.textContent=label;b.setAttribute('aria-disabled',unavailable[i]);b.classList.toggle('is-next',i===next);b.classList.toggle('is-complete',i===0&&s.laundry==='drum'||i===1&&s.soapLvl>=1);});
+ const next=s.latch||moving||s.soapAnim!=null||s.drawer!==s.drawerT?-1:s.done?4:s.laundry==='basket'?0:s.laundry==='drum'&&!waiting?(p.fill&&s.soapLvl<.5?1:s.doorT?5:s.drawerT?-1:3):-1;
+ washButtons.forEach((b,i)=>{const label=labels[i]+(i===2?' ▾':'');if(b.textContent!==label)b.textContent=label;b.setAttribute('aria-disabled',unavailable[i]);b.classList.toggle('is-next',i===next);b.dataset.recommended=String(i===next);if(i===next)b.setAttribute('aria-description','建议下一步。');else b.removeAttribute('aria-description');b.classList.toggle('is-complete',i===0&&s.laundry==='drum'||i===1&&s.soapLvl>=1);});
  washButtons[3].setAttribute('aria-pressed',s.run&&!s.paused);document.querySelector('.stage').setAttribute('aria-busy',!!s.latch||!!s.loading||!!s.xfer);
  const progress=s.done?100:Math.round(s.tau/p.T*100);washProgress.hidden=!s.run&&!s.done&&!s.latch;washProgress.firstElementChild.style.width=progress+'%';washProgress.setAttribute('aria-valuenow',progress);washProgress.setAttribute('aria-valuemin','0');washProgress.setAttribute('aria-valuemax','100');washProgress.setAttribute('aria-valuetext',s.paused?'已暂停':s.done?'完成':progress+'%');
  window.MechanicalAudio?.update('washer',{...s,phase:s.run?phaseAt(p,s.tau):s.latch||'idle'});

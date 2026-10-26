@@ -32,8 +32,9 @@ export function drawing(s:BicycleState,g:Geometry,palette='mint'):string {
  type LineRole='silhouette'|'structure'|'mechanism'|'spoke'|'support';
  const inkWeight:Record<LineRole,number>={silhouette:3.2,structure:3,mechanism:2.1,spoke:2,support:1.8};
  const ink=(svg:string,role:LineRole)=>svg.replace(/<path\b[^>]*>/g,path=>path.replace(/stroke-width="([\d.]+)"/,(_m,w)=>`stroke-width="${(Number(w)*(path.includes(`stroke="${g.INK}"`)?inkWeight[role]:1)).toFixed(3)}"`));
+ // Roles style the SVG string only: do not allocate an extra DOM group per part.
  const parts:Array<{at:Point;svg:string}>=[];
- const add=(at:Point,svg:string,role:LineRole='mechanism')=>parts.push({at,svg:`<g data-line-role="${role}">${ink(svg,role)}</g>`});
+ const add=(at:Point,svg:string,role:LineRole='mechanism')=>parts.push({at,svg:ink(svg,role)});
  const obs=(id:string,svg:string)=>`<g data-observe-part="${id}">${svg}</g>`;
  const action=(id:string,label:string,svg:string)=>g.act(id,svg,`role="button" tabindex="0" aria-label="${label}"`);
  const ring=(x:number,y:number,z:number,r:number,n=48):Point[]=>Array.from({length:n},(_,i)=>{const a=i/n*Math.PI*2;return [x,y+r*Math.cos(a),z+r*Math.sin(a)];});

@@ -24,14 +24,20 @@ export function drivetrainChain(gear:number){
 // Geometry depends only on the three cassette positions, never on animation phase.
 const chainGeometries=REAR_TEETH.map((_,gear)=>drivetrainChain(gear));
 export function drawing(s:BicycleState,g:Geometry,palette='mint'):string {
- const m=g.PALS[palette as keyof typeof g.PALS]||g.PALS.mint,metal=g.METAL,dark=g.DARK,cream=g.CERAMIC;
+ const m=g.PALS[palette as keyof typeof g.PALS]||g.PALS.mint,metal=g.METAL,dark=g.DARK;
+ const supportMetal={l:'#b8b9ac',m:'#90978b',d:'#616d62'};
  const leather=g.matOf('#a26943'),rubber={l:'#56534b',m:'#3d3b35',d:'#211f1a'},brass=g.matOf('#bb9d51');
+ // Line roles are local to this open, fine-structured object. Material-colored
+ // facet seams are not ink: inflating them would bury the tiny chain/cassette faces.
+ type LineRole='silhouette'|'structure'|'mechanism'|'spoke'|'support';
+ const inkWeight:Record<LineRole,number>={silhouette:3.2,structure:3,mechanism:2.1,spoke:2,support:1.8};
+ const ink=(svg:string,role:LineRole)=>svg.replace(/<path\b[^>]*>/g,path=>path.replace(/stroke-width="([\d.]+)"/,(_m,w)=>`stroke-width="${(Number(w)*(path.includes(`stroke="${g.INK}"`)?inkWeight[role]:1)).toFixed(3)}"`));
  const parts:Array<{at:Point;svg:string}>=[];
- const add=(at:Point,svg:string)=>parts.push({at,svg});
+ const add=(at:Point,svg:string,role:LineRole='mechanism')=>parts.push({at,svg:`<g data-line-role="${role}">${ink(svg,role)}</g>`});
  const obs=(id:string,svg:string)=>`<g data-observe-part="${id}">${svg}</g>`;
  const action=(id:string,label:string,svg:string)=>g.act(id,svg,`role="button" tabindex="0" aria-label="${label}"`);
  const ring=(x:number,y:number,z:number,r:number,n=48):Point[]=>Array.from({length:n},(_,i)=>{const a=i/n*Math.PI*2;return [x,y+r*Math.cos(a),z+r*Math.sin(a)];});
- const pipe=(a:Point,b:Point,r:number,mat=m,w=.36)=>add(g.avg([a,b]) as Point,g.rod(a,b,r,mat,g.tone,w,r,12));
+ const pipe=(a:Point,b:Point,r:number,mat=m,w=.36,role:LineRole='structure')=>add(g.avg([a,b]) as Point,g.rod(a,b,r,mat,g.tone,w,r,12),role);
  const screw=(x:number,y:number,z:number,r=.65)=>g.cylX(x,x+.35,y,z,r,metal,g.tone,.24,12)+g.line([[x+.38,y-r*.5,z-r*.3],[x+.38,y+r*.5,z+r*.3]],.2);
  // Separate tyre strips, two rim planes and crossed spokes preserve wheel depth when orbited.
  for(const y of [20,102]){
@@ -40,7 +46,7 @@ export function drawing(s:BicycleState,g:Geometry,palette='mint'):string {
   for(let i=0;i<48;i++){
    const a=i/48*Math.PI*2,b=(i+1)/48*Math.PI*2;
    const pts:Point[]=[[-1.6,y+r*Math.cos(a),z+r*Math.sin(a)],[-1.6,y+r*Math.cos(b),z+r*Math.sin(b)],[1.6,y+r*Math.cos(b),z+r*Math.sin(b)],[1.6,y+r*Math.cos(a),z+r*Math.sin(a)]];
-   add(g.avg(pts) as Point,obs('wheel',g.shape(pts,g.tone([0,Math.cos((a+b)/2),Math.sin((a+b)/2)],rubber),.15)));
+   add(g.avg(pts) as Point,obs('wheel',g.shape(pts,g.tone([0,Math.cos((a+b)/2),Math.sin((a+b)/2)],rubber),.15)),'silhouette');
    if(i%3===0){const t=(a+b)/2;add([0,y+r*Math.cos(t),z+r*Math.sin(t)],g.line([[-1.3,y+(r+.06)*Math.cos(t-.009),z+(r+.06)*Math.sin(t-.009)],[1.3,y+(r+.06)*Math.cos(t+.009),z+(r+.06)*Math.sin(t+.009)]],.22));}
   }
   for(const x of [-1.6,1.6]){
@@ -49,12 +55,12 @@ export function drawing(s:BicycleState,g:Geometry,palette='mint'):string {
    for(let j=0;j<48;j++)for(const [ro,ri,mat] of [[24,21.5,rubber],[21.5,20.2,metal]] as const){
     const a=j/48*Math.PI*2,b=(j+1)/48*Math.PI*2;
     const ps:Point[]=[[x,y+ro*Math.cos(a),z+ro*Math.sin(a)],[x,y+ro*Math.cos(b),z+ro*Math.sin(b)],[x,y+ri*Math.cos(b),z+ri*Math.sin(b)],[x,y+ri*Math.cos(a),z+ri*Math.sin(a)]];
-    add(g.avg(ps) as Point,obs('wheel',g.shape(ps,g.tone([Math.sign(x),0,0],mat),0)+g.line([ps[0],ps[1]],ro===24?.42:.22)+g.line([ps[2],ps[3]],.2)));
+    add(g.avg(ps) as Point,obs('wheel',g.shape(ps,g.tone([Math.sign(x),0,0],mat),0)+g.line([ps[0],ps[1]],ro===24?.42:.22)+g.line([ps[2],ps[3]],.2)),'silhouette');
    }
    for(let i=0;i<20;i++){
     const a=i*Math.PI/10+phase,hubA=a+(i%2?.36:-.36),xhub=x>0?2.1:-2.1;
     const a3:Point=[xhub,y+2.4*Math.cos(hubA),z+2.4*Math.sin(hubA)],b3:Point=[x*.9,y+20.6*Math.cos(a),z+20.6*Math.sin(a)];
-    add(g.avg([a3,b3]) as Point,obs('wheel',g.line([a3,b3],.17)));
+    add(g.avg([a3,b3]) as Point,obs('wheel',g.line([a3,b3],.17)),'spoke');
    }
   }
   add([0,y,z],obs('wheel',g.cylX(-3,3,y,z,2.7,metal,g.tone,.45,20)));
@@ -78,7 +84,7 @@ export function drawing(s:BicycleState,g:Geometry,palette='mint'):string {
  for(const x of [-1.7,1.7])pipe([x,39,73],[x,49,74],.36,metal,.18);
  const saddleTop:Point[]=[[-4.6,37,76],[4.6,37,76],[5.3,41,76.4],[2,51,75.5],[-2,51,75.5],[-5.3,41,76.4]];
  const saddleBottom=saddleTop.map(p=>[p[0],p[1],p[2]-1.8] as Point);
- add([0,42,75],g.loft(saddleBottom,saddleTop,(n:number[])=>g.tone(n,leather))+g.shape(saddleTop,leather.l,.4));
+ add([0,42,75],g.loft(saddleBottom,saddleTop,(n:number[])=>g.tone(n,leather))+g.shape(saddleTop,leather.l,.4),'silhouette');
  for(const x of [-4,4])add([x,40,76.5],g.line([[x,38,76.5],[x,41,76.7],[Math.sign(x)*1.4,49,75.9]],.17));
  // Steering cockpit, rubber grips, independent brake levers and routed cables.
  pipe([0,88,66],[0,85.5,75],1.25,metal);pipe([0,85.5,75],[0,91,77],1.2,metal);
@@ -136,32 +142,36 @@ export function drawing(s:BicycleState,g:Geometry,palette='mint'):string {
   const top:Point=[side*5,20,26];
   for(const y of (side===1?[38]:[10,30])){
    const foot:Point=[side*11,y,1];standRods.push([foot,top,1.05]);
-   pipe(foot,top,1.05,metal,.34);
-   add(foot,g.box(side*11-2,y-2,0,side*11+2,y+2,1.4,dark,g.tone,.28));
+   pipe(foot,top,1.05,supportMetal,.34,'support');
+   add(foot,g.box(side*11-2,y-2,0,side*11+2,y+2,1.4,dark,g.tone,.28),'support');
   }
-  pipe([side*5,20,26],[side*3.4,20,26],1.4,dark,.3);
-  add([side*6,20,26],g.cylX(side*6-.5,side*6+.5,20,26,1.7,brass,g.tone,.3,14));
+  pipe([side*5,20,26],[side*3.4,20,26],1.4,dark,.3,'support');
+  add([side*6,20,26],g.cylX(side*6-.5,side*6+.5,20,26,1.7,supportMetal,g.tone,.3,14),'support');
  }
- standRods.push([[-11,30,1],[11,38,1],.9]);pipe([-11,30,1],[11,38,1],.9,dark,.3);
+ standRods.push([[-11,30,1],[11,38,1],.9]);pipe([-11,30,1],[11,38,1],.9,dark,.3,'support');
  // A small front-wheel roller cradle supports its two-unit clearance above the same floor.
- for(const y of [99,105])add([0,y,1.5],g.cylX(-4,4,y,1.5,1.5,metal,g.tone,.3,16));
- for(const x of [-4.5,4.5])add([x,102,.7],g.box(x-.6,97,0,x+.6,107,1.4,dark,g.tone,.25));
- add([2.1,62,50],g.tx(2.2,62,50,'PAPER',2.6,cream.l));
- // Project the actual open wheels and frame tubes, rather than a solid rectangular floor patch.
+ for(const y of [99,105])add([0,y,1.5],g.cylX(-4,4,y,1.5,1.5,metal,g.tone,.3,16),'support');
+ for(const x of [-4.5,4.5])add([x,102,.7],g.box(x-.6,97,0,x+.6,107,1.4,dark,g.tone,.25),'support');
+ // A graphic cast silhouette, not a second technical drawing. Preserve the
+ // directional light and open wheel/frame shapes, but omit spoke, cable and
+ // small-component projections. Contact shadows stay exact at the support feet.
  const [sx,sy]=g.yawTurn(g.SH as [number,number]),factor=g.SHADOW_LEN/g.SHADOW_K;
  const floor=(p:Point):Point=>[p[0]+p[2]*sx*factor,p[1]+p[2]*sy*factor,0];
- let shadow='';
+ let wheelShadow='';
  for(const y of[20,102]){
-  const a=ring(0,y,26,24).map(floor),b=ring(0,y,26,21.5).map(floor);
-  shadow+=`<path d="${g.pd(a)} ${g.pd(b)}" fill="${g.SHADOW}" fill-rule="evenodd"/>`;
-  for(let i=0;i<12;i++){const t=i*Math.PI/6;shadow+=`<path d="${g.pd([floor([0,y,26]),floor([0,y+21*Math.cos(t),26+21*Math.sin(t)])],false)}" fill="none" stroke="${g.SHADOW}" stroke-width=".5"/>`;}
+  const outer=ring(0,y,26,24).map(floor),inner=ring(0,y,26,20.2).map(floor);
+  wheelShadow+=`<path data-shadow-part="wheel" d="${g.pd(outer)} ${g.pd(inner)}" fill="${g.SHADOW}" fill-rule="evenodd"/>`;
  }
- const shadowRods:Array<[Point,Point,number]>=[[[0,20,26],[0,48,63],1],[[0,20,26],[0,55,23],1],[[0,55,23],[0,48,63],1.8],[[0,48,63],[0,88,66],1.6],[[0,55,23],[0,91,55],1.9],[[0,91,55],[0,102,26],1.5],[[0,45,73],[0,48,63],1],[[0,88,66],[0,91,77],1.1],[[-11,91,77],[11,91,77],1]];
- shadowRods.push(...standRods);
- for(const[a,b,r]of shadowRods)shadow+=g.castShadow([[a[0]-r,a[1],a[2]],[a[0]+r,a[1],a[2]],[b[0]-r,b[1],b[2]],[b[0]+r,b[1],b[2]]]);
- for(const side of [-1,1])for(const y of(side===1?[38]:[10,30]))shadow+=g.castShadow([[side*11-2,y-2,1],[side*11+2,y-2,1],[side*11+2,y+2,1],[side*11-2,y+2,1]]);
- shadow+=g.castShadow([[-5,97,1.4],[5,97,1.4],[5,107,1.4],[-5,107,1.4]]);
- shadow+=g.castShadow(saddleTop);
- const result=`<g class="bicycle-solid-scene">${shadow}${g.byDepth(parts)}</g>`;
- return result.replace(/stroke-width="([\d.]+)"/g,(_m,w)=>`stroke-width="${(Number(w)*2.8).toFixed(3)}"`);
+ // The three main tubes read as one open diamond. Paired stays and all the
+ // workshop rods are deliberately represented by their collective footprint.
+ const shadowRods:Array<[Point,Point,number]>=[[[0,55,23],[0,48,63],1.8],[[0,48,63],[0,88,66],1.6],[[0,55,23],[0,91,55],1.9],[[0,91,55],[0,102,26],1.5],[[0,20,26],[0,48,63],1],[[0,20,26],[0,55,23],1],[[0,45,75],[0,48,63],1],[[0,87.5,68],[0,91,54],2.25]];
+ let frameShadow='';
+ for(const[a,b,r]of shadowRods)frameShadow+=g.castShadow([[a[0]-r,a[1],a[2]],[a[0]+r,a[1],a[2]],[b[0]-r,b[1],b[2]],[b[0]+r,b[1],b[2]]]);
+ frameShadow+=g.castShadow(saddleTop);
+ let contactShadow='';
+ for(const[a,b,r]of standRods)contactShadow+=g.castShadow([[a[0]-r,a[1],a[2]],[a[0]+r,a[1],a[2]],[b[0]-r,b[1],b[2]],[b[0]+r,b[1],b[2]]]);
+ for(const side of [-1,1])for(const y of(side===1?[38]:[10,30]))contactShadow+=g.castShadow([[side*11-2,y-2,1],[side*11+2,y-2,1],[side*11+2,y+2,1],[side*11-2,y+2,1]]);
+ contactShadow+=g.castShadow([[-5,97,1.4],[5,97,1.4],[5,107,1.4],[-5,107,1.4]]);
+ const shadow=`<g data-line-role="shadow" aria-hidden="true"><g data-shadow-role="silhouette">${wheelShadow}${frameShadow}</g><g data-shadow-role="contact">${contactShadow}</g></g>`;
+ return `<g class="bicycle-solid-scene">${shadow}${g.byDepth(parts)}</g>`;
 }

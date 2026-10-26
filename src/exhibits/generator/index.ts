@@ -1,6 +1,6 @@
 import type {SceneContext,SceneController,PauseReason} from '../../app/contracts';
 import {initialState,electrical,advance,GOAL} from './model';
-import {drawing} from './drawing';
+import {drawing,generatorCamera} from './drawing';
 import './style.css';
 import {newLesson,startLesson,answerLesson,continueLesson,observeLesson,interruptLesson} from './learning';
 import {lessonHTML} from './learning-view';
@@ -16,7 +16,7 @@ export function mountGenerator({root,scope,audio,observation,catalog=[]}:SceneCo
  scope.listen(lessonHost,'click',event=>{if(!live()||reasons.size)return;const button=(event.target as Element).closest<HTMLButtonElement>('button');if(!button||!lessonHost.contains(button)||button.disabled)return;const action=button.dataset.lesson;if(action==='start'||action==='restart')startLesson(lesson);else if(action==='exit')Object.assign(lesson,newLesson());else if(action==='continue')continueLesson(lesson);else if(button.dataset.answer!==undefined)answerLesson(lesson,Number(button.dataset.answer));observeLesson(lesson,state);renderLesson();if(button.dataset.answer!==undefined)lessonHost.querySelector<HTMLButtonElement>('[data-lesson=continue]')?.focus();else if(action){const target=lessonHost.querySelector<HTMLElement>('h3')??lessonHost.querySelector<HTMLElement>('button');if(target)target.focus();}});
  const appearance=document.createElement('div');appearance.className='object-stage-controls';lessonHost.after(appearance);
  const electricalPanel=document.createElement('details');electricalPanel.className='gen-electrical-panel';electricalPanel.innerHTML='<summary>瞬时电流与交流相位</summary>';electricalPanel.append(q('.gen-live'),q('.gen-wave'));q('.gen-observer').after(electricalPanel);
- const objectStage=createObjectStage({root,scope,audio,observation,catalog},fig,appearance,{bounds:[-5,-6,0,113,78,87],camera:[45,30],palette:'mustard',draw:(g,p)=>drawing(state,g,p),action:a=>{if(a==='crank')start.click();if(a==='switch')switcher.click();}});
+ const objectStage=createObjectStage({root,scope,audio,observation,catalog},fig,appearance,{bounds:[-5,-6,0,113,78,87],camera:generatorCamera,palette:'mustard',draw:(g,p)=>drawing(state,g,p),action:a=>{if(a==='crank')start.click();if(a==='switch')switcher.click();}});
  const detach=audio.attach('generator',q('.gen-audio'));scope.onCleanup(detach);
  const observer=observation.mount({host:q('.gen-observer'),scope:fig,slow:true,title:'看动作懂原理',slowNote:'按 ¼ 速回放模拟时间；读数仍是原模型值，挑战 3 秒需要约 12 秒观看。',intro:'磁通的变化产生电压。不是“有磁铁就一直有电”，停止转动，输出立即归零。',onRate:(value:number)=>{rate=value;audio.setRate(value);},read:()=>{const e=electrical(state);return {stage:Math.abs(e.omega)>0?'机械输入 → 磁通变化 → 交流电':'手柄停止，感应电压为零',text:`线圈磁通链 ${e.flux.toFixed(2)} V·s；瞬时电压 ${e.emf.toFixed(2)} V。磁通最大时电压为零，变化最快时电压最大。${state.closed?'灯泡接入，电流随电压换向。':'转动时，开路仍可有感应电压；但电流与灯功率为零。'}`,readouts:[{label:'目标转速',value:state.rpm+' rpm'},{label:'交流频率',value:e.frequency.toFixed(2)+' Hz'},{label:'磁通链 K cos θ',value:e.flux.toFixed(2)+' V·s'},{label:'瞬时电功率',value:e.instantPower.toFixed(2)+' W'}],active:state.running?['coil','field',...(state.closed?['circuit','lamp']:[])]:[]};}});
  function live(){return !disposed&&scope.active;}

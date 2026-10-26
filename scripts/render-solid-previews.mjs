@@ -27,15 +27,15 @@ const {ResourceScope}=await import('../src/app/scope.ts');
 const {createObjectStage}=await import('../src/shared/object-stage.ts');
 const specs=[
  {id:'bicycle',title:'自行车传动的手绘立体模型',bounds:[-14,-3,0,18,127,85],camera:[-25,28],palette:'mint'},
- {id:'generator',title:'手摇发电机的手绘立体模型',bounds:[-5,-6,0,113,78,87],camera:[45,30],palette:'mustard'}
+ {id:'generator',title:'手摇发电机的手绘立体模型',bounds:[-5,-6,0,113,78,87],palette:'mustard'}
 ];
 for(const spec of specs){
- const {drawing}=await import(`../src/exhibits/${spec.id}/drawing.ts`);
+ const {drawing,generatorCamera}=await import(`../src/exhibits/${spec.id}/drawing.ts`);
  const {initialState}=await import(`../src/exhibits/${spec.id}/model.ts`);
  const root=document.createElement('main');document.body.append(root);
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'),controls=document.createElement('div');root.append(svg,controls);
  const scope=new ResourceScope(),state=initialState();
- const stage=createObjectStage({root,scope,audio:{},observation:{}},svg,controls,{...spec,draw:(g,p)=>drawing(state,g,p),action:()=>{}});
+ const stage=createObjectStage({root,scope,audio:{},observation:{}},svg,controls,{...spec,camera:generatorCamera??spec.camera,draw:(g,p)=>drawing(state,g,p),action:()=>{}});
  stage.render();
  // Retain the production camera fit, palette, grain filter and exact stroke scaling.
  // Standalone previews carry no focus targets or simulated controls.

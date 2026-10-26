@@ -31,3 +31,24 @@ it('slow observation advances same electrical clock at quarter speed',()=>{const
 it('catalog has twelve scenes, generator route disposes on departure and resets on return',()=>{const root=document.createElement('div');document.body.append(root);const app=createApp(root);cleanups.push(()=>app.dispose());expect(root.querySelectorAll('.museum-card')).toHaveLength(12);app.navigate('generator');click(root,'.gen-start');tick(100);app.navigate('bicycle');expect(root.querySelector('.generator-exhibit')).toBeNull();app.navigate('generator');expect(app.current?.snapshot?.()).toMatchObject(initialState());expect(root.querySelectorAll('.mechanical-audio')).toHaveLength(1);});
 
 it('blur interrupts continuous challenge instead of preserving elapsed credit',()=>{const {root,controller}=fixture();click(root,'.gen-try');tick(1800);expect(Number(controller.snapshot?.().held)).toBeGreaterThan(1);window.dispatchEvent(new Event('blur'));expect(controller.snapshot?.()).toMatchObject({running:false,held:0});click(root,'.gen-start');tick(1400);expect(controller.snapshot?.().challenge).toBe('active');});
+
+it('learning path gates answers and real physical operations, and keeps challenge progress independent',()=>{
+ const {root,controller}=fixture();const step=()=>root.querySelector<HTMLElement>('.gen-lesson')!.dataset.step;
+ const answer=(i=0)=>{click(root,`[data-answer="${i}"]`);click(root,'[data-lesson=continue]');};
+ click(root,'[data-lesson=start]');expect(step()).toBe('predict');expect(root.querySelector('[data-lesson=continue]')).toBeNull();
+ answer(1);expect(step()).toBe('baseline');tick(1800);expect(step()).toBe('baseline');
+ // Direct object control goes through the exact same input path as the dock.
+ root.querySelector('[data-act=crank]')!.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:0}));tick(1600);expect(step()).toBe('open');
+ click(root,'.gen-try');tick(1600);expect(root.querySelector<HTMLProgressElement>('.gen-challenge progress')!.value).toBeGreaterThan(1);expect(root.querySelector<HTMLProgressElement>('.gen-lesson progress')!.value).toBe(0);
+ root.querySelector('[data-act=switch]')!.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:0}));tick(1600);expect(step()).toBe('explain');expect(root.querySelector('[data-read=rms]')!.textContent).toBe('4.44 V');expect(root.querySelector('[data-read=power]')!.textContent).toBe('0.00 W');
+ answer(2);expect(step()).toBe('stopPredict');answer();expect(step()).toBe('stop');
+ click(root,'.gen-start');expect(step()).toBe('reversePredict');expect(root.querySelector('[data-read=rms]')!.textContent).toBe('0.00 V');
+ answer(1);click(root,'.gen-switch');click(root,'.gen-start');tick(1600);expect(step()).toBe('reverse');click(root,'.gen-reverse');tick(1600);expect(step()).toBe('complete');
+ const snap=controller.snapshot?.();click(root,'[data-lesson=restart]');expect(step()).toBe('predict');expect(controller.snapshot?.()).toMatchObject({running:snap?.running,closed:snap?.closed,rpm:snap?.rpm,direction:snap?.direction});click(root,'[data-lesson=exit]');expect(step()).toBe('idle');expect(controller.snapshot?.().running).toBe(true);click(root,'.gen-start');expect(controller.snapshot?.().running).toBe(false);
+});
+it('learning evidence clears on pause, reset, route departure and retained stale controls',()=>{
+ const {root,controller}=fixture();click(root,'[data-lesson=start]');click(root,'[data-answer="0"]');click(root,'[data-lesson=continue]');click(root,'.gen-start');tick(800);
+ expect((controller.snapshot?.().lesson as {held:number}).held).toBeGreaterThan(.5);controller.pause('hidden');expect((controller.snapshot?.().lesson as {held:number}).held).toBe(0);tick(10000);controller.resume('hidden');tick(800);expect(root.querySelector<HTMLElement>('.gen-lesson')!.dataset.step).toBe('baseline');
+ const retained=root.querySelector<HTMLButtonElement>('[data-lesson=restart]')!;controller.reset();expect(root.querySelector<HTMLElement>('.gen-lesson')!.dataset.step).toBe('idle');controller.dispose();retained.click();expect(root.childElementCount).toBe(0);
+ const host=document.createElement('section');document.body.append(host);const app=createApp(host);cleanups.push(()=>app.dispose());app.navigate('generator');click(host,'[data-lesson=start]');app.navigate('coffee');app.navigate('generator');expect(host.querySelector<HTMLElement>('.gen-lesson')!.dataset.step).toBe('idle');
+});

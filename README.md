@@ -8,6 +8,8 @@
 
 第 12 件「手摇发电机」采用原创交流发电机示意与纯电阻教学模型，接入既有共享服务，详见[发电机设计与验收](docs/GENERATOR-EXHIBIT.md)。自行车设计说明见[传动与爬坡挑战](docs/BICYCLE-EXHIBIT.md)。分支合并与部署状态以 GitHub PR 和 Vercel 部署记录为准。
 
+自行车与发电机已完成同系列立体重建候选，详见 [精致度与一致性重建验收](docs/QUALITY-REBUILD.md)。预览可用 `node scripts/render-solid-previews.mjs`（Node 24）从正式绘图重新生成。
+
 开发、验收、合并及部署分别记录；修改内容不改变现有网站访问权限。
 
 ## 本地运行

@@ -1,15 +1,18 @@
 import {QUESTIONS,isQuestion,OBSERVE_SECONDS,type Lesson} from './learning';
+const neutralPrediction='预测已记录。先用机器观察，再回来核对；现在不判对错。';
 const button=(action:string,label:string)=>`<button type="button" data-lesson="${action}">${label}</button>`;
 export function lessonHTML(l:Lesson):string{
  if(l.step==='idle')return `<div class="gen-lesson-intro"><span>动手学 · 开路与停转</span>${button('start','先预测，再验证 ↗')}</div>`;
  const groups={predict:1,baseline:1,open:1,explain:2,stopPredict:3,stop:3,reversePredict:4,reverseBaseline:4,reverse:4,complete:4};
  let body:string;
  if(isQuestion(l.step)){
-  const q=QUESTIONS[l.step];body=`${l.step==='reversePredict'?'<p class="gen-lesson-feedback">已观察到：停止转动后，电压有效值为 0.00 V。</p>':''}<h3 tabindex="-1">${q.title}</h3><p>${q.prompt}</p><div class="gen-lesson-choices">${q.choices.map((text,i)=>`<button type="button" data-answer="${i}" ${l.answer!==null?'disabled':''} ${l.answer===i?'aria-pressed="true"':''}>${text}</button>`).join('')}</div>`;
-  if(l.answer!==null)body+=`<p class="gen-lesson-feedback" role="status">${q.feedback[l.answer]}</p>${button('continue',l.step==='explain'?'再验证：停转':'用机器验证')}`;
- }else if(l.step==='complete')body='<h3 tabindex="-1">同样灯灭，两种原因。</h3><p>你已亲手核对：开路仍转 → 有电压、无电流；停止转动 → 感应电压为零。</p><p>同为 60 rpm，正反转都是 4.44 V、1.97 W。改变的是相位推进方向；交流本来就周期换向，并非反转后电流永远朝一个方向。</p><p class="gen-lesson-feedback" role="status">验证完成。可以继续自由探索，也可以从头再试。</p>';
+  const q=QUESTIONS[l.step];
+  const result=l.step==='explain'&&l.openPrediction!==null?QUESTIONS.predict.feedback[l.openPrediction]:l.step==='reversePredict'&&l.stopPrediction!==null?QUESTIONS.stopPredict.feedback[l.stopPrediction]:'';
+  body=`${result?`<p class="gen-lesson-feedback">${result}</p>`:''}<h3 tabindex="-1">${q.title}</h3><p>${q.prompt}</p><div class="gen-lesson-choices">${q.choices.map((text,i)=>`<button type="button" data-answer="${i}" ${l.answer!==null?'disabled':''} ${l.answer===i?'aria-pressed="true"':''}>${text}</button>`).join('')}</div>`;
+  if(l.answer!==null){const explanation=l.step==='explain',correct=l.answer===q.correct;body+=`<p class="gen-lesson-feedback" role="status">${explanation?q.feedback[l.answer]:neutralPrediction}</p>${button('continue',explanation?(correct?'再验证：停转':'核对后重新选择'):'用机器验证')}`;}
+ }else if(l.step==='complete')body=(l.reversePrediction!==null?`<p class="gen-lesson-feedback">${QUESTIONS.reversePredict.feedback[l.reversePrediction]}</p>`:'')+'<h3 tabindex="-1">同样灯灭，两种原因。</h3><p>你已亲手核对：开路仍转 → 有电压、无电流；停止转动 → 感应电压为零。</p><p>同为 60 rpm，正反转都是 4.44 V、1.97 W。改变的是相位推进方向；交流本来就周期换向，并非反转后电流永远朝一个方向。</p><p class="gen-lesson-feedback" role="status">实验完成。你已核对三次预测，并完成开路解释；可以继续自由探索，也可以从头再试。</p>';
  else {
-  const copy={baseline:['先建立对照','请用原有控件：接通电路、恢复正向、选 60 rpm 并开始摇动。观察 1.5 秒模拟时间。'],open:['现在，亲手断开开关','保持正向 60 rpm 转动，点模型上的刀闸或「电路已接通」。观察电压有效值和平均功率。'],stop:['现在，亲手停止摇动','保持开路、60 rpm。若已停转，先开始摇动，再点摇柄或「停止摇动」，观察电压归零。'],reverseBaseline:['先恢复正向对照','接通电路，正向 60 rpm 开始摇动，观察 1.5 秒：4.44 V、1.97 W。'],reverse:['保持转速，只换方向','保持闭路与 60 rpm，点击「反向摇动」，再观察 1.5 秒。对比电压有效值和平均功率。']} as const;
+  const copy={baseline:['先建立对照','请用原有控件：接通电路、恢复正向、选 60 rpm 并开始摇动。观察 1.5 秒模拟时间。'],open:['现在，亲手断开开关','保持正向 60 rpm 转动，点模型上的刀闸或「电路已接通」。观察电压有效值和平均功率。'],stop:['现在，亲手停止摇动','保持开路、60 rpm。若已停转，先开始摇动，再点摇柄或「停止摇动」，观察电压有效值怎样变化。'],reverseBaseline:['先恢复正向对照','接通电路，正向 60 rpm 开始摇动，观察 1.5 秒：4.44 V、1.97 W。'],reverse:['保持转速，只换方向','保持闭路与 60 rpm，点击「反向摇动」，再观察 1.5 秒。对比电压有效值和平均功率。']} as const;
   const [title,instruction]=copy[l.step];body=`<h3 tabindex="-1">${title}</h3><p>${instruction}</p>`;
   if(l.step!=='stop')body+=`<progress class="gen-lesson-progress" max="${OBSERVE_SECONDS}" value="${l.held}" aria-label="当前条件下连续观察时间"></progress><p class="gen-lesson-hint">条件不符或暂停会重新计时；¼ 速下观察更久。</p>`;
  }

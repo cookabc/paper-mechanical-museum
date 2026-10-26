@@ -48,21 +48,27 @@ export function createApp(root:HTMLElement){
  let wasFixedDesktop=fixedDesktop();
  appScope.listen(window,'resize',()=>{
   const fixed=fixedDesktop();
-  // Page-flow layouts may retain document scroll when the desktop shell locks it.
-  // Reset the outer viewport without moving focus or resetting the machine.
-  if(fixed&&!wasFixedDesktop&&current){
-   startAtTop();
+  // Only a shell transition transfers scrolling between the page and the dock.
+  // Keep focus and machine state; ordinary resizes must not move either scroller.
+  if(fixed!==wasFixedDesktop&&current){
+   if(fixed)startAtTop();
    const focused=document.activeElement;
    const dock=focused instanceof Element?focused.closest<HTMLElement>('.play-dock'):null;
    if(dock&&root.contains(dock)){
-    const viewport=dock.getBoundingClientRect(),target=focused!.getBoundingClientRect();
-    const top=viewport.top+dock.clientTop,bottom=top+dock.clientHeight;
-    // Page flow had no dock scroll. A lower lesson control may now be clipped
-    // by the fixed shell; reveal only that control, with room for its focus ring.
-    // Already-visible focus keeps the exact dock scroll position.
-    if(viewport.height>0&&dock.clientHeight>0&&target.height>0){
-     const delta=target.top<top?target.top-top-6:target.bottom>bottom?target.bottom-bottom+6:0;
-     if(delta)dock.scrollTop=Math.max(0,dock.scrollTop+delta);
+    const target=focused!.getBoundingClientRect();
+    if(fixed){
+     const viewport=dock.getBoundingClientRect(),top=viewport.top+dock.clientTop,bottom=top+dock.clientHeight;
+     // Reveal an escaped control in the new dock viewport, including its ring.
+     // Already-visible focus keeps the exact dock scroll position.
+     if(viewport.height>0&&dock.clientHeight>0&&target.height>0){
+      const delta=target.top<top?target.top-top-6:target.bottom>bottom?target.bottom-bottom+6:0;
+      if(delta)dock.scrollTop=Math.max(0,dock.scrollTop+delta);
+     }
+    }else if(target.height>0){
+     // The same control can move far down the document when the stage stacks.
+     // Move only the page, and only enough to keep that existing focus visible.
+     const delta=target.top<0?target.top-6:target.bottom>window.innerHeight?target.bottom-window.innerHeight+6:0;
+     if(delta)window.scrollTo({top:Math.max(0,window.scrollY+delta),left:window.scrollX,behavior:'instant'});
     }
    }
   }

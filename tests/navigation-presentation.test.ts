@@ -106,3 +106,38 @@ it.each(['washer','fan','bicycle','generator'])('preserves %s learning, focus an
   Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});
  }
 });
+
+it('keeps dock focus visible when returning to page flow without moving visible or unrelated focus',()=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate('generator');
+ const width=window.innerWidth,height=window.innerHeight,x=window.scrollX,y=window.scrollY;
+ const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
+ const dock=root.querySelector<HTMLElement>('.play-dock')!,button=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;
+ const targetBounds=vi.spyOn(button,'getBoundingClientRect');
+ const scroll=vi.mocked(window.scrollTo),intoView=vi.mocked(button.scrollIntoView);
+ const controller=app.current!;controller.pause('manual');const state=JSON.stringify(controller.snapshot!());
+ try {
+  for(const {top,initial,expected} of [
+   {top:1024,initial:0,expected:362}, // the real lower-control seam failure
+   {top:-16,initial:200,expected:178},
+   {top:472,initial:83,expected:null}, // already visible: do not scroll the page
+  ]){
+   resize(961,700);targetBounds.mockReturnValue(new DOMRect(40,top,100,32));button.focus();dock.scrollTop=83;
+   Object.defineProperty(window,'scrollY',{configurable:true,value:initial});
+   scroll.mockClear();intoView.mockClear();resize(960,700);
+   if(expected===null)expect(scroll).not.toHaveBeenCalled();
+   else expect(scroll).toHaveBeenCalledExactlyOnceWith({top:expected,left:x,behavior:'instant'});
+   expect(document.activeElement).toBe(button);expect(dock.scrollTop).toBe(83);expect(intoView).not.toHaveBeenCalled();
+   expect(app.current).toBe(controller);expect(JSON.stringify(controller.snapshot!())).toBe(state);
+   // Remaining inside page flow is not another transition, even if focus is offscreen.
+   targetBounds.mockReturnValue(new DOMRect(40,1024,100,32));scroll.mockClear();resize(900,700);expect(scroll).not.toHaveBeenCalled();
+  }
+  resize(1000,700);targetBounds.mockReturnValue(new DOMRect(40,495,100,32));
+  Object.defineProperty(window,'scrollY',{configurable:true,value:0});scroll.mockClear();resize(1000,480);
+  expect(scroll).toHaveBeenCalledExactlyOnceWith({top:53,left:x,behavior:'instant'});
+  resize(961,700);root.querySelector<HTMLElement>('h1')!.focus();scroll.mockClear();resize(960,700);expect(scroll).not.toHaveBeenCalled();
+ } finally {
+  targetBounds.mockRestore();app.dispose();root.remove();
+  Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});
+  Object.defineProperty(window,'scrollY',{configurable:true,value:y});
+ }
+});

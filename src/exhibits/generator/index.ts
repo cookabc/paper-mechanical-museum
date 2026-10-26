@@ -3,7 +3,7 @@ import {initialState,electrical,advance,GOAL} from './model';
 import {drawing,generatorCamera} from './drawing';
 import './style.css';
 import {newLesson,startLesson,answerLesson,continueLesson,observeLesson,interruptLesson} from './learning';
-import {lessonHTML} from './learning-view';
+import {lessonHTML,lessonDiagnostic} from './learning-view';
 import {createObjectStage} from '../../shared/object-stage';
 export function mountGenerator({root,scope,audio,observation,catalog=[]}:SceneContext):SceneController{
  const owned=document.createElement('main');owned.className='play-layout generator-exhibit';
@@ -11,9 +11,31 @@ export function mountGenerator({root,scope,audio,observation,catalog=[]}:SceneCo
  root.append(owned);scope.onCleanup(()=>owned.remove());const q=<T extends Element=HTMLElement>(s:string)=>owned.querySelector<T>(s)!;
  let state=initialState(),disposed=false,frame=0,epoch=0,last:number|null=null,rate=1;const reasons=new Set<PauseReason>();
  const fig=q<SVGSVGElement>('#fig'),start=q<HTMLButtonElement>('.gen-start'),speed=q<HTMLInputElement>('input'),switcher=q<HTMLButtonElement>('.gen-switch'),reverse=q<HTMLButtonElement>('.gen-reverse');
- const lesson=newLesson(),lessonHost=document.createElement('section');lessonHost.className='gen-lesson';lessonHost.setAttribute('aria-label','动手学：开路与停转');q('.dock-extras').prepend(lessonHost);const lessonStatus=document.createElement('span');lessonStatus.className='gen-lesson-status';lessonStatus.setAttribute('role','status');lessonStatus.setAttribute('aria-live','polite');lessonHost.before(lessonStatus);let lessonKey='';
- function renderLesson(){const key=lesson.step+':'+lesson.answer;if(key!==lessonKey){lessonKey=key;lessonHost.innerHTML=lessonHTML(lesson);lessonHost.dataset.step=lesson.step;lessonStatus.textContent=lessonHost.querySelector('h3')?.textContent??(lesson.step==='idle'?'已返回自由探索':'');}const progress=lessonHost.querySelector<HTMLProgressElement>('progress');if(progress)progress.value=lesson.held;}
- scope.listen(lessonHost,'click',event=>{if(!live()||reasons.size)return;const button=(event.target as Element).closest<HTMLButtonElement>('button');if(!button||!lessonHost.contains(button)||button.disabled)return;const action=button.dataset.lesson;if(action==='start'||action==='restart')startLesson(lesson);else if(action==='exit')Object.assign(lesson,newLesson());else if(action==='continue')continueLesson(lesson);else if(button.dataset.answer!==undefined)answerLesson(lesson,Number(button.dataset.answer));observeLesson(lesson,state);renderLesson();if(button.dataset.answer!==undefined)lessonHost.querySelector<HTMLButtonElement>('[data-lesson=continue]')?.focus();else if(action){const target=lessonHost.querySelector<HTMLElement>('h3')??lessonHost.querySelector<HTMLElement>('button');if(target)target.focus();}});
+ const lesson=newLesson(),lessonHost=document.createElement('section');lessonHost.className='gen-lesson';lessonHost.setAttribute('aria-label','动手学：开路与停转');q('.dock-extras').prepend(lessonHost);const lessonStatus=document.createElement('span');lessonStatus.className='gen-lesson-status';lessonStatus.setAttribute('role','status');lessonStatus.setAttribute('aria-live','polite');lessonStatus.setAttribute('aria-atomic','true');lessonHost.before(lessonStatus);
+ let lessonKey='',announcedLessonKey='',announcedConditionKey='',seenResetId=0,pendingReset='',sliderAdjusting=false;
+ const put=(node:Element|null,value:string)=>{if(node&&node.textContent!==value)node.textContent=value;};
+ function renderLesson(){
+  const key=lesson.step+':'+lesson.answer;
+  if(key!==lessonKey){lessonKey=key;lessonHost.innerHTML=lessonHTML(lesson);lessonHost.dataset.step=lesson.step;}
+  const progress=lessonHost.querySelector<HTMLProgressElement>('progress');if(progress)progress.value=lesson.held;
+  const diagnostic=lessonDiagnostic(lesson,state,reasons.has('hidden')?'hidden':reasons.size?'pause':null);
+  if(diagnostic){
+   for(const name of ['requirement','current','adjustment'] as const)put(lessonHost.querySelector(`[data-lesson-${name}]`),diagnostic[name]);
+   for(const [name,value] of [['rms',diagnostic.readings.rms],['current',diagnostic.readings.current],['power',diagnostic.readings.averagePower]] as const)put(lessonHost.querySelector(`[data-lesson-reading="${name}"]`),value.toFixed(2));
+   const reset=lessonHost.querySelector<HTMLElement>('[data-lesson-reset]')!;put(reset,diagnostic.resetReason);reset.hidden=!diagnostic.resetReason;
+  }
+  if(lesson.resetId!==seenResetId){seenResetId=lesson.resetId;if(lesson.resetReason)pendingReset=lesson.resetReason;}
+  if(!diagnostic)pendingReset='';
+  if(lesson.step==='idle'){if(announcedLessonKey!==key)put(lessonStatus,'');announcedLessonKey=key;announcedConditionKey='';pendingReset='';return;}
+  if(sliderAdjusting)return;
+  const phaseChanged=announcedLessonKey!==key,conditionChanged=announcedConditionKey!==(diagnostic?.key??'');
+  if(phaseChanged||conditionChanged||pendingReset){
+   const feedback=phaseChanged?[...lessonHost.querySelectorAll('.gen-lesson-feedback')].map(p=>p.textContent).join(' '):'';
+   const message=[phaseChanged?lessonHost.querySelector('h3')?.textContent:'',feedback,diagnostic?.current,diagnostic?.adjustment,pendingReset].filter(Boolean).join(' ');
+   put(lessonStatus,message);announcedLessonKey=key;announcedConditionKey=diagnostic?.key??'';pendingReset='';
+  }
+ }
+ scope.listen(lessonHost,'click',event=>{if(!live()||reasons.size)return;const button=(event.target as Element).closest<HTMLButtonElement>('button');if(!button||!lessonHost.contains(button)||button.disabled)return;sliderAdjusting=false;const action=button.dataset.lesson;if(action==='start'||action==='restart')startLesson(lesson);else if(action==='exit')Object.assign(lesson,newLesson());else if(action==='continue')continueLesson(lesson);else if(button.dataset.answer!==undefined)answerLesson(lesson,Number(button.dataset.answer));observeLesson(lesson,state);renderLesson();if(action==='exit')put(lessonStatus,'已返回自由探索');if(button.dataset.answer!==undefined)lessonHost.querySelector<HTMLButtonElement>('[data-lesson=continue]')?.focus();else if(action){const target=lessonHost.querySelector<HTMLElement>('h3')??lessonHost.querySelector<HTMLElement>('button');if(target)target.focus();}});
  const appearance=document.createElement('div');appearance.className='object-stage-controls';lessonHost.after(appearance);
  const electricalPanel=document.createElement('details');electricalPanel.className='gen-electrical-panel';electricalPanel.innerHTML='<summary>瞬时电流与交流相位</summary>';electricalPanel.append(q('.gen-live'),q('.gen-wave'));q('.gen-observer').after(electricalPanel);
  const objectStage=createObjectStage({root,scope,audio,observation,catalog},fig,appearance,{bounds:[-5,-6,0,113,78,87],camera:generatorCamera,palette:'mustard',draw:(g,p)=>drawing(state,g,p),action:a=>{if(a==='crank')start.click();if(a==='switch')switcher.click();}});
@@ -26,10 +48,10 @@ export function mountGenerator({root,scope,audio,observation,catalog=[]}:SceneCo
  function announce(){const e=electrical(state);q('#readout').textContent=state.running?`${state.direction===1?'正向':'反向'} ${state.rpm} rpm · ${state.closed?'电路接通':'开路无电流'}。`:'停止转动，电压与电流归零。';q('.gen-result').textContent=state.challenge==='complete'?'恰好！连续 3 秒达标。试试同样转速反向：平均功率不变。':state.challenge==='active'?(!state.closed?'电路断开，灯泡没有功率。':e.averagePower<GOAL.minPower?'功率不足，稍微摇快一点。':e.averagePower>GOAL.maxPower?'超过目标，试着放慢一点。':'保持这个节奏，正在累计达标时间。'):'教学目标：1.5～3 W 连续 3 秒，超出区间重新计时。';}
  function stopFrame(){epoch++;if(frame)scope.cancelRaf(frame);frame=0;last=null;}
  function schedule(){if(!live()||reasons.size||!state.running||frame)return;const ticket=epoch;frame=scope.raf(now=>{if(!live()||ticket!==epoch||reasons.size)return;frame=0;const dt=last===null?0:Math.min((now-last)/1000,.05);last=now;const old=state.challenge;advance(state,dt*rate);observeLesson(lesson,state,dt*rate);render();if(old!==state.challenge){announce();if(state.challenge==='complete')audio.pulse('bell');}schedule();});}
- function changed(action:'control'|'stop'|'none'='control'){if(!reasons.size)observeLesson(lesson,state,0,action);render();announce();schedule();}
+ function changed(action:'control'|'stop'|'none'='control',settled=true){sliderAdjusting=!settled;if(!reasons.size)observeLesson(lesson,state,0,action);render();if(settled)announce();schedule();}
  function reset(){if(!live())return;stopFrame();state=initialState();Object.assign(lesson,newLesson());objectStage.resetCamera();observer?.reset();audio.reset();changed();}
  scope.listen(start,'click',()=>{state.running=!state.running;stopFrame();if(!state.running&&state.challenge==='active')state.held=0;audio.pulse('click');changed(state.running?'control':'stop');});scope.listen(q('.gen-reset'),'click',reset);
- scope.listen(speed,'input',()=>{state.rpm=Number(speed.value);changed();});for(const b of owned.querySelectorAll<HTMLButtonElement>('[data-rpm]'))scope.listen(b,'click',()=>{state.rpm=Number(b.dataset.rpm);audio.pulse('click');changed();});scope.listen(reverse,'click',()=>{state.direction=state.direction===1?-1:1;changed();});scope.listen(switcher,'click',()=>{state.closed=!state.closed;if(!state.closed&&state.challenge==='active')state.held=0;changed();});scope.listen(q('.gen-try'),'click',()=>{stopFrame();state.challenge='active';state.held=0;state.running=true;changed();});scope.listen(window,'blur',()=>{interruptLesson(lesson);state.running=false;if(state.challenge==='active')state.held=0;stopFrame();audio.suspend('blur');changed();});
+ scope.listen(speed,'input',()=>{state.rpm=Number(speed.value);changed('control',false);});scope.listen(speed,'change',()=>{state.rpm=Number(speed.value);changed();});for(const b of owned.querySelectorAll<HTMLButtonElement>('[data-rpm]'))scope.listen(b,'click',()=>{state.rpm=Number(b.dataset.rpm);audio.pulse('click');changed();});scope.listen(reverse,'click',()=>{state.direction=state.direction===1?-1:1;changed();});scope.listen(switcher,'click',()=>{state.closed=!state.closed;if(!state.closed&&state.challenge==='active')state.held=0;changed();});scope.listen(q('.gen-try'),'click',()=>{stopFrame();state.challenge='active';state.held=0;state.running=true;changed();});scope.listen(window,'blur',()=>{interruptLesson(lesson,'blur');state.running=false;if(state.challenge==='active')state.held=0;stopFrame();audio.suspend('blur');changed();});
  scope.onCleanup(()=>{disposed=true;stopFrame();observer?.dispose();detach();owned.remove();});render();
- return {pause(reason='manual'){if(!live()||reasons.has(reason))return;reasons.add(reason);interruptLesson(lesson);renderLesson();objectStage.cancel();stopFrame();audio.suspend(reason);scope.pause();},resume(reason='manual'){if(!live()||!reasons.delete(reason)||reasons.size)return;scope.resume();last=null;schedule();},reset,dispose(){if(disposed)return;scope.dispose();},snapshot(){return {...state,lesson:{...lesson},paused:reasons.size>0,disposed:disposed||!scope.active};}};
+ return {pause(reason='manual'){if(!live()||reasons.has(reason))return;reasons.add(reason);sliderAdjusting=false;interruptLesson(lesson,reason==='hidden'?'hidden':'pause');renderLesson();objectStage.cancel();stopFrame();audio.suspend(reason);scope.pause();},resume(reason='manual'){if(!live()||!reasons.delete(reason))return;renderLesson();if(reasons.size)return;scope.resume();last=null;schedule();},reset,dispose(){if(disposed)return;scope.dispose();},snapshot(){return {...state,lesson:{...lesson},paused:reasons.size>0,disposed:disposed||!scope.active};}};
 }

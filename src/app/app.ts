@@ -43,13 +43,35 @@ export function createApp(root:HTMLElement){
   if(document.hidden)current.pause('hidden');
   header.querySelector('h1')?.focus({preventScroll:true});startAtTop();
  }
- const fixedDesktop=()=>window.innerWidth>760&&window.innerHeight>480;
+ // Keep this boundary aligned with responsive-scene.css's stage-first layout.
+ const fixedDesktop=()=>window.innerWidth>960&&window.innerHeight>480;
  let wasFixedDesktop=fixedDesktop();
  appScope.listen(window,'resize',()=>{
   const fixed=fixedDesktop();
-  // Page-flow layouts may retain document scroll when the desktop shell locks it.
-  // Restore only the outer viewport on this boundary; keep dock, focus and machine state.
-  if(fixed&&!wasFixedDesktop&&current)startAtTop();
+  // Only a shell transition transfers scrolling between the page and the dock.
+  // Keep focus and machine state; ordinary resizes must not move either scroller.
+  if(fixed!==wasFixedDesktop&&current){
+   if(fixed)startAtTop();
+   const focused=document.activeElement;
+   const dock=focused instanceof Element?focused.closest<HTMLElement>('.play-dock'):null;
+   if(dock&&root.contains(dock)){
+    const target=focused!.getBoundingClientRect();
+    if(fixed){
+     const viewport=dock.getBoundingClientRect(),top=viewport.top+dock.clientTop,bottom=top+dock.clientHeight;
+     // Reveal an escaped control in the new dock viewport, including its ring.
+     // Already-visible focus keeps the exact dock scroll position.
+     if(viewport.height>0&&dock.clientHeight>0&&target.height>0){
+      const delta=target.top<top?target.top-top-6:target.bottom>bottom?target.bottom-bottom+6:0;
+      if(delta)dock.scrollTop=Math.max(0,dock.scrollTop+delta);
+     }
+    }else if(target.height>0){
+     // The same control can move far down the document when the stage stacks.
+     // Move only the page, and only enough to keep that existing focus visible.
+     const delta=target.top<0?target.top-6:target.bottom>window.innerHeight?target.bottom-window.innerHeight+6:0;
+     if(delta)window.scrollTo({top:Math.max(0,window.scrollY+delta),left:window.scrollX,behavior:'instant'});
+    }
+   }
+  }
   wasFixedDesktop=fixed;
  });
  appScope.listen(window,'hashchange',()=>navigate(location.hash));

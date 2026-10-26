@@ -43,6 +43,15 @@ export function createApp(root:HTMLElement){
   if(document.hidden)current.pause('hidden');
   header.querySelector('h1')?.focus({preventScroll:true});startAtTop();
  }
+ const fixedDesktop=()=>window.innerWidth>760&&window.innerHeight>480;
+ let wasFixedDesktop=fixedDesktop();
+ appScope.listen(window,'resize',()=>{
+  const fixed=fixedDesktop();
+  // Page-flow layouts may retain document scroll when the desktop shell locks it.
+  // Restore only the outer viewport on this boundary; keep dock, focus and machine state.
+  if(fixed&&!wasFixedDesktop&&current)startAtTop();
+  wasFixedDesktop=fixed;
+ });
  appScope.listen(window,'hashchange',()=>navigate(location.hash));
  appScope.listen(document,'visibilitychange',()=>{if(document.hidden)current?.pause('hidden');else current?.resume('hidden');});
  appScope.listen(window,'pagehide',()=>current?.pause('navigation'));

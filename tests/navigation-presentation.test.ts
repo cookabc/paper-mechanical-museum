@@ -22,3 +22,20 @@ it('switches all twelve ready scenes in one app and retires their old resources 
  expect(links).toEqual(['#/washer','#/fan','#/claw','#/coffee','#/musicbox','#/vending','#/toaster','#/turntable','#/camera','#/elevator','#/bicycle','#/generator']);
  app.dispose();expect(root.childElementCount).toBe(0);expect(app.diagnostics().app).toMatchObject({active:false,frames:0,timers:0,listeners:0});root.remove();
 });
+
+it('resets only outer scroll when crossing into the fixed desktop shell',()=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate('generator');
+ const scroll=vi.mocked(window.scrollTo);const controller=app.current;
+ const width=window.innerWidth,height=window.innerHeight;
+ const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
+ const dock=root.querySelector<HTMLElement>('.play-dock')!;dock.scrollTop=123;
+ const button=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;button.focus();
+ const state=JSON.stringify(controller!.snapshot!());
+ scroll.mockClear();resize(400,606);resize(420,606);expect(scroll).not.toHaveBeenCalled();
+ resize(944,606);expect(scroll).toHaveBeenCalledTimes(1);expect(dock.scrollTop).toBe(123);expect(document.activeElement).toBe(button);
+ expect(app.current).toBe(controller);expect(JSON.stringify(controller!.snapshot!())).toBe(state);
+ resize(1000,620);expect(scroll).toHaveBeenCalledTimes(1);
+ resize(1000,450);expect(scroll).toHaveBeenCalledTimes(1);resize(1000,600);expect(scroll).toHaveBeenCalledTimes(2);
+ app.dispose();resize(400,600);resize(1000,600);expect(scroll).toHaveBeenCalledTimes(2);
+ Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});root.remove();
+});

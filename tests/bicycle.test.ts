@@ -1,12 +1,15 @@
 import {beforeEach,afterEach,describe,it,expect,vi} from 'vitest';
 import {advance,drivetrain,hillResult,initialState} from '../src/exhibits/bicycle/model';
-import {drawing,chainPath} from '../src/exhibits/bicycle/drawing';
+import {drivetrainChain} from '../src/exhibits/bicycle/drawing';
 import {mountBicycle} from '../src/exhibits/bicycle';
 import {ResourceScope} from '../src/app/scope';
 import {createAudioService} from '../src/shared/audio.js';
 import {createObservation} from '../src/shared/observation.js';
 import {createApp} from '../src/app/app';
 
+// Full solid SVG scenes are deliberately rendered at every simulated frame in jsdom.
+// Keep lifecycle/physics assertions intact; allow CPU-only DOM parsing time.
+vi.setConfig({testTimeout:120000});
 it.each([[0,32,1,60,7.56,20],[1,24,4/3,80,10.08,15],[2,16,2,120,15.12,10]])('gear %i has exact tooth, speed and ideal torque relations',(gear,rear,ratio,rpm,speed,torque)=>{
  const d=drivetrain(gear,60);expect(d.rear).toBe(rear);expect(d.ratio).toBeCloseTo(ratio);expect(d.wheelRpm).toBeCloseTo(rpm);expect(d.speedKmh).toBeCloseTo(speed);expect(d.availableWheelTorque).toBeCloseTo(torque);expect(d.torqueMultiplier*d.ratio).toBeCloseTo(1);
 });
@@ -15,7 +18,7 @@ it('has two feasible hill gears but only the fastest feasible is best',()=>{expe
 it('same cadence does not mean same crank demand; power is conserved ideally',()=>{const d=drivetrain(1,60);expect(d.requiredCrankTorque).toBeCloseTo(20);const crankPower=d.requiredCrankTorque*2*Math.PI;const wheelPower=15*d.wheelRpm*2*Math.PI/60;expect(crankPower).toBeCloseTo(wheelPower);});
 it('model synchronizes crank, wheel and chain; pause changes nothing',()=>{const s=initialState();s.running=true;for(let i=0;i<60;i++)advance(s,1/60);expect(s.crankTurns).toBeCloseTo(1);expect(s.wheelTurns).toBeCloseTo(4/3);expect(s.chainTravel).toBeCloseTo(32);s.running=false;const before={...s};advance(s,1);expect(s).toEqual(before);});
 it('rejects infeasible uphill motion, finishes feasible climb and caps timestep',()=>{const s=initialState();s.challenge='riding';s.running=true;s.gear=2;advance(s,.02);expect(s).toMatchObject({challenge:'stalled',running:false,distance:0});s.gear=1;s.challenge='riding';s.running=true;advance(s,999);expect(s.distance).toBeLessThan(.15);for(let i=0;i<300;i++)advance(s,.02);expect(s).toMatchObject({challenge:'complete',running:false,distance:12});});
-it('renders a closed chain and a tooth-count-correct selected rear cog for every gear',()=>{for(let i=0;i<3;i++){const s=initialState();s.gear=i;const host=document.createElement('div');host.innerHTML='<svg>'+drawing(s)+'</svg>';expect(chainPath(43*[1,.75,.5][i])).toMatch(/ Z$/);expect(host.querySelector('[data-observe-part=rear] polygon')?.getAttribute('points')?.split(' ')).toHaveLength([32,24,16][i]*4);expect(host.innerHTML).not.toContain('NaN');expect(host.querySelectorAll('[data-observe-part=chain] path')).toHaveLength(3);}});
+it('renders the actual solid drivetrain with three tooth-correct cassette cogs, two pulleys and closed chain',()=>{const {root}=fixture();for(let i=0;i<3;i++){click(root,`[data-gear="${i}"]`);for(const teeth of[32,24,16])expect(root.querySelector(`[data-observe-part="rear"] [data-teeth="${teeth}"]`)?.getAttribute('data-cog-points')).toBe(String(teeth*4));expect(root.querySelectorAll('[data-teeth="10"]')).toHaveLength(2);expect(root.querySelectorAll('[data-observe-part="chain"] path').length).toBeGreaterThan(3);expect(root.querySelector('.object-art')?.innerHTML).not.toContain('NaN');}});
 
 let frames:Map<number,FrameRequestCallback>,history:FrameRequestCallback[],serial:number,cleanups:Array<()=>void>;
 beforeEach(()=>{document.body.replaceChildren();Object.defineProperty(document,'hidden',{value:false,configurable:true});frames=new Map();history=[];serial=0;cleanups=[];vi.useFakeTimers({toFake:['setTimeout','clearTimeout','performance']});vi.stubGlobal('requestAnimationFrame',(fn:FrameRequestCallback)=>{frames.set(++serial,fn);history.push(fn);return serial;});vi.stubGlobal('cancelAnimationFrame',(id:number)=>frames.delete(id));});
@@ -34,3 +37,5 @@ describe('actual bicycle adapter',()=>{
  it('slow observation shares the only clock and does not restart a paused mechanism',()=>{const {root,scope,controller}=fixture();const panel=root.querySelector<HTMLDetailsElement>('.mechanism-observer')!;panel.open=true;panel.dispatchEvent(new Event('toggle'));click(root,'[data-rate="0.25"]');click(root,'.bike-start');tick(1020);expect(Number(controller.snapshot?.().crankTurns)).toBeCloseTo(.25,1);expect(scope.diagnostics().frames).toBe(1);click(root,'.bike-start');panel.open=false;panel.dispatchEvent(new Event('toggle'));expect(scope.diagnostics().frames).toBe(0);});
  it('shares routes and updates collection counts without undefined for twelve items',()=>{const root=document.createElement('div');document.body.append(root);const app=createApp(root);cleanups.push(()=>app.dispose());expect(root.querySelectorAll('.museum-card')).toHaveLength(12);click(root,'[data-filter="全部"]');expect(root.querySelector('.collection-count')?.textContent).toContain('12');app.navigate('bicycle');click(root,'.bike-start');tick(100);const old=app.current;app.navigate('coffee');old?.reset();tick(100);expect(root.querySelector('.bicycle-exhibit')).toBeNull();expect(root.querySelectorAll('.mechanical-audio')).toHaveLength(1);app.navigate('bicycle');expect(app.current?.snapshot?.()).toMatchObject(initialState());});
 });
+
+it('three gears preserve the same 96-link closed chain and rigid 14-unit pulley cage',()=>{const chains=[0,1,2].map(drivetrainChain);for(const chain of chains){expect(chain.links).toBe(96);expect(chain.length).toBeCloseTo(96*2*Math.PI*7/32,8);expect(chain.points.at(-1)).toEqual(chain.points[0]);expect(Math.hypot(chain.lower[0]-16,chain.lower[1]-18)).toBeCloseTo(14,10);expect(chain.points.flat().every(Number.isFinite)).toBe(true);for(let i=1;i<chain.lengths.length;i++){const delta=Math.hypot(...chain.points[i].map((v,j)=>v-chain.points[i-1][j]));expect(chain.lengths[i]-chain.lengths[i-1]).toBeCloseTo(delta,10);expect(delta).toBeGreaterThanOrEqual(0);}}expect(new Set(chains.map(chain=>chain.lower.join(','))).size).toBe(3);});

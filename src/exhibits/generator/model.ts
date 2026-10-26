@@ -3,7 +3,7 @@ export const K=1; // N B A = 1 V·s, one pole pair
 export const RESISTANCE=10;
 export const GOAL={minPower:1.5,maxPower:3,seconds:3};
 export interface GeneratorState {rpm:number;direction:1|-1;running:boolean;closed:boolean;phase:number;elapsed:number;challenge:'idle'|'active'|'complete';held:number;}
-export function initialState():GeneratorState{return {rpm:60,direction:1,running:false,closed:true,phase:0,elapsed:0,challenge:'idle',held:0};}
+export function initialState():GeneratorState{return {rpm:60,direction:1,running:false,closed:true,phase:Math.PI/4,elapsed:0,challenge:'idle',held:0};}
 export function electrical(s:GeneratorState){
  const rpm=Math.max(0,Math.min(120,Number.isFinite(s.rpm)?s.rpm:0));
  const omega=(s.running?rpm:0)*Math.PI/30*s.direction;

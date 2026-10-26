@@ -43,7 +43,8 @@ export function createApp(root:HTMLElement){
   if(document.hidden)current.pause('hidden');
   header.querySelector('h1')?.focus({preventScroll:true});startAtTop();
  }
- const fixedDesktop=()=>window.innerWidth>760&&window.innerHeight>480;
+ // Keep this boundary aligned with responsive-scene.css's stage-first layout.
+ const fixedDesktop=()=>window.innerWidth>960&&window.innerHeight>480;
  let wasFixedDesktop=fixedDesktop();
  appScope.listen(window,'resize',()=>{
   const fixed=fixedDesktop();

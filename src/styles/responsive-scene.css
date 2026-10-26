@@ -1,0 +1,85 @@
+/* The shared shell needs room for both a 250px dock and a useful scene.
+   Below 961px, use page flow rather than leaving the object in a narrow column.
+   Keep the established <=760px phone composition and >960px desktop intact.
+   This file follows exhibit styles, including the fan's separate #figure. */
+/* Optional learning is a quiet text doorway, not another primary action.
+   Avoid the legacy global button's pill shape; leave phone sizing unchanged. */
+@media (min-width:761px) {
+  .museum-scene .museum-learning-entry {
+    min-height:36px;
+    border-top:0;
+    border-radius:0;
+    box-shadow:none;
+    padding:7px 0;
+    margin-bottom:10px;
+  }
+}
+
+@media (min-width:761px) and (max-width:960px) {
+  .museum-scene {
+    height:auto;
+    min-height:100svh;
+    overflow-x:hidden;
+    overflow-y:auto;
+    padding:18px 24px 24px!important;
+  }
+  .museum-scene>header {padding-bottom:13px!important;}
+  .museum-scene .play-layout {
+    display:flex;
+    flex-direction:column;
+    flex:none;
+    height:auto;
+    min-height:0;
+    gap:10px;
+    margin-top:12px;
+  }
+  .museum-scene .stage {
+    order:0;
+    width:100%;
+    /* Do not shrink the object to fit every control into a short/zoomed
+       window. Those windows retain natural page scrolling instead. */
+    height:clamp(280px,52svh,420px);
+    min-height:0;
+    max-height:none;
+    overflow:visible;
+  }
+  .museum-scene #fig,
+  .museum-scene .fan-exhibit #figure {
+    flex:1;
+    height:0;
+    min-height:0!important;
+    max-height:none;
+  }
+  .museum-scene .stage-note {flex:none;padding:4px 0 0;}
+  .museum-scene .play-dock,
+  .museum-scene .play-dock.lesson-guiding {
+    order:1;
+    align-self:center;
+    width:100%;
+    max-width:600px;
+    height:auto;
+    max-height:none;
+    overflow:visible;
+    padding-right:0!important;
+  }
+  .museum-scene .play-dock>.dock-extras {
+    flex:none;
+    min-height:0;
+    max-height:none;
+    overflow:visible;
+  }
+  /* Status stays prominent; the repeated introductory heading yields to it. */
+  .museum-scene .dock-title,
+  .museum-scene .fan-exhibit .lede {display:none;}
+  .museum-scene #readout {
+    min-height:1.8em;
+    line-height:1.65;
+    margin-bottom:10px!important;
+  }
+  .museum-scene .actions .act {min-height:43px;padding:8px 9px;}
+  .museum-scene .museum-learning-entry {margin-bottom:4px;}
+  .museum-scene .fan-exhibit .control-topline {min-height:30px;margin-bottom:6px;}
+  .museum-scene .fan-exhibit .speeds small {display:inline;margin-left:5px;}
+  .museum-scene .gen-stats,
+  .museum-scene .bike-stats {gap:30px;margin-bottom:10px;}
+}

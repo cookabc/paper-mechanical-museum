@@ -30,6 +30,13 @@
 .washer-exhibit .actions button.is-next{border-color:#527451!important;background:#e5f0df!important}
 .washer-exhibit .actions button.is-complete{background:#e8eddf!important}
 .washer-exhibit .actions .act{white-space:normal;overflow-wrap:anywhere}
+.washer-exhibit .washer-callout-legend{margin:0 0 15px;padding:10px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:13px;color:var(--ink)}
+.washer-exhibit .washer-callout-legend[hidden],.washer-exhibit.nolabels .washer-callout-legend{display:none}
+.washer-exhibit .washer-callout-legend p{font-size:11px;margin:0 0 9px;color:var(--muted)}
+.washer-exhibit .washer-callout-legend ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px;margin:0;padding:0;list-style:none}
+.washer-exhibit .washer-callout-legend li{display:flex;align-items:center;gap:6px;line-height:1.5;min-width:0;overflow-wrap:anywhere}
+.washer-exhibit .callout-number{display:inline-flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;border:1px solid var(--ink);border-radius:50%;background:#fff4d6;font-size:12px;font-weight:700}
+.washer-exhibit .washer-callout-legend li[data-active=true] .callout-number{background:var(--accent)}
 @media(pointer:coarse){.washer-exhibit #scene-targets [data-act]:focus-visible{stroke-width:3}}
 @media(max-width:760px){.washer-exhibit .vrow .act{white-space:normal}.washer-exhibit .scene-hint{max-width:85%}}
 @media(prefers-reduced-motion:reduce){.washer-exhibit .toy-progress>span{transition:none}}

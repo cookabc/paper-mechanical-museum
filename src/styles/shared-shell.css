@@ -71,3 +71,14 @@ header{width:100%;max-width:1180px!important;display:flex;justify-content:space-
 @media(max-width:760px){.museum-scene .play-dock{overflow:visible;padding-right:0;}.museum-learning-entry{min-height:44px;}.museum-scene .play-dock>.dock-extras{max-height:none;overflow:visible;}}
 
 .has-learning-entry .gen-lesson[data-step=idle]{display:none;}
+
+/* Action states use paired ink/background rules. The legacy global pressed
+   style must not turn light action buttons into paper-on-paper text. */
+.museum-scene .actions .act[aria-pressed=false],
+.museum-scene .actions .act[aria-pressed=true]{color:var(--ink);background:#fffdf8!important;border-color:#6d6557!important;}
+.museum-scene .actions .act[aria-pressed=true]{background:#e5f0df!important;border-color:#527451!important;}
+.museum-scene .actions .act[aria-pressed=true]:hover{background:#d7e7d0!important;}
+.museum-scene .actions .act[aria-pressed=false]:hover{background:#eaf0e4!important;}
+.museum-scene .actions .act[data-recommended=true]:not([aria-disabled=true]){color:var(--ink);background:var(--accent)!important;border-color:var(--ink)!important;}
+.museum-scene .actions .act[aria-disabled=true],
+.museum-scene .actions .act:disabled{color:#665e50;background:#eeeade!important;border-color:#8c8373!important;opacity:1;}

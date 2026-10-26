@@ -30,6 +30,9 @@ it('resets only outer scroll when crossing into the fixed desktop shell',()=>{
  const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
  const dock=root.querySelector<HTMLElement>('.play-dock')!;dock.scrollTop=123;
  const button=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;button.focus();
+ dock.getBoundingClientRect=()=>new DOMRect(40,120,250,500);
+ button.getBoundingClientRect=()=>new DOMRect(40,160,250,36);
+ Object.defineProperty(dock,'clientHeight',{configurable:true,value:500});
  const state=JSON.stringify(controller!.snapshot!());
  scroll.mockClear();resize(400,606);resize(420,606);expect(scroll).not.toHaveBeenCalled();
  resize(761,606);resize(944,606);resize(960,606);expect(scroll).not.toHaveBeenCalled();
@@ -39,6 +42,40 @@ it('resets only outer scroll when crossing into the fixed desktop shell',()=>{
  resize(1000,450);expect(scroll).toHaveBeenCalledTimes(1);resize(1000,600);expect(scroll).toHaveBeenCalledTimes(2);
  app.dispose();resize(400,600);resize(1000,600);expect(scroll).toHaveBeenCalledTimes(2);
  Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});root.remove();
+});
+
+it('reveals clipped dock focus on fixed-shell entry without scrolling visible focus or the outer page again',()=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate('generator');
+ const width=window.innerWidth,height=window.innerHeight;
+ const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
+ const dock=root.querySelector<HTMLElement>('.play-dock')!,button=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;
+ const dockBounds=vi.spyOn(dock,'getBoundingClientRect').mockReturnValue(new DOMRect(40,120,250,560));
+ const targetBounds=vi.spyOn(button,'getBoundingClientRect');
+ Object.defineProperty(dock,'clientHeight',{configurable:true,value:560});
+ Object.defineProperty(dock,'clientTop',{configurable:true,value:0});
+ const scroll=vi.mocked(window.scrollTo),intoView=vi.mocked(button.scrollIntoView);
+ const controller=app.current!;controller.pause('manual');const state=JSON.stringify(controller.snapshot!());
+ try {
+  for(const {top,initial,expected} of [
+   {top:795,initial:0,expected:153}, // lower control, including 6px focus-ring clearance
+   {top:105,initial:200,expected:179}, // upper control
+   {top:500,initial:83,expected:83}, // already visible: preserve exact scroll
+  ]){
+   resize(960,700);targetBounds.mockReturnValue(new DOMRect(40,top,100,32));dock.scrollTop=initial;button.focus();
+   scroll.mockClear();intoView.mockClear();resize(961,700);
+   expect(dock.scrollTop).toBe(expected);expect(document.activeElement).toBe(button);
+   expect(scroll).toHaveBeenCalledExactlyOnceWith({top:0,left:0,behavior:'instant'});expect(intoView).not.toHaveBeenCalled();
+   expect(app.current).toBe(controller);expect(JSON.stringify(controller.snapshot!())).toBe(state);
+  }
+  // The short-window boundary uses the same correction, not only width changes.
+  resize(1000,480);targetBounds.mockReturnValue(new DOMRect(40,795,100,32));dock.scrollTop=0;resize(1000,481);
+  expect(dock.scrollTop).toBe(153);expect(document.activeElement).toBe(button);
+  // Focus elsewhere must not disturb an independently scrolled dock.
+  resize(960,700);root.querySelector<HTMLElement>('h1')!.focus();dock.scrollTop=83;resize(961,700);expect(dock.scrollTop).toBe(83);
+ } finally {
+  dockBounds.mockRestore();targetBounds.mockRestore();app.dispose();root.remove();
+  Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});
+ }
 });
 
 it.each(['washer','fan','bicycle','generator'])('preserves %s learning, focus and machine state across the stage-first boundary',id=>{
@@ -53,6 +90,9 @@ it.each(['washer','fan','bicycle','generator'])('preserves %s learning, focus an
   const lesson=root.querySelector<HTMLElement>(id==='generator'?'.gen-lesson':id==='bicycle'?'.bike-challenge':'.mechanism-lesson')!;
   const focused=lesson.querySelector<HTMLElement>('summary,button')!;focused.focus();
   const dock=root.querySelector<HTMLElement>('.play-dock')!;dock.scrollTop=83;
+  dock.getBoundingClientRect=()=>new DOMRect(40,120,250,500);
+  focused.getBoundingClientRect=()=>new DOMRect(40,160,250,36);
+  Object.defineProperty(dock,'clientHeight',{configurable:true,value:500});
   const state=JSON.stringify(controller.snapshot!());
   const open=[...root.querySelectorAll<HTMLDetailsElement>('details')].filter(panel=>panel.open);
   for(const [w,h] of [[760,600],[761,600],[960,600],[961,600],[961,480],[961,481],[900,507],[1200,760]]) {

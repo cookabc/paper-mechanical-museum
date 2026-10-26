@@ -49,8 +49,23 @@ export function createApp(root:HTMLElement){
  appScope.listen(window,'resize',()=>{
   const fixed=fixedDesktop();
   // Page-flow layouts may retain document scroll when the desktop shell locks it.
-  // Restore only the outer viewport on this boundary; keep dock, focus and machine state.
-  if(fixed&&!wasFixedDesktop&&current)startAtTop();
+  // Reset the outer viewport without moving focus or resetting the machine.
+  if(fixed&&!wasFixedDesktop&&current){
+   startAtTop();
+   const focused=document.activeElement;
+   const dock=focused instanceof Element?focused.closest<HTMLElement>('.play-dock'):null;
+   if(dock&&root.contains(dock)){
+    const viewport=dock.getBoundingClientRect(),target=focused!.getBoundingClientRect();
+    const top=viewport.top+dock.clientTop,bottom=top+dock.clientHeight;
+    // Page flow had no dock scroll. A lower lesson control may now be clipped
+    // by the fixed shell; reveal only that control, with room for its focus ring.
+    // Already-visible focus keeps the exact dock scroll position.
+    if(viewport.height>0&&dock.clientHeight>0&&target.height>0){
+     const delta=target.top<top?target.top-top-6:target.bottom>bottom?target.bottom-bottom+6:0;
+     if(delta)dock.scrollTop=Math.max(0,dock.scrollTop+delta);
+    }
+   }
+  }
   wasFixedDesktop=fixed;
  });
  appScope.listen(window,'hashchange',()=>navigate(location.hash));

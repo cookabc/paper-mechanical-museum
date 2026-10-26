@@ -53,6 +53,9 @@ it('recommends a state-backed starting action but retains every free-play button
 
 it('does not confuse an available cancel action with the recommended next action',()=>{
  let clock=0,sequence=0;const frames=new Map<number,FrameRequestCallback>();
+ // RAF timestamps and the runtime share one virtual clock: real SVG render time
+ // must not shift animation starts or trigger wall-time-dependent frame skipping.
+ vi.spyOn(performance,'now').mockImplementation(()=>clock);
  vi.stubGlobal('requestAnimationFrame',(callback:FrameRequestCallback)=>{frames.set(++sequence,callback);return sequence;});
  vi.stubGlobal('cancelAnimationFrame',(id:number)=>frames.delete(id));
  const tick=(seconds:number)=>{for(let t=0;t<seconds*20;t++){clock+=50;const pending=[...frames.values()];frames.clear();for(const fn of pending)fn(clock);}};

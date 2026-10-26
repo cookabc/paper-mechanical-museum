@@ -41,7 +41,7 @@ it('learning path gates answers and real physical operations, and keeps challeng
  root.querySelector('[data-act=crank]')!.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:0}));tick(1600);expect(step()).toBe('open');
  click(root,'.gen-try');tick(1600);expect(root.querySelector<HTMLProgressElement>('.gen-challenge progress')!.value).toBeGreaterThan(1);expect(root.querySelector<HTMLProgressElement>('.gen-lesson progress')!.value).toBe(0);
  root.querySelector('[data-act=switch]')!.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:0}));tick(1600);expect(step()).toBe('explain');expect(root.querySelector('[data-read=rms]')!.textContent).toBe('4.44 V');expect(root.querySelector('[data-read=power]')!.textContent).toBe('0.00 W');
- answer(2);expect(step()).toBe('stopPredict');answer();expect(step()).toBe('stop');
+ answer(2);expect(step()).toBe('explain');expect(root.querySelector('[data-lesson=continue]')).toBeNull();answer(1);expect(step()).toBe('stopPredict');answer();expect(step()).toBe('stop');
  click(root,'.gen-start');expect(step()).toBe('reversePredict');expect(root.querySelector('[data-read=rms]')!.textContent).toBe('0.00 V');
  answer(1);click(root,'.gen-switch');click(root,'.gen-start');tick(1600);expect(step()).toBe('reverse');click(root,'.gen-reverse');tick(1600);expect(step()).toBe('complete');
  const snap=controller.snapshot?.();click(root,'[data-lesson=restart]');expect(step()).toBe('predict');expect(controller.snapshot?.()).toMatchObject({running:snap?.running,closed:snap?.closed,rpm:snap?.rpm,direction:snap?.direction});click(root,'[data-lesson=exit]');expect(step()).toBe('idle');expect(controller.snapshot?.().running).toBe(true);click(root,'.gen-start');expect(controller.snapshot?.().running).toBe(false);

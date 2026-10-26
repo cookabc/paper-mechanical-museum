@@ -383,6 +383,12 @@ function mountFigure(cfg){
   });
   ui.updateActionMetadata = () => {
     for (const {button, config} of dynamicButtons) {
+      if (config.action && cfg.actionState) {
+        const meta = cfg.actionState(st, config.action) || {};
+        const recommended = cfg.recommendedAction?.(st) === config.action;
+        button.dataset.recommended = String(recommended);
+        button.setAttribute('aria-description', (recommended ? '建议下一步。' : '') + (meta.hint || ''));
+      }
       if (typeof config.text === 'function') {
         const label = String(config.text(st) ?? config.label);
         if (button.firstChild?.nodeType === 3) button.firstChild.nodeValue = label;

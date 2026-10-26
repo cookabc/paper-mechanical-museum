@@ -68,7 +68,9 @@ it('does not confuse an available cancel action with the recommended next action
  expect((app.current!.snapshot!() as Record<string,unknown>).phase).toBe('brewing');
  expect(root.querySelectorAll('.act[data-recommended=true]')).toHaveLength(0);
  expect(root.querySelector('[data-action-label="开始萃取"]')!.textContent).toContain('停止');
-});
+// Both real SVG adapters render every RAF through complete cooking/preparation
+// transitions. Match the bounded 20s budget of the heavy parity tests on CI.
+},20000);
 
 it('recommends refill rather than buying when every vending shelf is empty',()=>{
  const cfg=createVending({}, {window:{},document,scope:{active:true}});

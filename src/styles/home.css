@@ -26,3 +26,15 @@ body.museum-home{--paper:#f7f3e9;--ink:#29291f;--muted:#777669;--line:#d2cebf;--
  .museum-home .museum-grid{grid-template-columns:minmax(0,1fr)}
  .museum-home .card-art{height:240px;margin:8px 0 7px}
 }
+/* The entrance stays the entrance. Improve the catalogue's quiet controls
+   without changing its established illustration, composition or palette. */
+.museum-home .exhibit-switch button {min-height:36px;color:#706a5d;}
+.museum-home .collection-filters button {min-height:40px;}
+.museum-home .museum-card:focus-visible .card-enter,
+.museum-home .museum-card:hover .card-enter {border-color:var(--ink);background:var(--ink);color:var(--paper);}
+@media(min-width:1500px){
+ .museum-home .museum-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(pointer:coarse){
+ .museum-home .exhibit-switch button,.museum-home .collection-filters button{min-height:44px}
+}

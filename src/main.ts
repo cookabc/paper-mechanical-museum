@@ -5,6 +5,7 @@ import './exhibits/fan/style.css';
 import './styles/tokens.css';
 import {createApp} from './app/app';
 import './styles/responsive-scene.css';
+import './styles/exhibit-presentation.css';
 const root=document.getElementById('app');
 if(!root)throw new Error('Missing application root');
 const app=createApp(root);

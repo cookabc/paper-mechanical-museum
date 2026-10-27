@@ -6,9 +6,13 @@ export const initialState=():PressState=>({travel:0,direction:1,running:false,st
 export const angle=(s:PressState)=>s.travel/RADIUS;
 export function moveTo(s:PressState,value:number){
  if(!Number.isFinite(value))return;
- const before=s.travel;s.travel=Math.max(0,Math.min(TRAVEL,value));
+ const before=s.travel;
+ // Native range controls serialize fractional endpoints with browser-dependent
+ // rounding. Snap only microscopic endpoint noise, not visibly short strokes.
+ const clamped=Math.max(0,Math.min(TRAVEL,value));
+ s.travel=clamped<=1e-7?0:TRAVEL-clamped<=1e-7?TRAVEL:clamped;
  if(s.travel-before>.01)s.observedDown=true;if(before-s.travel>.01)s.observedUp=true;
- const contact=s.travel>=TRAVEL-1e-7;
+ const contact=s.travel===TRAVEL;
  if(contact&&!s.contact){s.contacts++;s.imprint=s.stamp;}
  s.contact=contact;
  if((s.direction===1&&s.travel===TRAVEL)||(s.direction===-1&&s.travel===0))s.running=false;

@@ -18,7 +18,7 @@ export function mountRackPress(context:SceneContext):SceneController{
  function step(){if(!allowed())return;state.running=false;stop();moveTo(state,state.travel+state.direction*9*Math.PI/18);audio.pulse('click');changed();}
  scope.listen(q('.press-step'),'click',step);scope.listen(q('.press-run'),'click',()=>{if(!allowed())return;state.running=!state.running;moveTo(state,state.travel);stop();changed();});
  scope.listen(q('.press-reverse'),'click',()=>{if(!allowed())return;state.direction=state.direction===1?-1:1;changed();});
- scope.listen(q('input'),'input',()=>{if(!allowed())return;state.running=false;stop();const value=Number(q<HTMLInputElement>('input').value);moveTo(state,value*Math.PI/180*9);render();});scope.listen(q('input'),'change',()=>{if(allowed())announce();});
+ scope.listen(q('input'),'input',()=>{if(!allowed())return;state.running=false;stop();const value=Number(q<HTMLInputElement>('input').value);moveTo(state,value*Math.PI/180*9);render();announce();});scope.listen(q('input'),'change',()=>{if(allowed())announce();});
  scope.listen(q('.press-paper'),'click',()=>{if(allowed()&&newPaper(state))changed();});
  function reset(){if(!live())return;stop();state=initialState();stage.resetCamera();changed();}scope.listen(q('.press-reset'),'click',reset);
  scope.listen(window,'blur',()=>{if(!live())return;state.running=false;stop();changed();});scope.onCleanup(()=>{disposed=true;stop();stage.cancel();owned.remove();});render();

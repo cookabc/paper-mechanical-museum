@@ -7,7 +7,7 @@ import {ResourceScope} from '../src/app/scope';
 import {mountLearningEntry} from '../src/shared/learning-entry';
 
 it('uses one complete numbered catalogue and a wrapping, accessible local gallery journey',()=>{
- expect(catalog).toHaveLength(15);expect(new Set(catalog.map(item=>item.id)).size).toBe(15);
+ expect(catalog).toHaveLength(12);expect(new Set(catalog.map(item=>item.id)).size).toBe(12);
  expect(readFileSync('index.html','utf8')).toContain(`纸上机械馆：${catalog.length} 件可以动手观察的小机器。`);
  for(const [index,item] of catalog.entries()){
   const header=createExhibitHeader(item.id);

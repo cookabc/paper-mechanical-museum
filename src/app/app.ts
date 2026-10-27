@@ -14,15 +14,12 @@ import {mountWasher} from '../exhibits/washer/index.js';
 import {mountClaw} from '../exhibits/claw/index.js';
 import {mountBicycle} from '../exhibits/bicycle';
 import {mountGenerator} from '../exhibits/generator';
-import {mountAutomaton} from '../exhibits/automaton';
-import {mountGeneva} from '../exhibits/geneva';
-import {mountRackPress} from '../exhibits/rackpress';
 import {renderHome} from './home.js';
 import {mountLearningEntry} from '../shared/learning-entry';
 import {catalog as items} from './catalog';
 import {createExhibitHeader,mountExhibitPresentation} from './exhibit-presentation';
 const names:Record<string,string>=Object.fromEntries(items.map(({id,name})=>[id,name]));
-const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle,generator:mountGenerator,automaton:mountAutomaton,geneva:mountGeneva,rackpress:mountRackPress};
+const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle,generator:mountGenerator};
 export function createApp(root:HTMLElement){
  const appScope=new ResourceScope();const audio=createAudioService(appScope);
  const previousRestoration=history.scrollRestoration;history.scrollRestoration='manual';

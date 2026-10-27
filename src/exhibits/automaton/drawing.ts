@@ -7,7 +7,11 @@ export function drawing(s:CamState,g:PaperGeometry,palette='tomato'){
  const solid=(profile:number[][],x0:number,x1:number,mat:typeof wood)=>{const A=g.on(g.PX(x0),profile),B=g.on(g.PX(x1),profile),cap=g.vis([1,0,0])?B:A;return g.extrude(profile,x0,x1,mat,g.toneI)+g.shape(cap,g.toneI(g.vis([1,0,0])?[1,0,0]:[-1,0,0],mat),1.3);};
  const screw=(x:number,y:number,z:number)=>g.cyl(x,y,z,z+.6,1.1,brass,g.toneI,.4,12)+g.line([[x-.7,y,z+.7],[x+.7,y,z+.7]],.35);
  let base='';for(const x of[10,70])for(const y of[9,45])base+=g.cyl(x,y,0,3,3,g.DARK,g.toneI,.6);
- base+=g.board(0,0,80,54,7,3,wood)+g.castShadow([[7,20,65],[73,20,65],[44,15,100],[44,42,100]],7,g.boardTop(0,0,80,54,7,3));
+ // Ground the plinth on the paper floor. Project its actual rounded top onto z=0,
+ // then paint the opaque base over it: no blue polygon is painted onto the timber.
+ // This restrained contact/cast footprint follows the shared museum light and camera.
+ const groundShadow=`<g data-shadow-role="ground" aria-hidden="true">${g.castShadow(g.boardTop(0,0,80,54,7,3))}</g>`;
+ base+=g.board(0,0,80,54,7,3,wood);
  if(g.vis([0,1,0]))base+=g.txY(40,54.1,3.6,'CAM / 01',3,g.INK,600);
  for(const x of[10,70]){
   add([x,25,10],g.box(x-5,16,7,x+5,34,11,edge,g.toneI,1));
@@ -44,5 +48,5 @@ export function drawing(s:CamState,g:PaperGeometry,palette='tomato'){
  // Physical crank shares the cam shaft angle. Clicking advances one honest 30-degree step.
  const end:V=[85,25+13*Math.sin(s.phase),30+13*Math.cos(s.phase)];
  add([85,(25+end[1])/2,(30+end[2])/2],g.act('crank',g.rod([85,25,30],end,1.7,brass,g.toneI,.8)+g.cylX(84,87,25,30,3,brass,g.toneI,.7)+g.cylX(84,95,end[1],end[2],2.5,edge,g.toneI,.85),'role="button" tabindex="0" aria-label="手摇柄：转动三十度" class="machine-action"'),'crank');
- return base+pieces.sort((a,b)=>g.depthOf(a.at)-g.depthOf(b.at)).map(p=>p.svg).join('');
+ return groundShadow+`<g data-cam-part="base">${base}</g>`+pieces.sort((a,b)=>g.depthOf(a.at)-g.depthOf(b.at)).map(p=>p.svg).join('');
 }

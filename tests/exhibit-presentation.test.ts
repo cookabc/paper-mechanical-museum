@@ -19,6 +19,8 @@ it('uses one complete numbered catalogue and a wrapping, accessible local galler
   expect(neighbors.map(link=>link.getAttribute('href'))).toEqual(['#/'+previous.id,'#/'+next.id]);
   expect(neighbors.map(link=>link.getAttribute('aria-label'))).toEqual(['上一件：'+previous.name,'下一件：'+next.name]);
   expect(header.querySelector('.exhibit-home')?.getAttribute('href')).toBe('#/');
+  expect(header.querySelector('.gallery-link svg')?.getAttribute('aria-hidden')).toBe('true');
+  expect(header.querySelector('.gallery-link')?.textContent).not.toContain('↗');
   expect(catalogNumber(item.id)).toBe(String(index+1).padStart(2,'0'));
  }
  expect(catalogNumber('unknown')).toBe('—');

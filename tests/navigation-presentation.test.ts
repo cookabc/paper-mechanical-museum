@@ -9,17 +9,17 @@ it('owns scroll restoration and resets scroll for every new scene and home',()=>
  expect(scroll.mock.calls.length).toBeGreaterThanOrEqual(4);
  app.dispose();expect(history.scrollRestoration).toBe(before);root.remove();
 });
-it('switches all fifteen ready scenes in one app and retires their old resources and controls',()=>{
+it('switches all twelve ready scenes in one app and retires their old resources and controls',()=>{
  const root=document.createElement('div');document.body.append(root);const app=createApp(root);
  const retained:Array<{controller:NonNullable<typeof app.current>;control:HTMLElement|null;state:string}>=[];
- for(const id of ['coffee','camera','vending','toaster','fan','musicbox','turntable','elevator','washer','claw','bicycle','generator','automaton','geneva','rackpress','camera','coffee']){
+ for(const id of ['coffee','camera','vending','toaster','fan','musicbox','turntable','elevator','washer','claw','bicycle','generator','camera','coffee']){
   if(app.current){const controller=app.current,control=root.querySelector<HTMLElement>('button');app.navigate('');retained.push({controller,control,state:JSON.stringify(controller.snapshot?.())});}
   app.navigate(id);expect(root.querySelector('.scene-root svg'),id+' has a model').not.toBeNull();expect(root.querySelectorAll('header')).toHaveLength(1);
   expect(app.diagnostics().scope?.active).toBe(true);
   for(const old of retained){old.control?.click();old.controller.reset();old.controller.resume('manual');expect(JSON.stringify(old.controller.snapshot?.())).toBe(old.state);}
  }
  const links=[...root.querySelectorAll<HTMLAnchorElement>('.object-nav a')].map(link=>link.getAttribute('href'));
- expect(links).toEqual(['#/washer','#/fan','#/claw','#/coffee','#/musicbox','#/vending','#/toaster','#/turntable','#/camera','#/elevator','#/bicycle','#/generator','#/automaton','#/geneva','#/rackpress']);
+ expect(links).toEqual(['#/washer','#/fan','#/claw','#/coffee','#/musicbox','#/vending','#/toaster','#/turntable','#/camera','#/elevator','#/bicycle','#/generator']);
  app.dispose();expect(root.childElementCount).toBe(0);expect(app.diagnostics().app).toMatchObject({active:false,frames:0,timers:0,listeners:0});root.remove();
 });
 
@@ -140,4 +140,21 @@ it('keeps dock focus visible when returning to page flow without moving visible 
   Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});
   Object.defineProperty(window,'scrollY',{configurable:true,value:y});
  }
+});
+
+it.each(['automaton','geneva','rackpress'])('treats retired %s links as missing and can return to the twelve-item collection',id=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);
+ try {
+  app.navigate('generator');const old=app.current!;
+  app.navigate(id);
+  expect(app.current).toBeNull();
+  expect(root.textContent).toContain('没有找到这件藏品');
+  expect(root.querySelector('.migration-note a')?.getAttribute('href')).toBe('#/');
+  expect(root.querySelector('.scene-root svg')).toBeNull();
+  const state=JSON.stringify(old.snapshot?.());old.reset();old.resume('manual');
+  expect(JSON.stringify(old.snapshot?.())).toBe(state);
+  app.navigate('');
+  expect(root.querySelectorAll('.museum-card')).toHaveLength(12);
+  expect(root.querySelector('.collection-count')?.textContent).toContain('12');
+ } finally {app.dispose();root.remove();}
 });

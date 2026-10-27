@@ -7,15 +7,15 @@ import {ResourceScope} from '../src/app/scope';
 import {mountLearningEntry} from '../src/shared/learning-entry';
 
 it('uses one complete numbered catalogue and a wrapping, accessible local gallery journey',()=>{
- expect(catalog).toHaveLength(12);expect(new Set(catalog.map(item=>item.id)).size).toBe(12);
+ expect(catalog).toHaveLength(15);expect(new Set(catalog.map(item=>item.id)).size).toBe(15);
  expect(readFileSync('index.html','utf8')).toContain(`纸上机械馆：${catalog.length} 件可以动手观察的小机器。`);
  for(const [index,item] of catalog.entries()){
   const header=createExhibitHeader(item.id);
   expect(header.querySelector('h1')?.textContent).toBe(item.name);
   expect(header.querySelector('h1')?.getAttribute('tabindex')).toBe('-1');
-  expect(header.querySelector('.exhibit-position')?.getAttribute('aria-label')).toBe(`第 ${index+1} 件，共 12 件`);
+  expect(header.querySelector('.exhibit-position')?.getAttribute('aria-label')).toBe(`第 ${index+1} 件，共 ${catalog.length} 件`);
   const neighbors=[...header.querySelectorAll<HTMLAnchorElement>('.exhibit-neighbor')];
-  const previous=catalog[(index+11)%12],next=catalog[(index+1)%12];
+  const previous=catalog[(index+catalog.length-1)%catalog.length],next=catalog[(index+1)%catalog.length];
   expect(neighbors.map(link=>link.getAttribute('href'))).toEqual(['#/'+previous.id,'#/'+next.id]);
   expect(neighbors.map(link=>link.getAttribute('aria-label'))).toEqual(['上一件：'+previous.name,'下一件：'+next.name]);
   expect(header.querySelector('.exhibit-home')?.getAttribute('href')).toBe('#/');

@@ -1,4 +1,4 @@
-/** Regenerate the two solid previews directly from production drawing + stage code.
+/** Regenerate the solid previews directly from production drawing + stage code.
  * Run: node scripts/render-solid-previews.mjs (Node 24; existing dev dependencies only).
  * CSS is irrelevant to standalone SVG; TypeScript is transpiled in memory.
  */
@@ -27,7 +27,10 @@ const {ResourceScope}=await import('../src/app/scope.ts');
 const {createObjectStage}=await import('../src/shared/object-stage.ts');
 const specs=[
  {id:'bicycle',title:'自行车传动的手绘立体模型',bounds:[-14,-3,0,18,127,85],camera:[-25,28],palette:'mint'},
- {id:'generator',title:'手摇发电机的手绘立体模型',bounds:[-5,-6,0,113,78,87],palette:'mustard'}
+ {id:'generator',title:'手摇发电机的手绘立体模型',bounds:[-5,-6,0,113,78,87],palette:'mustard'},
+ {id:'automaton',title:'凸轮小鸟的手绘立体模型',bounds:[5,4,3,93,50,106],camera:[56,25],palette:'tomato'},
+ {id:'geneva',title:'日内瓦转盘的手绘立体模型',bounds:[2,3,0,105,82,58],camera:[60,38],palette:'mint'},
+ {id:'rackpress',title:'齿条印章机的手绘立体模型',bounds:[5,4,0,92,82,120],camera:[64,24],palette:'mint'}
 ];
 for(const spec of specs){
  const {drawing,generatorCamera}=await import(`../src/exhibits/${spec.id}/drawing.ts`);

@@ -1,4 +1,5 @@
 import {expect,it,vi} from 'vitest';
+import {readFileSync} from 'node:fs';
 import {catalog,catalogNumber} from '../src/app/catalog';
 import {createExhibitHeader,mountExhibitPresentation} from '../src/app/exhibit-presentation';
 import {createApp} from '../src/app/app';
@@ -7,6 +8,7 @@ import {mountLearningEntry} from '../src/shared/learning-entry';
 
 it('uses one complete numbered catalogue and a wrapping, accessible local gallery journey',()=>{
  expect(catalog).toHaveLength(12);expect(new Set(catalog.map(item=>item.id)).size).toBe(12);
+ expect(readFileSync('index.html','utf8')).toContain(`纸上机械馆：${catalog.length} 件可以动手观察的小机器。`);
  for(const [index,item] of catalog.entries()){
   const header=createExhibitHeader(item.id);
   expect(header.querySelector('h1')?.textContent).toBe(item.name);

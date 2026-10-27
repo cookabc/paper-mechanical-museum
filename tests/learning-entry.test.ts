@@ -11,11 +11,14 @@ beforeEach(()=>{
 afterEach(()=>{app.dispose();root.remove();vi.restoreAllMocks();vi.unstubAllGlobals();});
 const click=(selector:string)=>{const button=root.querySelector<HTMLButtonElement>(selector);expect(button,selector).not.toBeNull();button!.click();};
 
-it('gives all twelve exhibits one optional, honestly named doorway and canonical title',()=>{
- for(const id of ['washer','fan','claw','coffee','musicbox','vending','toaster','turntable','camera','elevator','bicycle','generator']){
+it('gives all fifteen exhibits one optional, honestly named doorway and canonical title',()=>{
+ for(const id of ['washer','fan','claw','coffee','musicbox','vending','toaster','turntable','camera','elevator','bicycle','generator','automaton','geneva','rackpress']){
   app.navigate(id);const entry=root.querySelector<HTMLButtonElement>('.museum-learning-entry');
   expect(root.querySelectorAll('.museum-learning-entry'),id).toHaveLength(1);
   expect(entry!.textContent).toContain('动手学');expect(entry!.textContent).toContain('可选');
+  expect(entry!.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
+  expect(entry!.querySelector('svg')?.getAttribute('focusable')).toBe('false');
+  expect(entry!.textContent).not.toContain('↗');
   expect(document.title.endsWith(' · 纸上机械馆')).toBe(true);
   click('.museum-learning-entry');
   if(id==='generator')expect(root.querySelector('[data-answer]')).not.toBeNull();

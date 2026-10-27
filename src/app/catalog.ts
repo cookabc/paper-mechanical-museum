@@ -12,6 +12,9 @@ export const catalog = [
  {id:'elevator',name:'电梯',category:'游乐',caption:'上下之间的小旅行',invitation:'选楼层 · 开关门 · 看轿厢升降',mechanism:'曳引 / 配重 / 门锁',color:'#a8bcd7'},
  {id:'bicycle',name:'自行车变速器',category:'日常',caption:'把力气，换成远方',invitation:'踩踏 · 换挡 · 选对爬坡的节奏',mechanism:'齿盘 / 链条 / 飞轮',color:'#b3cba6'},
  {id:'generator',name:'手摇发电机',category:'日常',caption:'一圈手摇，一点光',invitation:'摇动 · 反向 · 看见电流的节奏',mechanism:'线圈 / 磁场 / 电流',color:'#d6b783'},
+ {id:'automaton',name:'凸轮小鸟',category:'游乐',caption:'一圈摇动，一次起伏',invitation:'摇动 · 换凸轮 · 看小鸟起起落落',mechanism:'凸轮 / 从动杆 / 往复',color:'#d6b783'},
+ {id:'geneva',name:'日内瓦转盘',category:'游乐',caption:'你一直摇，它走走停停',invitation:'摇动 · 反转 · 看转盘一格格前进',mechanism:'销钉 / 槽轮 / 停歇',color:'#a8c9b0'},
+ {id:'rackpress',name:'齿条印章机',category:'游乐',caption:'转动手轮，压出一枚花',invitation:'转动 · 下压 · 留下手作的印记',mechanism:'齿轮 / 齿条 / 印章',color:'#a8c9b0'},
 ] as const;
 
 export type CatalogEntry = typeof catalog[number];

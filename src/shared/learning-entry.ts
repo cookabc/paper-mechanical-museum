@@ -13,7 +13,7 @@ export function mountLearningEntry(root:HTMLElement,scope:ResourceScope,id:strin
  dock.classList.add('has-learning-entry');
  const entry=document.createElement('button');entry.type='button';entry.className='museum-learning-entry';
  const kind=generator?'预测与验证':bicycleLab||challenge?'比较挡位与爬坡':id==='fan'?'对照转速与惯性':'跟着动作看原理';
- entry.innerHTML='<span>动手学 <small>可选</small></span><span>'+kind+' <b aria-hidden="true">↗</b></span>';
+ entry.innerHTML='<span>动手学 <small>可选</small></span><span>'+kind+' <svg class="museum-direction-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 16 4M4 4h12v12"/></svg></span>';
  entry.setAttribute('aria-label','动手学：'+kind);
  const before=dock.querySelector('#btns')||dock.querySelector(':scope > .actions')||dock.querySelector('.dock-extras');
  if(before?.parentElement===dock)dock.insertBefore(entry,before);else dock.prepend(entry);

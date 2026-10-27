@@ -16,8 +16,9 @@ import {mountBicycle} from '../exhibits/bicycle';
 import {mountGenerator} from '../exhibits/generator';
 import {renderHome} from './home.js';
 import {mountLearningEntry} from '../shared/learning-entry';
-const names={washer:'洗衣机',fan:'电风扇',claw:'抓娃娃机',coffee:'咖啡机',musicbox:'手摇八音盒',vending:'自动售货机',toaster:'烤面包机',turntable:'唱片机',camera:'拍立得相机',elevator:'电梯',bicycle:'自行车变速器',generator:'手摇发电机'};
-const items=Object.entries(names).map(([id,name])=>({id,name}));
+import {catalog as items} from './catalog';
+import {createExhibitHeader,mountExhibitPresentation} from './exhibit-presentation';
+const names:Record<string,string>=Object.fromEntries(items.map(({id,name})=>[id,name]));
 const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle,generator:mountGenerator};
 export function createApp(root:HTMLElement){
  const appScope=new ResourceScope();const audio=createAudioService(appScope);
@@ -32,13 +33,14 @@ export function createApp(root:HTMLElement){
   root.replaceChildren();root.className='';document.body.className=next?'museum-scene':'museum-home';
   if(!next){renderHome(root,sceneScope,items,Object.keys(adapters));startAtTop();return;}
   document.title=(names[next as keyof typeof names]||'馆藏')+' · 纸上机械馆';
-  const header=document.createElement('header');header.innerHTML=`<div><p class="eyebrow">纸上机械馆 · ${items.length} 件互动藏品</p><h1 tabindex="-1">${names[next as keyof typeof names]||'馆藏'}</h1></div><a class="gallery-link" href="#/">全部作品 ↗</a>`;root.append(header);
+  const header=createExhibitHeader(next);root.append(header);
   const host=document.createElement('section');host.className='scene-root';host.setAttribute('aria-label','互动展品');root.append(host);
   const mount=adapters[next];
   if(!mount){host.innerHTML='<div class="migration-note"><h2>没有找到这件藏品</h2><p>请回到馆藏目录，选择想体验的小机器。</p><a href="#/">回到馆藏</a></div>';startAtTop();return;}
   try{current=mount({root:host,scope:sceneScope,audio,observation:createObservation(host,sceneScope),catalog:items.filter(item=>adapters[item.id])});}
   catch(error){sceneScope.dispose();host.textContent='展品未能加载，请返回馆藏重试。';throw error;}
   mountLearningEntry(host,sceneScope,next);
+  mountExhibitPresentation(host,items.find(item=>item.id===next));
   document.title=(names[next as keyof typeof names]||'馆藏')+' · 纸上机械馆';
   if(document.hidden)current.pause('hidden');
   header.querySelector('h1')?.focus({preventScroll:true});startAtTop();

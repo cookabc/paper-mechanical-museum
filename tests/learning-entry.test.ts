@@ -19,7 +19,10 @@ it('gives all twelve exhibits one optional, honestly named doorway and canonical
   expect(document.title.endsWith(' · 纸上机械馆')).toBe(true);
   click('.museum-learning-entry');
   if(id==='generator')expect(root.querySelector('[data-answer]')).not.toBeNull();
-  else if(id==='bicycle')expect(root.querySelector<HTMLDetailsElement>('.bike-challenge')!.open).toBe(true);
+  else if(id==='bicycle'){
+   expect(root.querySelector<HTMLDetailsElement>('.bike-lab')!.open).toBe(true);
+   expect(root.querySelector<HTMLDetailsElement>('.bike-challenge')!.open).toBe(false);
+  }
   else expect(root.querySelector<HTMLDetailsElement>('.mechanism-lesson')!.open,id).toBe(true);
   const state=app.current!.snapshot!() as Record<string,unknown>;
   if(id==='bicycle'||id==='generator')expect(state.running).toBe(false);

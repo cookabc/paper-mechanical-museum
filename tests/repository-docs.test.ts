@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { catalog } from '../src/app/catalog';
 
 const root = resolve(process.cwd());
-const currentDocs = ['README.md', 'CONTRIBUTING.md', 'docs/README.md', 'docs/DEVELOPMENT.md', 'THIRD_PARTY_NOTICES.md'];
+const currentDocs = ['README.md', 'CONTRIBUTING.md', 'docs/README.md', 'docs/DEVELOPMENT.md', 'docs/screenshots/README.md', 'THIRD_PARTY_NOTICES.md'];
 const productionOrigin = 'https://paper-mechanical-museum.vercel.app';
 
 // Deliberately check current maintenance pages, not historical records or network availability.

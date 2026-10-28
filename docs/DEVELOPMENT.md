@@ -18,7 +18,7 @@
 | `npm run test:legacy` | 在临时副本执行保留源码的兼容基线 |
 | `npm run test:legacy -- --list` | 列出旧基线入口 |
 
-`tests/repository-docs.test.ts` 随 `npm test` / `npm run check` 离线检查现行维护文档（根 README、CONTRIBUTING、文档索引、本文和第三方署名）的 Markdown 行内相对链接目标是否存在，并核对根 README 的馆藏名称、路由和顺序与 `src/app/catalog.ts` 一致。它不检查外网可用性、页内锚点或历史记录的旧路径；新增现行入口页时请同步检查列表。
+`tests/repository-docs.test.ts` 随 `npm test` / `npm run check` 离线检查现行维护文档（根 README、CONTRIBUTING、文档索引、本文、截图来源说明和第三方署名）的 Markdown 行内相对链接目标是否存在，并核对根 README 的馆藏名称、路由和顺序与 `src/app/catalog.ts` 一致。它不检查外网可用性、页内锚点或历史记录的旧路径；新增现行入口页时请同步检查列表。
 
 应用使用 hash 路由：`/#/` 是首页，`/#/generator` 等是展品。无需本地后端或应用密钥。
 

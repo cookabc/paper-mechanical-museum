@@ -1,17 +1,21 @@
 ---
-name: 改进建议
-about: 提出具体的展品、体验或维护改进
+name: Improvement suggestion
+about: Propose a concrete improvement to an exhibit, the experience or maintenance
 title: ''
 labels: ''
 assignees: ''
 ---
 
-## 想解决什么问题？
+## What problem are you trying to solve?
 
-<!-- 提供相关展品/文档链接和使用场景，不包含个人信息或凭据。 -->
+<!-- Include the relevant exhibit/document link and the usage scenario; no personal information or credentials. -->
 
-## 建议的改进与期望结果
+## Proposed improvement and expected result
 
-## 如何确认改进有效？
+## How would we know the improvement worked?
 
-<!-- 可提供操作步骤、参考或截图；无需先设计完整实现。 -->
+<!-- Steps, references or screenshots help; you do not need to design the full implementation first. -->
+
+---
+
+中文填写同样接受；模板以英文为主。

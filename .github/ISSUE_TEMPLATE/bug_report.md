@@ -1,27 +1,31 @@
 ---
-name: 问题报告
-about: 报告展品、交互、视觉或文档问题
+name: Bug report
+about: Report a problem with an exhibit, interaction, visuals or documentation
 title: ''
 labels: ''
 assignees: ''
 ---
 
-<!-- 请勿公开个人信息、凭据或访问令牌。 -->
+<!-- Do not post personal information, credentials or access tokens. -->
 
-## 展品或文档链接
+## Exhibit or document link
 
-## 复现步骤
+## Steps to reproduce
 
 1.
 
-## 预期与实际结果
+## Expected and actual result
 
-- 预期：
-- 实际：
+- Expected:
+- Actual:
 
-## 环境与证据
+## Environment and evidence
 
-- 浏览器及版本：
-- 视口大小 / 缩放比例（如相关）：
-- 截图（视觉问题）：
-- 是否涉及暂停、切换标签页、重置或离开展品（时间/状态问题）：
+- Browser and version:
+- Viewport size / zoom (if relevant):
+- Screenshot (for visual issues):
+- Did it involve pausing, switching tabs, resetting or leaving the exhibit (for timing/state issues):
+
+---
+
+中文填写同样接受；模板以英文为主。

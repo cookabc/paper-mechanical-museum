@@ -1,24 +1,28 @@
-## 目的与范围
+## Purpose and scope
 
-<!-- 简述问题、改动及不包含的范围；关联问题（如有）。请先阅读 CONTRIBUTING.md。 -->
+<!-- Briefly state the problem, the change and what is out of scope; link the issue if there is one. Read CONTRIBUTING.md first. -->
 
-## 验收证据
+## Acceptance evidence
 
-<!-- 对最终候选填写实际结果和精确提交 SHA；未运行或不适用请说明原因，不要默认勾选。 -->
+<!-- Fill in real results and the exact commit SHA for the final candidate. If something was not run or does not apply, say why — do not tick by default. -->
 
-- 提交 SHA：
-- `npm run check`：
-- `npm run test:legacy`：
-- 新增/相关回归测试：
-- 浏览器验收（交互/视觉修改必填）：浏览器、视口、步骤、结果及截图。
-  - 正常操作、暂停/重置、退出/重入、重复/中断操作：
-  - 布局修改：窄屏、短屏、可见焦点、活动状态下的双向尺寸切换：
-- 未测试项、模型限制与已知问题：
+- Commit SHA:
+- `npm run check`:
+- `npm run test:legacy`:
+- New or affected regression tests:
+- Browser acceptance (required for interaction/visual changes): browser, viewport, steps, results and screenshots.
+  - Normal operation, pause/reset, exit/re-entry, repeated or interrupted input:
+  - Layout changes: narrow and short viewports, visible focus, two-way resizing while active:
+- Not tested, model limitations and known issues:
 
-## 提交前确认
+## Before submitting
 
-- [ ] 修改当前源码，未手改 `dist/` 或用历史 fixture 掩盖回归。
-- [ ] 保留来源、署名与许可；未改访问权限或新增凭据、授权、费用承诺。
-- [ ] 最后一次修改后重跑受影响检查；本地检查、浏览器验收、远端 CI 与发布状态分别记录。
+- [ ] Changed the current source; did not hand-edit `dist/` or hide a regression behind historical fixtures.
+- [ ] Kept attribution and licence notices; changed no access settings and added no credentials, permissions or cost commitments.
+- [ ] Re-ran the affected checks after the last edit; recorded local checks, browser acceptance, remote CI and release status separately.
 
-<!-- 先开草稿 PR。PR 不代表批准合并或发布；完整要求见 CONTRIBUTING.md 与 docs/DEVELOPMENT.md。 -->
+<!-- Open a draft PR first. A PR is not approval to merge or release; full requirements are in CONTRIBUTING.md and docs/DEVELOPMENT.md. -->
+
+---
+
+中文填写同样接受；模板以英文为主。

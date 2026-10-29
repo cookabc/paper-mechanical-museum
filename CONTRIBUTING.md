@@ -1,17 +1,21 @@
-# 参与维护
+# Contributing
 
-先阅读 [README](README.md)、[开发与验收指南](docs/DEVELOPMENT.md) 和相关展品设计记录。保持纸感、手绘线条与各件机器的独立机制，不将教学示意包装成真实设备仿真。
+Start by reading the [README](README.md), the [development and acceptance guide](docs/DEVELOPMENT.md) and the design records for the exhibits you touch. Keep the paper feel, the hand-drawn lines and each machine's independent mechanism. Do not package a teaching illustration as a simulation of real equipment.
 
-## 提交问题
+## Reporting an issue
 
-请写明展品链接、复现步骤、预期与实际结果、浏览器和视口大小。视觉问题附截图；时间或状态问题说明是否暂停、切换标签页、重置或离开展品。不要公开个人信息、凭据或访问令牌。
+Include the exhibit link, reproduction steps, expected and actual results, browser and viewport size. Attach a screenshot for visual problems. For timing or state problems, say whether the exhibit was paused, whether the tab was switched away, and whether you reset or left the exhibit. Do not post personal information, credentials or access tokens.
 
-## 提交修改
+## Submitting a change
 
-1. 从当前 `main` 建独立分支；小范围、单一目的的 PR 更容易评审。
-2. 修改当前 `src/`，不要手改 `dist/`，不要修改历史 fixture 来掩盖回归。保留来源、署名与许可；本仓库没有另行授予全仓开源许可证。
-3. 用推荐的 Node.js 24.x 执行 `npm ci`、`npm run check` 和 `npm run test:legacy`；为改动补上相关回归测试。最后一次修改后重跑受影响检查。
-4. 交互与视觉修改要做真实浏览器验收，覆盖正常操作、暂停/重置、退出/重入和重复/中断操作；布局改动还需窄屏、短屏、焦点可见性与活动状态下的尺寸切换。具体清单见开发指南。
-5. 开草稿 PR，写明目的、改动范围、精确提交的检查结果、截图/复现步骤及未测试项。历史基线、当前模块、浏览器与远端 CI 是不同证据。
+1. Branch from the current `main`; a small, single-purpose PR is easier to review.
+2. Change `src/`, never hand-edit `dist/`, and never modify historical fixtures to hide a regression. Keep attribution and licence notices intact; this repository grants no separate repository-wide open-source licence.
+3. With the recommended Node.js 24.x, run `npm ci`, `npm run check` and `npm run test:legacy`; add regression tests for your change. Re-run the affected checks after your last edit.
+4. Interaction and visual changes need a real-browser acceptance pass covering normal operation, pause/reset, exit/re-entry and repeated or interrupted input. Layout changes also need narrow and short viewports, visible focus, and resizing across layout boundaries while the exhibit is active. The checklist is in the development guide.
+5. Open a draft PR stating the purpose, the scope, the exact results of the checks you ran, screenshots or reproduction steps, and anything you did not test. Historical baselines, current modules, browsers and remote CI are different kinds of evidence.
 
-PR 本身不代表批准合并或发布。由维护者按当前授权与仓库规则处理；不擅改访问权限、新增凭据、授权或费用承诺，也不删除第三方版权或替整个仓库指定新许可证。
+A PR is not approval to merge or release. Maintainers handle it under the current authorisation and repository rules; do not change access, add credentials, promise permissions or costs, or remove third-party copyright notices, and do not assign a new licence to the whole repository.
+
+---
+
+中文版见 [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)。

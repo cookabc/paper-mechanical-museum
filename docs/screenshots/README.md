@@ -1,15 +1,19 @@
-# 项目截图
+# Repository screenshots
 
-这些图片用于仓库首页展示，不进入应用的 `public/` 或生产构建。均为正式网站的真实浏览器截图，未生成、拼接或修改页面内容。
+These images are used on the repository's front page. They are not part of the app's `public/` directory or the production build. Every one is a real browser screenshot of the production site — nothing generated, composited or edited.
 
-- 来源站点：<https://paper-mechanical-museum.vercel.app/>
-- 拍摄日期：2026-10-28（UTC）
-- 当时生产提交：`d1bcec67a6fc7fda1dc6da6e987b26fece9f4faa`
-- 浏览器：云端 Chrome 桌面浏览器；图片保留截图工具返回的 JPEG 原始字节。
+- Source site: <https://paper-mechanical-museum.vercel.app/>
+- Captured: 2026-10-29 (UTC)
+- Browser: cloud Chrome, desktop, 1500px viewport width; the JPEGs keep the original bytes the capture tool returned.
+- Interface language: English (the default). The generator frame shows the current state of the translation — the shell (header, dock headings, sound panel) is English while the labels inside that machine's own panel are still Chinese. That is the real state; see the coverage note in the [README](../../README.md).
 
-| 文件 | 画面与操作 | 尺寸 | 文件大小 |
+| File | What it shows | Size | Bytes |
 | --- | --- | --- | --- |
-| [museum-home.jpg](museum-home.jpg) | 首页默认咖啡机推荐画面 | 1173 × 751 px | 60,571 bytes |
-| [generator-workbench.jpg](generator-workbench.jpg) | `/#/generator`，点击「开始摇动」，正向 60 rpm、电路接通，显示 4.44 V / 1.97 W | 1188 × 761 px | 77,731 bytes |
+| [museum-home.jpg](museum-home.jpg) | The home page, default coffee-machine pick | 1500 × 900 px | 174,188 |
+| [generator-workbench.jpg](generator-workbench.jpg) | `/#/generator` after pressing "开始摇动" at +60 rpm with the circuit closed, reading 4.44 V / 1.97 W | 1500 × 1080 px | 195,483 |
 
-更新时，从正式站重新拍摄并目视检查标题、机器、控制区和读数是否清晰、完整，确认没有个人信息、登录提示或开发工具遮挡；同步记录日期、生产提交与实际操作状态。不要用生成图片替代真实项目截图，也不要因截图更新改动展品运行逻辑。截图是展示记录，不代替交互、实机或跨浏览器验收。
+To update one: recapture from the production site and check by eye that the title, the machine, the controls and the readouts are sharp and complete, that no personal information, sign-in prompt or developer overlay is in frame, and that the sidebar is not cut off at the bottom. Record the date, the production commit and the actual operating state alongside it. Do not replace a project screenshot with a generated image, and do not change exhibit behaviour just to make a screenshot easier. A screenshot is a display record; it does not stand in for interaction testing, real-device testing or cross-browser acceptance.
+
+---
+
+中文版见 [README.zh-CN.md](README.zh-CN.md)。

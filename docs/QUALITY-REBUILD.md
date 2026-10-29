@@ -1,38 +1,42 @@
-# 自行车 / 发电机：精致度与一致性重建
+# Bicycle / generator: polish and consistency rebuild
 
-日期：2026-10-25。基于 main `a6467b118d5e4baf0054f7bee48bfacfa355cc93` 的内容树 `579131c263178146d3e4e512cae0896579f45ab7`。此文记录本地候选验收，不宣称已合并或上线。
+Dated 2026-10-25. Based on the content tree `579131c263178146d3e4e512cae0896579f45ab7` of `main` at `a6467b118d5e4baf0054f7bee48bfacfa355cc93`. This records local candidate acceptance and claims neither a merge nor a release.
 
-## 纠正的目标
+## What was being corrected
 
-初版两件采用平面原理示意，与原十件的可旋转立体机械物件不是同一种视觉语言。本次不是给原示意加渐变或装饰线：直接使用原馆 `createColorFiguresRuntime` 的正交投影、几何、分面材质、墨线、表面颗粒与钴蓝投影。原十件场景、模型和渲染器均未改动。
+The two first versions used flat schematics, which is not the same visual language as the original ten rotatable dimensional machines. This was not adding gradients or decorative lines to those schematics: it uses the original hall's `createColorFiguresRuntime` directly — its orthographic projection, geometry, faceted materials, ink lines, surface grain and cobalt shadow. The original ten scenes, models and renderers were not modified.
 
-新增共享 `object-stage` 仅供这两件使用：拖动旋转、方向键旋转、Home / 双击回到默认视角、物体部件直接操作、配色与视角折叠区。保留原有侧栏控制、物理模型、挑战、慢看、声音和生命周期。舞台不再摆放大标语、公式或常驻波形；说明收进观察区。特写裁切限制在自身 SVG 内。
+A new shared `object-stage` is used only by these two exhibits: drag to rotate, arrow keys to rotate, Home / double-click to return to the default view, direct manipulation of the object's parts, and a collapsed colour and view section. The original sidebar controls, physics model, challenge, slow look, sound and lifecycle are kept. The stage no longer carries large slogans, formulas or a permanent waveform; explanations move into the observation area. Close-up clipping is confined to its own SVG.
 
-## 可辨识的实体结构
+## Recognisable physical structure
 
-- 自行车：管材车架、前叉/后叉、轮胎厚度与胎纹、双侧轮圈、交叉辐条、轮毂、曲柄与脚踏、三层飞轮、两个后拨导轮、连续链条。维修展示架支撑后轴，前轮落在滚轮托架上；轮胎有意离地，允许原地演示。默认从传动侧观察。轮圈与胎侧分成局部深度排序扇段，修复整个圆环错误遮住更近的下导轮的问题。
-- 链条：固定 96 节，长度为 `96 × 2π × 7 / 32` 绘图单位；每个挡位求解 14 单位刚性后拨导轮架角度以收取余量。三挡闭环周长相同，链节间距与前盘齿距对应。仍是采样接触弧、理想即时换挡，不是弹簧受力或换挡瞬态仿真。
-- 发电机：底板、脚垫、磁轭、圆磁极与支架、开放式绕组、上下轴承、同步曲柄、两个滑环与独立电刷、真实刀闸、连续绝缘导线、灯座接线柱、螺纹灯口和玻璃/灯丝。绕组引线随转子刚性旋转；磁极间隙容纳完整转动。默认静止角 θ=π/4，状态和物理读数使用同一个角度，不是单独改图片朝向。
+- Bicycle: tube frame, fork and stays, tyre thickness and tread, rims on both sides, crossed spokes, hub, cranks and pedals, a three-tier cassette, two derailleur jockey wheels, a continuous chain. A repair stand supports the rear axle and the front wheel sits on a roller cradle; the tyres are deliberately off the ground to allow an on-the-spot demonstration. The default view is from the drivetrain side. Rims and tyre sidewalls are split into locally depth-sorted sectors, fixing a whole ring wrongly covering the nearer lower jockey wheel.
+- Chain: a fixed 96 links, with length `96 × 2π × 7 / 32` drawing units; each gear solves the angle of a 14-unit rigid derailleur cage to take up the slack. The three gears have the same closed-loop perimeter, and the link pitch corresponds to the chainring tooth pitch. It is still sampled contact arcs and ideal instantaneous shifting, not a spring-force or shift-transient simulation.
+- Generator: base plate, feet, yoke, round poles with brackets, open windings, upper and lower bearings, a mirrored crank, two slip rings with separate brushes, a real knife switch, continuous insulated wire, lamp terminals, a threaded socket and glass with a filament. The winding leads rotate rigidly with the rotor; the pole gap accommodates a full rotation. The default rest angle is θ=π/4, and the state and the physical readouts use the same angle rather than an image rotated separately.
 
-两件仍是教学比例，不是制造图纸。自行车速度/力矩关系与挑战条件未改变。发电机仍是 K=1 V·s、R=10 Ω 的理想交流模型；没有整流、储能、损耗或灯丝热惯性。灯亮度按周期平均功率示意。
+Both remain teaching proportions, not manufacturing drawings. The bicycle's speed and torque relationships and the challenge conditions are unchanged. The generator is still the ideal AC model with K=1 V·s and R=10 Ω; there is no rectification, storage, loss or filament thermal inertia. Lamp brightness is indicative of cycle-average power.
 
-## 视觉验收
+## Visual acceptance
 
-先比较咖啡机、电风扇、洗衣机等原作的真实浏览器截图。第一轮被拒绝：自行车过小、轮辐浅、阴影成条；发电机磁极挡住线圈。第二轮又发现展示支撑不足、后拨被整体轮圈错误遮挡、导线终点未接到接线柱。以上均按结构修复，不用说明文字代替。
+First, real browser screenshots of the original coffee machine, fan and washing machine were compared. The first round was rejected: the bicycle was too small, the spokes too shallow and the shadows streaked; the generator's poles hid the coil. The second round found insufficient stand support, the derailleur covered wholesale by the ring, and wire ends not reaching their terminals. All of these were fixed structurally, not papered over with explanatory text.
 
-独立审查最终确认：自行车三挡特写、默认/侧面/背面均能看到连续链路，未见错层切片；发电机默认/运动/侧面/背面实体遮挡成立。直接踩踏、点飞轮换挡、点摇柄开始、点刀闸开路均实际操作。开路时转动仍有电压、功率归零、刀闸和灯的物态同步改变。原作与最终两件另做同屏截图比较。
+Independent review finally confirmed: the bicycle's three close-ups and its default, side and back views all show a continuous chain run with no wrongly layered slices; the generator's default, moving, side and back views have correct solid occlusion. Direct pedalling, clicking the cassette to shift, clicking the crank to start and clicking the knife switch to open the circuit were all actually operated. With the circuit open, turning still produced voltage, power fell to zero, and the knife switch and the lamp changed physical state together. The original pieces and the final two were also captured in one frame for comparison.
 
-截图证据保存在验收工作区 `quality-polish/`，不进入发布包：`side-by-side-full.png`、`final-bicycle-default.png`、`audit-final-bike-{gear1,gear2,gear3,back,side}.png`、`audit-final-generator-{idle,active,back,side}.png`、`home-final-posters.png`。
+Screenshot evidence is kept in the acceptance workspace at `quality-polish/` and does not enter the release package: `side-by-side-full.png`, `final-bicycle-default.png`, `audit-final-bike-{gear1,gear2,gear3,back,side}.png`, `audit-final-generator-{idle,active,back,side}.png`, `home-final-posters.png`.
 
-桌面 Chromium 页面缩放形成 472 CSS px 窄视口，两件 scrollWidth=466，无横向溢出；自行车另验 393 CSS px，scrollWidth=388。实际鼠标拖动能改变投影且不误触开始/停止；运行中离开展品再返回得到新停止实例，旧场景节点清除。窄屏操作/原理区可滚动访问。**这不是手机、触摸设备或读屏软件实测**；pointercancel、错误 pointer ID、暂停中断、销毁后的旧事件/RAF 由自动测试覆盖。未声称实际耳听验收。
+Page zoom in desktop Chromium produced a narrow 472 CSS px viewport, where both exhibits had scrollWidth=466 with no horizontal overflow; the bicycle was also checked at 393 CSS px with scrollWidth=388. Real mouse dragging changed the projection without accidentally toggling start/stop; leaving the exhibit while running and returning produced a fresh stopped instance with the old scene nodes removed. The narrow-screen control and principle areas were reachable by scrolling. **This is not a phone, touch-device or screen-reader test**; pointercancel, wrong pointer IDs, pause interruption and stale events/RAF after disposal are covered by automated tests. No actual listening acceptance is claimed.
 
-## 工程验收
+## Engineering acceptance
 
-- 全量回归：10 个文件，123/123 通过；原十件回归保持通过。
-- 冻结几何后另跑绘图/链条/交互：11/11 通过。
-- 两件的 jsdom 长动画测试单独放宽墙钟超时；没有删改物理、挑战、暂停、销毁断言。投影复位比较只规范化自动生成的 clip ID，不忽略几何。
-- lint、TypeScript、生产构建与边界检查通过。最终 `npm run check` 聚合亦全部通过（123/123；构建边界 15 个运行时资源）。
-- 发布包仍是 15 个运行时资源：一个入口、JS/CSS、十二张预览；没有测试、截图或工作区路径。
-- 首页新两张 SVG 使用 `scripts/render-solid-previews.mjs` 从正式 drawing 与 object-stage 生成，无新增依赖；静态图移除交互属性，XML 有效，重复生成 SHA 一致。首页 alt 与缓存版本同步更新。
+- Full regression: 10 files, 123/123 passing; the original ten regression stayed passing.
+- After freezing the geometry, the drawing/chain/interaction run was repeated separately: 11/11 passing.
+- The jsdom long-animation tests for the two exhibits had their wall-clock timeouts relaxed individually; no physics, challenge, pause or disposal assertion was deleted or weakened. The projection-reset comparison normalises only auto-generated clip IDs and ignores no geometry.
+- Lint, TypeScript, the production build and the boundary check passed. The final aggregated `npm run check` also passed completely (123/123; build boundary 15 runtime assets).
+- The release package is still 15 runtime assets: one entry, JS/CSS, and twelve previews; no tests, screenshots or workspace paths.
+- The two new home SVGs are generated by `scripts/render-solid-previews.mjs` from the real drawing and object-stage, with no new dependency; the static image drops interaction attributes, is valid XML, and repeat generation produces identical SHAs. The home alt text and cache versions were updated with it.
 
-合并和部署状态需另查 GitHub / Vercel 的对应提交与结果；本地通过不等于线上已更新。
+Merge and deployment status must be checked separately against the corresponding commit and result on GitHub / Vercel; passing locally does not mean production has been updated.
+
+---
+
+中文版见 [QUALITY-REBUILD.zh-CN.md](QUALITY-REBUILD.zh-CN.md)。

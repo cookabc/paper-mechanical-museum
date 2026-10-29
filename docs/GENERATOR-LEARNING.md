@@ -1,30 +1,34 @@
-# 发电机：预测、操作、解释、再验证
+# Generator: predict, operate, explain, re-verify
 
-基线为 main `b298f4aaf6363c3acd74ddf9aa814b572ee320bf`，内容树 `b708c6210c7898397d2ebf4d6ea9e5bc82514c61`。本说明记录候选实现与本地验收；发布状态另以 GitHub / Vercel 为准。
+Baseline is `main` at `b298f4aaf6363c3acd74ddf9aa814b572ee320bf`, content tree `b708c6210c7898397d2ebf4d6ea9e5bc82514c61`. This note records the candidate implementation and local acceptance; release status follows GitHub / Vercel separately.
 
-## 范围
+## Scope
 
-只在既有发电机操作栏增加可选「动手学 · 开路与停转」，不新增展品、外部服务、AI 调用或依赖。立体绘图、原十件及自行车、原物理模型、音效服务、视角与物理部件点击逻辑不变。原稳功率挑战仍可独立使用。
+Adds one optional "Learn by doing · open circuit and stopping" entry to the existing generator dock. No new exhibit, external service, AI call or dependency. The dimensional drawing, the original ten plus the bicycle, the original physics model, the sound service, the view and the physical-part click logic are unchanged. The original steady-power challenge remains independently usable.
 
-这是预设选项、预设反馈与实测条件组成的短活动，不会动态诊断自由文本，也不声称实现多智能体课堂。
+This is a short activity built from preset choices, preset feedback and measured conditions. It does not diagnose free text dynamically and makes no claim to be a multi-agent classroom.
 
-## 教学与证据门
+## Teaching and the evidence gate
 
-1. **预测开路**：必须选择答案才出现对应反馈与操作入口。先亲自建立正向 60 rpm 闭路对照，连续观察 1.5 秒模拟时间，才进入开路操作。保持相同转速亲手断开开关，再连续观察 1.5 秒，才解锁解释题。
-2. **解释**：开路仍转时电压有效值约 4.44 V，电流、平均功率为零。区分「产生电压」与「形成电流回路」，不把灯灭当成无电压的证据。
-3. **停转迁移**：先回答，再在开路正向 60 rpm 条件下亲手停止。采用真实停止操作事件及零读数作为证据，不要求已停止的 RAF 继续累计。原先停止、失焦自动停止、暂停清除的旧证据，不能代替这次操作；改速或反向会取消待验证资格。
-4. **反转迁移**：先回答，再恢复闭路正向 60 rpm 对照，随后以反向 60 rpm 观察。两段分别连续 1.5 秒。电压有效值与电阻平均功率不变（4.44 V / 1.97 W）；改变相位推进方向，不声称交流电流永远沿某一方向。
+1. **Predict the open circuit**: feedback and the operating entry appear only after an answer is chosen. You first establish a forward 60 rpm closed-circuit reference yourself and observe continuously for 1.5 simulated seconds before the open-circuit step unlocks. Then, at the same speed, open the switch by hand and observe continuously for another 1.5 seconds before the explanation question unlocks.
+2. **Explain**: while turning with an open circuit the RMS voltage is about 4.44 V, and the current and average power are zero. The lesson separates "generating voltage" from "forming a current loop" and does not treat a dark lamp as evidence of no voltage.
+3. **Transfer to stopping**: answer first, then stop it by hand while open-circuit at a forward 60 rpm. The real stop event and the zero readings are the evidence; an already-stopped RAF is not required to keep accumulating. Old evidence from a previous stop, an automatic stop on losing focus, or a pause-triggered clear cannot substitute for this operation; changing speed or reversing cancels the pending verification.
+4. **Transfer to reversal**: answer first, then restore the closed-circuit forward 60 rpm reference and then observe at reverse 60 rpm. Each segment runs continuously for 1.5 seconds. The RMS voltage and the resistor's average power are unchanged (4.44 V / 1.97 W); the phase advance reverses direction, and no claim is made that alternating current always flows one way.
 
-稳定观察使用机器同一模拟时间；¼ 速下实际观看更久。条件不符、暂停或失焦会清空当前尚未完成的计时；没有后台补计。交流零交叉不算失败：证据判定用有效值/平均功率，不用瞬时电压符号。
+The stable observation uses the machine's own simulated time; at ¼ speed you watch for longer. Mismatched conditions, a pause or a loss of focus clear the currently unfinished timing; nothing is back-filled from the background. An AC zero crossing is not a failure: the evidence test uses RMS and average power, not the sign of the instantaneous voltage.
 
-学习按钮从不设置机器转速、方向、开关或运行状态。「从头再试」只清学习记录；「退出学习」保留当前机器状态，恢复普通入口；整机「重新开始」及离开展品路由则清除机器与学习状态。所有原控件始终可用。
+The learning button never sets the machine's speed, direction, switch or running state. "Start over" clears only the learning record; "Exit learning" keeps the current machine state and restores the normal entry; a whole-machine "Restart" and leaving the exhibit route clear both machine and learning state. All original controls remain available throughout.
 
-## 验收
+## Acceptance
 
-- 纯状态测试覆盖每题三种选择的反馈、先答后揭示、错误条件、改速/反向、停止事件门、连续计时、暂停与重启，以及学习不修改物理状态。
-- 实际 DOM 适配测试覆盖完整物理部件操作路径、开路/停转/反向读数、原挑战进度条互不干扰、退出/重试保留机器、暂停、整机重置、路由销毁及旧节点无效。
-- 桌面 Chromium 实际完成整个流程，包括错误预测/解释/迁移答案，物理摇柄点击和刀闸点击；不是仅直接调用状态函数。
-- 窄屏使用桌面 Chrome 窗口与 125% 页面缩放，`innerWidth=400`、`clientWidth=scrollWidth=388`，无横向溢出；完成预测、解释、停转与反转操作。它不是实体手机或触摸设备测试。
-- 截图保存在工作区 `learning-evidence/`，不进入构建包。阶段改变有简短 live-region 播报；显式学习操作将焦点留在新题目或继续按钮。不宣称做过读屏软件或实际音效试听。
+- Pure state tests cover the feedback for all three choices in every question, answering before revealing, wrong conditions, speed changes and reversal, the stop-event gate, continuous timing, pausing and restarting, and that learning does not modify physical state.
+- Real DOM adapter tests cover the full physical-part operating path, open-circuit/stopped/reversed readouts, the original challenge progress bar not interfering, keeping the machine on exit/retry, pausing, whole-machine reset, route destruction and stale nodes becoming inert.
+- Desktop Chromium completed the whole flow, including wrong predictions, explanations and transfer answers, by clicking the physical crank and the knife switch; not merely by calling state functions directly.
+- The narrow check used a desktop Chrome window at 125% page zoom with `innerWidth=400` and `clientWidth=scrollWidth=388`, with no horizontal overflow, and completed the prediction, explanation, stopping and reversal operations. It is not a physical phone or touch-device test.
+- Screenshots are kept in the workspace at `learning-evidence/` and do not enter the build package. Stage changes get a short live-region announcement; an explicit learning action leaves focus on the new question or the continue button. No screen-reader software or actual listening test is claimed.
 
-当前实现不记录学习成绩、不持久化作答；没有自动替用户摇动、切换开关或隐藏控件的脚本。
+The current implementation does not record learning scores or persist answers; no script cranks automatically, flips the switch or hides controls on the user's behalf.
+
+---
+
+中文版见 [GENERATOR-LEARNING.zh-CN.md](GENERATOR-LEARNING.zh-CN.md)。

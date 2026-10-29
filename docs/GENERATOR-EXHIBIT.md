@@ -1,35 +1,39 @@
-# 第 12 件：手摇发电机
+# Exhibit 12: the hand-crank generator
 
-> 本文记录初版设计与当时的验收数字；绘图已在 2026-10-25 重建为与原十件一致的立体场景。当前结构、测试与限制以 [精致度与一致性重建验收](QUALITY-REBUILD.md) 为准。
+> This records the first design and the acceptance numbers of that time; the drawing was rebuilt on 2026-10-25 into a dimensional scene consistent with the original ten. The current structure, tests and limits follow [the polish and consistency rebuild](QUALITY-REBUILD.md).
 
-开发候选，基于已发布自行车版 main `fc676ad0965631aa35e3f09116a239143a2d418d`，tree `eb4477bdba7ba6b96b46b1ae544d0d932ba4cb5a`。此说明记录候选验收，不表示已合并或生产发布。
+A development candidate based on the released bicycle `main` at `fc676ad0965631aa35e3f09116a239143a2d418d`, tree `eb4477bdba7ba6b96b46b1ae544d0d932ba4cb5a`. This note records candidate acceptance and does not mean it was merged or released to production.
 
-## 操作与模型
+## Controls and model
 
-路由 `/#/generator`。点击开始摇动，选择 30 / 60 / 90 rpm，或使用 0～100 rpm 滑块。可切换正反方向、接通或断开负载。停止后感应电压和电流归零；反向在同一角度改变转速符号，不改变同速平均功率。
+Route `/#/generator`. Click to start cranking, choose 30 / 60 / 90 rpm, or use the 0–100 rpm slider. You can reverse direction and connect or disconnect the load. After stopping, the induced voltage and current fall to zero; reversing changes the sign of the speed at the same angle without changing the average power at that speed.
 
-模型是理想单线圈交流发电机，不是直流电源，没有整流器或储能。手柄与线圈 1∶1、单对磁极，`K = N B A = 1 V·s`，灯泡建模为 `R = 10 Ω` 纯电阻。θ 是线圈法线与磁场 B 的夹角：
+The model is an ideal single-coil AC generator, not a DC source: there is no rectifier and no energy storage. The handle and the coil are 1∶1, there is a single pole pair, `K = N B A = 1 V·s`, and the bulb is modelled as a pure `R = 10 Ω` resistor. θ is the angle between the coil normal and the field B:
 
-- 磁通链 `λ = K cos θ`。
-- `dθ/dt = ω`，感应电压 `e = -dλ/dt = K ω sin θ`。
-- 闭路电流 `i = e/R`，开路电流为零，但转动时仍可有电压。
-- 电压有效值 `Erms = |Kω|/√2`；周期平均负载功率 `P = Erms²/R`。
-- 瞬时功率 `p = i²R ≥ 0`，电流方向来自瞬时电流符号，而不是仅由手柄方向决定。
+- Flux linkage `λ = K cos θ`.
+- `dθ/dt = ω`, induced voltage `e = -dλ/dt = K ω sin θ`.
+- Closed-circuit current `i = e/R`; open-circuit current is zero, but voltage can still exist while turning.
+- RMS voltage `Erms = |Kω|/√2`; cycle-average load power `P = Erms²/R`.
+- Instantaneous power `p = i²R ≥ 0`; the current direction comes from the sign of the instantaneous current, not from the crank direction alone.
 
-灯光依据周期平均功率显示且亮度截顶，不模拟真实灯丝热惯性、非线性电阻或视觉光度。导线、线圈和滑环为剖开展示的示意连接，不是可制造三维布线。手做功提供能量；不模拟手的力矩、摩擦、加速或温升，因此不能由读数推断真实设备效率。
+The lamp is driven by cycle-average power with a capped brightness; real filament thermal inertia, non-linear resistance and visual photometry are not modelled. The wires, coil and slip rings are a cut-away schematic connection, not manufacturable 3D wiring. The hand does the work; hand torque, friction, acceleration and temperature rise are not modelled, so the readings cannot be used to infer real-device efficiency.
 
-原理参考：[OpenStax，Electric Generators and Back Emf](https://openstax.org/books/university-physics-volume-2/pages/13-6-electric-generators-and-back-emf)。图像、代码和素材为原创，没有复制参考资源。
+Physics reference: [OpenStax, Electric Generators and Back Emf](https://openstax.org/books/university-physics-volume-2/pages/13-6-electric-generators-and-back-emf). The image, code and assets are original; no reference resource was copied.
 
-## 小挑战
+## The small challenge
 
-目标是平均负载功率 1.5～3 W 连续 3 秒，不是灯泡安全额定值。30 rpm 为约 0.49 W，90 rpm 为约 4.44 W，均不能累计；60 rpm 为约 1.97 W，可以完成。转速超出目标、开路、停止或窗口失焦会清除正在累计的保持时间；重新挑战明确归零。
+The goal is an average load power of 1.5–3 W for 3 continuous seconds, not a bulb's safe rating. At 30 rpm the power is about 0.49 W and at 90 rpm about 4.44 W, so neither accumulates; at 60 rpm it is about 1.97 W, which completes. Exceeding the target speed, opening the circuit, stopping or losing window focus clears the hold time being accumulated; restarting the challenge zeroes it explicitly.
 
-观察的 ¼ 速降低同一个模拟时钟。电压和转速读数保持原模型值，3 秒模拟挑战需约 12 秒观看。页面明确说明此时间缩放。无自动播放；用户显式开始后可随时停止。未声称实现独立的 reduced-motion 模式。
+The ¼-speed observation slows the same simulated clock. Voltage and speed readouts keep their original model values, so the 3-second simulated challenge takes about 12 seconds to watch. The page states this time scaling explicitly. Nothing autoplays; after the user starts explicitly they may stop at any time. No separate reduced-motion mode is claimed.
 
-## 工程与验收
+## Engineering and acceptance
 
-共享现有路由、ResourceScope、音效和原理观察；原十一件场景的实现没有修改，无新增依赖。馆藏计数、目录、首页卡片和构建资源边界扩展至十二件。
+Reuses the existing routing, ResourceScope, sound and principle observation; the original eleven scenes' implementations are unmodified and no dependency was added. The collection count, catalogue, home cards and build asset boundary extend to twelve exhibits.
 
-新增模型及适配器测试覆盖感应相位、静止/开路零输出、反转、转速翻倍、电功率关系、连续挑战、暂停叠加、reset/dispose 陈旧回调、单时钟慢看、目录与跨路由清理。运行最终 `npm run check` 包含 lint、typecheck、测试、build 和 15 个发布资源边界检查。
+New model and adapter tests cover the induced phase, zero output at rest and with an open circuit, reversal, doubled speed, the electrical power relationships, the continuous challenge, stacked pauses, stale reset/dispose callbacks, single-clock slow look, catalogue and cross-route cleanup. The final `npm run check` covers lint, typecheck, tests, build and 15 release-asset boundary checks.
 
-2026-10-25 本地 Chromium 实测：键盘启动与滑块 Home 归零、30/60/90 转速、反向、开路、低/高/目标功率挑战、¼ 速观察、重置、首页返回和浏览器前进/后退。路由重进恢复停止状态，目录显示 12 件。388 CSS px 窄屏的 clientWidth 与 scrollWidth 同为 388，场景和控件截图分别检查；桌面截图亦检查。全套检查为 9 个测试文件、114 项测试及 15 个发布资源。浏览器错误记录见到扩展自身 metadata 错误，不将它当作站点异常。窄屏为桌面 Chromium 调整窗口或缩放后的 CSS 视口，不是物理手机。音效资源生命周期有测试覆盖，没有耳听验收。
+Local Chromium on 2026-10-25: keyboard start and slider Home-to-zero, 30/60/90 rpm, reverse, open circuit, low/high/target-power challenges, ¼-speed observation, reset, returning home and browser forward/back. Re-entering the route restored the stopped state and the catalogue showed 12 items. At 388 CSS px the narrow viewport's clientWidth and scrollWidth were both 388; the scene and the controls were checked separately by screenshot, as was the desktop screenshot. The full suite was 9 test files, 114 tests and 15 release assets. Browser error logs showed an error from the extension's own metadata, which was not treated as a site fault. The narrow viewport is a CSS viewport obtained by resizing or zooming desktop Chromium, not a physical phone. Sound asset lifecycle is covered by tests; there was no listening acceptance.
+
+---
+
+中文版见 [GENERATOR-EXHIBIT.zh-CN.md](GENERATOR-EXHIBIT.zh-CN.md)。

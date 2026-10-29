@@ -17,7 +17,7 @@
 
 ![手摇发电机工作台：立体线圈与磁极、摇柄、灯泡，以及转速和电压功率读数](docs/screenshots/generator-workbench.jpg)
 
-以上为 2026-10-28 正式站的真实浏览器截图。发电机画面通过「开始摇动」操作进入正向 60 rpm、电路接通状态；不是概念图或合成图。静态图片只展示一次状态，完整交互请进入机械馆体验。[截图来源与更新说明](docs/screenshots/README.md)。
+以上为 2026-10-29 正式站（英文默认界面）的真实浏览器截图。发电机画面通过「开始摇动」操作进入正向 60 rpm、电路接通状态；不是概念图或合成图。它也如实反映了翻译进度：外围外壳已是英文，而这台机器自己面板里的标签仍是中文。静态图片只展示一次状态，完整交互请进入机械馆体验。[截图来源与更新说明](docs/screenshots/README.md)。
 
 ## 馆藏
 
@@ -59,9 +59,16 @@ npm run preview     # 先构建，再按终端地址预览 dist
 
 ## 开发与维护
 
-- **[开发指南](docs/DEVELOPMENT.md)**：目录、生命周期、测试、浏览器验收与发布边界。
-- **[文档索引](docs/README.md)**：区分现行操作说明、展品设计记录与历史迁移证据。
-- **[参与维护](CONTRIBUTING.md)**：问题报告与小范围 PR 的提交方式。
+每份文档以英文为主，中文版并列放在旁边。
+
+| 英文 | 中文 | 内容 |
+| --- | --- | --- |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | [docs/DEVELOPMENT.zh-CN.md](docs/DEVELOPMENT.zh-CN.md) | 目录、生命周期、测试、浏览器验收、发布边界 |
+| [docs/README.md](docs/README.md) | [docs/README.zh-CN.md](docs/README.zh-CN.md) | 文档索引：现行说明、设计记录与历史证据的分界 |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md) | 问题报告与小范围 PR 的提交方式 |
+| [docs/screenshots/README.md](docs/screenshots/README.md) | [docs/screenshots/README.zh-CN.md](docs/screenshots/README.zh-CN.md) | 截图来源与更新方式 |
+| [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) | [THIRD_PARTY_NOTICES.zh-CN.md](THIRD_PARTY_NOTICES.zh-CN.md) | 上游作者、许可及其不覆盖的范围 |
+
 - 报告问题请提供展品链接、复现步骤、预期/实际行为、浏览器及屏幕大小；视觉问题附截图，避免包含个人信息。
 - 变更以小而可验证的 PR 提交；保留各展品的机械逻辑、画风、署名与许可证。自动检查通过不等于已完成浏览器验收或已发布。
 

@@ -1,18 +1,22 @@
-# 第三方来源、署名与许可
+# Third-party origins, attribution and licences
 
-本项目保留原产品中的作者署名，不将整个机械馆统一署为某个上游作者。
+This project keeps the original product's author attribution. It does not sign the whole mechanical museum over to a single upstream author.
 
 ## Colorfigures / ISO-GLOW / iso-figure
 
-原等距 SVG 核心与洗衣机来源于 April Zhu 的 Colorfigures，核心注释也说明其对 ISO-GLOW 与 Tolga Cohce 的 iso-figure 的继承。主馆和抓物机复用并扩展了该基础。风扇独立 Paper3D 实现及后来新增场景/交互不因此全部归属上游作者。
+The original isometric SVG core and the washing machine come from April Zhu's Colorfigures, whose own core comments record its descent from ISO-GLOW and Tolga Cohce's iso-figure. The main hall and the grabber machine reuse and extend that foundation. The fan, its standalone Paper3D implementation and the scenes and interactions added later are not therefore wholly attributable to the upstream author.
 
-官方来源：https://april-zhu.com/colorfigures
-官方源码包：https://april-zhu.com/colorfigures/colorfigures.zip
+Official source: https://april-zhu.com/colorfigures
+Official source package: https://april-zhu.com/colorfigures/colorfigures.zip
 
-`licenses/Colorfigures-LICENSE.txt` 是从官方包 `colorfigures/LICENSE` 保留的完整 MIT 文本，包括三条原始版权声明；SHA-256：`bc54cadb579906c051d7aad84f41f88c0df6c50089e052134226fe0b76fd5280`。
+`licenses/Colorfigures-LICENSE.txt` is the complete MIT text preserved from `colorfigures/LICENSE` in the official package, including all three original copyright statements; SHA-256: `bc54cadb579906c051d7aad84f41f88c0df6c50089e052134226fe0b76fd5280`.
 
-其许可应随对应原始代码及衍生部分一起保留。用户新增的场景、导航、机制观察与测试不在本交付中被擅自授予新的全仓开源许可证。
+That licence must travel with the corresponding original code and its derived parts. The scenes, navigation, mechanism observation and tests added here are not thereby granted a new repository-wide open-source licence.
 
-## 测试工具
+## Test tooling
 
-可选 npm 开发依赖仅用于自动化 DOM/图像测试，不参与网站运行；依赖自身许可证由对应 npm 包保留。Python 图像辅助工具可能需要 Pillow、NumPy 或 Inkscape，详见测试文档。
+Optional npm development dependencies are used only for automated DOM and image testing and do not ship with the site; each dependency keeps its own licence. The Python image helpers may need Pillow, NumPy or Inkscape — see the development guide.
+
+---
+
+中文版见 [THIRD_PARTY_NOTICES.zh-CN.md](THIRD_PARTY_NOTICES.zh-CN.md)。

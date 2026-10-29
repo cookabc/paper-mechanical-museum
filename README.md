@@ -19,7 +19,7 @@ being translated exhibit by exhibit. No account, no install — open the site an
 
 ![Hand-crank generator workbench: dimensional coil and magnetic poles, crank, bulb, and rpm / voltage / power readouts](docs/screenshots/generator-workbench.jpg)
 
-Real browser screenshots of the production site, taken 2026-10-28. The generator frame was captured by operating "开始摇动" into a positive 60 rpm, circuit-closed state — it is not a concept render or a composite. A still image shows one state only; the full interaction is best experienced in the museum. [Screenshot sources and update notes](docs/screenshots/README.md).
+Real browser screenshots of the production site, taken 2026-10-29 in English (the default). The generator frame was captured by operating "开始摇动" into a positive 60 rpm, circuit-closed state — it is not a concept render or a composite. It also shows the translation honestly: the surrounding shell is English while that machine's own panel labels are still Chinese. A still image shows one state only; the full interaction is best experienced in the museum. [Screenshot sources and update notes](docs/screenshots/README.md).
 
 ## The collection
 
@@ -61,9 +61,16 @@ Edit `src/`, never the generated `dist/`, and do not treat `tests/fixtures/` or 
 
 ## Development and maintenance
 
-- **[Development guide](docs/DEVELOPMENT.md)**: layout, lifecycle, testing, browser acceptance and release boundaries.
-- **[Documentation index](docs/README.md)**: separates current operating notes from exhibit design records and historical migration evidence.
-- **[Contributing](CONTRIBUTING.md)**: how to file issues and small-scope PRs.
+Every document leads in English, with a Chinese edition beside it.
+
+| English | 中文 | What it covers |
+| --- | --- | --- |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | [docs/DEVELOPMENT.zh-CN.md](docs/DEVELOPMENT.zh-CN.md) | Layout, lifecycle, testing, browser acceptance, release boundaries |
+| [docs/README.md](docs/README.md) | [docs/README.zh-CN.md](docs/README.zh-CN.md) | Documentation index: current notes vs. design records vs. history |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md) | How to file issues and small-scope PRs |
+| [docs/screenshots/README.md](docs/screenshots/README.md) | [docs/screenshots/README.zh-CN.md](docs/screenshots/README.zh-CN.md) | Where each screenshot came from and how to update one |
+| [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) | [THIRD_PARTY_NOTICES.zh-CN.md](THIRD_PARTY_NOTICES.zh-CN.md) | Upstream authors, licences and what they do not cover |
+
 - When reporting a problem, include the exhibit link, steps to reproduce, expected vs. actual behaviour, and the browser and window size; attach screenshots for visual issues, without personal information.
 - Changes go in as small, verifiable PRs; keep each exhibit's mechanism logic, art style, attribution and licence. Passing automated checks does not mean browser acceptance or release has happened.
 

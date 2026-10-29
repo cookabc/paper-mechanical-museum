@@ -1,29 +1,35 @@
-# 文档索引
+# Documentation index
 
-**想体验？** 回到[项目首页与十二件馆藏](../README.md)。
+**Just want to look around?** Go to the [project home and the twelve exhibits](../README.md).
 
-**想开发？** 从[开发与验收指南](DEVELOPMENT.md)开始。当前目录、命令和生命周期以这份指南及实际源码为准；下面的设计和验收记录保留各自的时间、基线与范围，不是持续更新的生产状态页。
+**Want to develop?** Start with the [development and acceptance guide](DEVELOPMENT.md). The current directory layout, commands and lifecycle follow that guide and the actual source; the design and acceptance records below keep their own dates, baselines and scope, and are not continuously updated production status pages.
 
-## 展品设计与专题记录
+## Exhibit design and subject records
 
-- [自行车变速器](BICYCLE-EXHIBIT.md)：传动模型、爬坡实验；初版与后续内容分节标注。
-- [手摇发电机](GENERATOR-EXHIBIT.md)：理想交流模型、参数与适用限制。
-- [发电机动手学](GENERATOR-LEARNING.md)：预测、真实操作、解释与再验证的证据门。
-- [自行车 / 发电机立体重建](QUALITY-REBUILD.md)：结构、几何、遮挡与当时的验收记录。
+Each is available in English and Chinese.
 
-这些文档中的「候选」「未发布」与测试数字描述记录当时的状态，不应据此判断最新 main 或生产部署。
+- [Bicycle derailleur](BICYCLE-EXHIBIT.md) · [中文](BICYCLE-EXHIBIT.zh-CN.md): the drivetrain model, the hill-climb experiment; the first and later revisions are marked by section.
+- [Hand-crank generator](GENERATOR-EXHIBIT.md) · [中文](GENERATOR-EXHIBIT.zh-CN.md): the ideal AC model, parameters and applicability limits.
+- [Learning by hand: the generator](GENERATOR-LEARNING.md) · [中文](GENERATOR-LEARNING.zh-CN.md): the predict → operate → explain → re-verify evidence gate.
+- [Bicycle / generator 3D rebuild](QUALITY-REBUILD.md) · [中文](QUALITY-REBUILD.zh-CN.md): structure, geometry, occlusion and the acceptance record of that time.
 
-## 历史架构与迁移证据
+Words such as "candidate", "unreleased" and the test counts in these documents describe the state at the time. Do not read the current `main` or the production deployment from them.
 
-以下内容保留供追溯；其中旧仓库名、分支名、路径、命令、授权及验收数字只适用于对应历史阶段。
+## Historical architecture and migration evidence
 
-- [迁移历史](MIGRATION-HISTORY.md)：四套入口合并为统一应用的分批验收（2 → 5 → 8 → 10 件），以及统一工程之前的静态源码交付包形态。
-- [统一架构](UNIFIED-ARCHITECTURE.md)：统一应用的设计、生命周期契约与 CI 边界。
-- [核心差异审计](CORE-DIFFERENCES.md)：四套原实现的模型、几何、控制、时间与生命周期差异。
-- [路径适配清单](PATH-ADAPTATIONS.json)：原源码搬移记录。
+The following is kept for traceability; the old repository name, branch names, paths, commands, authorisations and acceptance numbers apply only to their own historical stage.
 
-`archive/` 的来源/哈希清单与 `tests/fixtures/complete-source/` 的旧源码也是历史证据，不是当前构建产物。最新代码状态看 GitHub 提交与 PR；部署状态看对应 Vercel 记录及实际网站，不能从一份旧验收文档推断。
+- [Migration history](MIGRATION-HISTORY.md) · [中文](MIGRATION-HISTORY.zh-CN.md): the batched acceptance of merging four entry points into one unified app (2 → 5 → 8 → 10 exhibits), and the standalone static delivery packages that predate the unified project.
+- [Unified architecture](UNIFIED-ARCHITECTURE.md) · [中文](UNIFIED-ARCHITECTURE.zh-CN.md): the unified app's design, lifecycle contract and CI boundary.
+- [Core differences audit](CORE-DIFFERENCES.md): how the four original implementations differed in model, geometry, controls, timing and lifecycle.
+- [Path adaptation manifest](PATH-ADAPTATIONS.json): the record of moving the original source.
 
-## 来源与许可
+The source/hash manifest in `archive/` and the old source in `tests/fixtures/complete-source/` are also historical evidence, not current build output. For the latest code state see GitHub commits and PRs; for deployment state see the corresponding Vercel record and the live site. Neither can be inferred from an old acceptance document.
 
-[第三方来源与署名](../THIRD_PARTY_NOTICES.md) · [上游 MIT 许可全文](../licenses/Colorfigures-LICENSE.txt)。保留对应代码的版权与许可，不将上游许可扩展为整个仓库的新许可证。
+## Origins and licences
+
+[Third-party origins and attribution](../THIRD_PARTY_NOTICES.md) · [Full upstream MIT licence text](../licenses/Colorfigures-LICENSE.txt). Keep the corresponding code's copyright and licence, and do not extend the upstream licence to the whole repository.
+
+---
+
+中文版见 [README.zh-CN.md](README.zh-CN.md)。

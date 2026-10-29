@@ -1,73 +1,77 @@
-# 开发与验收指南
+# Development and acceptance guide
 
-本文说明当前统一 Vite 工程。命令与约束以根 [`package.json`](../package.json)、[`vite.config.ts`](../vite.config.ts)、源码及 CI 为准；旧交付包的命令不能直接套用。历史记录见[文档索引](README.md)。
+This describes the current unified Vite project. Commands and constraints follow the root [`package.json`](../package.json), [`vite.config.ts`](../vite.config.ts), the source and CI; the old delivery packages' commands do not carry over. Historical records are in the [documentation index](README.md).
 
-## 环境与命令
+## Environment and commands
 
-推荐 Node.js 24.x，与 CI 一致；`engines` 的允许范围不代表每个版本都已验收。首次执行 `npm ci` 安装锁定依赖。
+Node.js 24.x is recommended and matches CI; the range allowed by `engines` does not mean every version has been accepted. Run `npm ci` first to install the locked dependencies.
 
-| 命令 | 用途 |
+| Command | Purpose |
 | --- | --- |
-| `npm run dev` | Vite 开发服务，默认 `127.0.0.1:4182`，端口冲突时报错 |
-| `npm run lint` | 检查 `src` 与顶层 `tests/*.test.ts` |
-| `npm run typecheck` | `tsc --noEmit`；包含 JS 导入边界，不等于所有 JS 内部已做类型检查 |
-| `npm test` / `npm run test:watch` | 当前模块回归测试 / 监听模式 |
-| `npm run build` | Vite 构建，然后校验发布包边界 |
-| `npm run check` | 顺序执行 lint、typecheck、test、build |
-| `npm run preview` | 预览已生成的 `dist`；地址以终端输出为准 |
-| `npm run test:legacy` | 在临时副本执行保留源码的兼容基线 |
-| `npm run test:legacy -- --list` | 列出旧基线入口 |
+| `npm run dev` | Vite dev server on `127.0.0.1:4182` by default; it errors out on a port conflict |
+| `npm run lint` | Lints `src` and the top-level `tests/*.test.ts` |
+| `npm run typecheck` | `tsc --noEmit`; covers the JS import boundary, which does not mean every JS file is type-checked internally |
+| `npm test` / `npm run test:watch` | Current-module regression tests / watch mode |
+| `npm run build` | Vite build, then verifies the release boundary |
+| `npm run check` | Runs lint, typecheck, test, build in that order |
+| `npm run preview` | Previews the generated `dist`; use the address the terminal prints |
+| `npm run test:legacy` | Runs the preserved source's compatibility baseline in a temporary copy |
+| `npm run test:legacy -- --list` | Lists the legacy baseline entries |
 
-`tests/repository-docs.test.ts` 随 `npm test` / `npm run check` 离线检查现行维护文档（根 README、CONTRIBUTING、文档索引、本文、截图来源说明和第三方署名）的 Markdown 行内相对链接目标是否存在，并核对根 README 的馆藏名称、路由和顺序与 `src/app/catalog.ts` 一致。它不检查外网可用性、页内锚点或历史记录的旧路径；新增现行入口页时请同步检查列表。
+`tests/repository-docs.test.ts` runs as part of `npm test` / `npm run check` and checks, offline, that every inline relative link target in the current maintenance documents (root README, CONTRIBUTING, documentation index, this guide, the screenshot provenance note and the third-party notices) exists; it also checks that the root README's exhibit names, routes and order match `src/app/catalog.ts`. It does not check external availability, in-page anchors or old paths inside historical records. When you add a current entry page, add it to that list.
 
-应用使用 hash 路由：`/#/` 是首页，`/#/generator` 等是展品。无需本地后端或应用密钥。
+The app uses hash routing: `/#/` is the home page, `/#/generator` and so on are exhibits. No local backend or application key is needed.
 
-## 代码地图
+## Code map
 
 ```text
 index.html → src/main.ts → src/app/app.ts
-                           ├─ catalog.ts / home.js：馆藏与首页
-                           ├─ 当前展品控制器 + 场景 ResourceScope
-                           └─ 共享音频、观察、学习入口和展示外壳
+                           ├─ catalog.ts / home.js: the collection and the home page
+                           ├─ the current exhibit's controller + the scene ResourceScope
+                           └─ shared audio, observation, learning entry and presentation shell
 ```
 
-| 路径 | 职责 |
+| Path | Responsibility |
 | --- | --- |
-| `src/app/` | 路由、控制器契约、资源作用域、局部 DOM、展品标题与展示适配 |
-| `src/exhibits/<id>/` | 各展品的模型、几何绘图与交互适配 |
-| `src/engines/` | 保留不同投影/渲染实现，不强行合并机械模型 |
-| `src/shared/` | 音频、观察、学习入口、操作栏与物体舞台 |
-| `src/styles/` | 共享视觉基础与响应式布局 |
-| `public/previews/` | 十二件展品的 SVG 预览 |
-| `tests/*.test.ts` | 直接导入当前模块的模型、绘图、交互、导航与生命周期测试 |
-| `tests/fixtures/complete-source/` | 只读的原完整源码比较基线，不进入发布包 |
-| `archive/` | 原来源清单、哈希清单与工具；路径语义属于历史交付包 |
-| `docs/` | 维护说明、展品设计与分阶段验收记录 |
+| `src/app/` | Routing, controller contracts, resource scope, local DOM, exhibit headers and presentation adapters |
+| `src/exhibits/<id>/` | Each exhibit's model, geometric drawing and interaction adapter |
+| `src/engines/` | Keeps distinct projection/render implementations; mechanical models are not force-merged |
+| `src/shared/` | Audio, observation, learning entry, the control dock and the object stage |
+| `src/styles/` | Shared visual foundations and responsive layout |
+| `public/previews/` | SVG previews of the twelve exhibits |
+| `tests/*.test.ts` | Model, drawing, interaction, navigation and lifecycle tests that import current modules directly |
+| `tests/fixtures/complete-source/` | Read-only comparison baseline of the original complete source; not part of the release package |
+| `archive/` | Original provenance lists, hash manifests and tools; path semantics belong to the historical delivery packages |
+| `docs/` | Maintenance notes, exhibit design and staged acceptance records |
 
-应用是 JavaScript ES modules 与 TypeScript 混合工程，非全量 TypeScript 改写。`allowJs: true`、`checkJs: false` 的实际边界见 [`tsconfig.json`](../tsconfig.json)。场景通过静态模块接入，不以 iframe、eval 或拼接旧脚本充当适配器。
+The app is a mixed JavaScript ES-modules and TypeScript project, not a full TypeScript rewrite. The real boundary of `allowJs: true` and `checkJs: false` is in [`tsconfig.json`](../tsconfig.json). Scenes attach through static modules; iframes, `eval` and concatenating old scripts are not used as adapters.
 
-## 修改时守住的边界
+## Boundaries to hold when changing things
 
-- **状态属于展品。** 模型、绘图、读数和操作必须一致，不用独立动画或预设答案冒充真实结果。教学活动应可选，不能代替用户操作。
-- **资源有明确所有者。** [`SceneController`](../src/app/contracts.ts) 提供 `pause`、`resume`、`reset`、`dispose` 与可选只读 `snapshot`；[`ResourceScope`](../src/app/scope.ts) 管理事件、时钟和清理。旧场景不能残留 RAF、音频或异步回调。
-- **暂停与离开不同。** 多个暂停原因不能互相解除；恢复不补算后台时间。关闭观察区保留机器进度，路由离开销毁实例，重新进入新建状态。整机重置和重置视角也不是同一件事。
-- **声音主动开启。** 注意切换、隐藏、失焦和旧音频 promise 的隔离，不自动重新开启声音。
-- **响应式不能重建机器状态。** 验证短屏、窄屏及来回跨布局边界时的状态、滚动和实际可见焦点，而非只断言 `activeElement` 没变。
-- **保留出处。** 不删除第三方版权、历史来源或基线；不改生成的 `dist/`、不以修改旧 fixture 让当前测试变绿。
+- **State belongs to the exhibit.** Model, drawing, readouts and controls must agree; never substitute an independent animation or a preset answer for a real result. Teaching activities stay optional and cannot replace user input.
+- **Resources have a clear owner.** [`SceneController`](../src/app/contracts.ts) provides `pause`, `resume`, `reset`, `dispose` and an optional read-only `snapshot`; [`ResourceScope`](../src/app/scope.ts) manages events, clocks and cleanup. An old scene must not leave RAF callbacks, audio or async callbacks behind.
+- **Pausing is not leaving.** Multiple pause reasons must not cancel each other, and resuming does not back-fill background time. Closing the observation panel keeps the machine's progress; leaving the route destroys the instance and re-entering builds a fresh one. A whole-machine reset and a view reset are also different things.
+- **Sound is opt-in.** Handle tab switching, hiding, blur and stale audio promises in isolation; never re-enable sound automatically.
+- **Responsiveness must not rebuild machine state.** Check state, scrolling and actually visible focus across short and narrow viewports and while crossing layout boundaries back and forth — not merely that `activeElement` did not change.
+- **Keep provenance.** Do not delete third-party copyright, historical sources or baselines; do not edit generated `dist/`; do not make current tests green by editing old fixtures.
 
-## 分层验收
+## Layered acceptance
 
-1. **当前工程：** 对最终候选执行 `npm run check`，为受影响模型、交互与生命周期补充回归。`npm test` 使用 jsdom，不是真实浏览器。
-2. **历史兼容：** 单独执行 `npm run test:legacy`；其结果不能证明当前适配器已通过。不要混用历史测试数字。
-3. **真实浏览器：** 按改动范围检查直接操作与面板控制、运行、暂停/恢复、重置、离开/重入、前进/后退、重复点击及中断输入。布局改动覆盖桌面、窄屏、短屏和活动状态下的双向尺寸切换；机械改动比较默认、侧面、背面的遮挡与运动读数。
-4. **记录证据：** 写明最终提交、命令结果、浏览器/视口、复现步骤与限制。桌面模拟手机不等于实机触控；自动测试不代表音效试听、屏幕阅读器或跨浏览器已验收。
+1. **Current project:** run `npm run check` on the final candidate and add regressions for the models, interactions and lifecycle you affected. `npm test` uses jsdom, which is not a real browser.
+2. **Historical compatibility:** run `npm run test:legacy` separately; its result does not prove the current adapters pass. Do not mix historical test numbers with current ones.
+3. **Real browser:** according to the scope of the change, check direct manipulation and panel controls, running, pause/resume, reset, leave/re-enter, forward/back, repeated clicks and interrupted input. Layout changes cover desktop, narrow and short viewports plus two-way resizing while active; mechanical changes compare occlusion and motion readouts at the default, side and back views.
+4. **Record the evidence:** state the final commit, command results, browser/viewport, reproduction steps and limitations. A desktop mobile emulator is not real touch; automated tests do not mean the audio, a screen reader or cross-browser behaviour has been accepted.
 
-[`scripts/verify-build.mjs`](../scripts/verify-build.mjs) 随构建检查入口、资源引用与十二张预览，仅允许入口、JS/CSS bundles 和预览进入 `dist`，并拒绝部分开发路径泄漏。这是发布边界检查，不是全功能、安全或视觉审计。
+[`scripts/verify-build.mjs`](../scripts/verify-build.mjs) runs with the build and checks the entry, asset references and the twelve previews; only the entry, the JS/CSS bundles and the previews may enter `dist`, and it rejects several development path leaks. This is a release-boundary check, not a full functional, security or visual audit.
 
-## CI 与发布
+## CI and release
 
-[CI](../.github/workflows/ci.yml) 在 PR 和 main push 时检出事件对应的精确提交，用 Node 24 分别运行当前工程检查与历史基线。仅有 `contents: read`，不持久保存检出凭据，也没有部署步骤。检查结果必须对应最终 head，不能把配置存在或旧提交通过当作本次通过。
+[CI](../.github/workflows/ci.yml) checks out the exact commit for the event on PRs and pushes to `main`, then runs the current-project checks and the historical baseline on Node 24. It has only `contents: read`, does not persist checkout credentials, and has no deploy step. Check results must correspond to the final head; a configuration existing, or an old commit passing, is not this run passing.
 
-生产目标为 [paper-mechanical-museum.vercel.app](https://paper-mechanical-museum.vercel.app/)。[`vercel.json`](../vercel.json) 配置 `npm ci`、`npm run build` 和输出目录 `dist`，仅对两个历史分支关闭 Git 自动部署，**并非关闭所有分支部署**。
+Production targets [paper-mechanical-museum.vercel.app](https://paper-mechanical-museum.vercel.app/). [`vercel.json`](../vercel.json) configures `npm ci`, `npm run build` and the `dist` output directory, and disables Git auto-deploy **only for two historical branches** — it does not disable deploys for all branches.
 
-本地验收、精确提交 CI、合并与生产部署是四个不同事实。维护者应先评审变更和最新基线，再按当前授权与仓库规则合并/发布；发布后核对生产提交并复查受影响流程。保持现有访问权限，不新增凭据、权限或费用承诺。
+Local acceptance, exact-commit CI, a merge and a production deploy are four different facts. Maintainers should review the change and the latest baseline first, then merge/release under the current authorisation and repository rules; after release, verify the production commit and re-check the affected flows. Keep the existing access settings and add no credentials, permissions or cost commitments.
+
+---
+
+中文版见 [DEVELOPMENT.zh-CN.md](DEVELOPMENT.zh-CN.md)。

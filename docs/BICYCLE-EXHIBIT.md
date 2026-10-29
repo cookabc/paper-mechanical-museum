@@ -1,59 +1,63 @@
-# 第 11 件：自行车变速器
+# Exhibit 11: the bicycle derailleur
 
-> 下方初版章节记录历史设计与当时的验收数字；绘图已在 2026-10-25 重建为与原十件一致的立体场景。当前结构、测试与限制以 [精致度与一致性重建验收](QUALITY-REBUILD.md) 为准。
+> The first-version sections below record the historical design and the acceptance numbers of that time; the drawing was rebuilt on 2026-10-25 into a dimensional scene consistent with the original ten. The current structure, tests and limits follow [the polish and consistency rebuild](QUALITY-REBUILD.md).
 
-## 2026-10-27：可比较的爬坡实验
+## 2026-10-27: a comparable hill-climb experiment
 
-展台下方的「换挡，谁先到坡顶？」是一张默认收起的实验记录卡；「动手学」入口打开同一张卡并定位标题，不会自动开始试爬。自由踩踏仍保留原来的完整模型和操作。
+"Shift — who reaches the top first?" below the stage is an experiment record card that is collapsed by default; the "Learn by doing" entry opens the same card and scrolls to its heading, without starting a climb automatically. Free pedalling still keeps the full original model and controls.
 
-- 三挡均从相同的 60 rpm、曲柄扭矩上限 20 N·m、轮端需求 15 N·m 和 12 米终点出发。每一挡的按钮会开始一次真实模拟，而不是填入预设答案。
-- 只保存真正到顶或明确扭矩不足的尝试。初始三行都是空记录，换挡或中断不会产生成功成绩；已完成的对照仍保留。
-- 时间来自驱动齿轮和车轮的同一个模拟时钟，终点处只积分剩余路程。暂停、后台冻结不计入，¼ 速只放慢观察。页面明确标注模拟计时，不把它当成现实骑行成绩。
-- 当前理想模型下，1 挡约 5.71 模拟秒到顶，2 挡约 4.29 秒；二者的精确差值四舍五入约为 1.43 秒，可能不同于页面两项已舍入值直接相减。3 挡轮端最多 10 N·m，不足 15 N·m，因此无法起步。
-- 收起实验会暂停未完成的试爬；重新打开不会自动继续。重新开始清空本展品的记录；离开路由销毁实例，不保存跨展品或跨浏览器历史。
-- 实验卡中的坡线是进度示意，不是实际地形或坡度。原有理想传动公式、三维绘图和齿数没有因计时功能改变。
+- All three gears start from the same 60 rpm, crank-torque ceiling 20 N·m, wheel-end demand 15 N·m and a 12-metre finish. Each gear's button starts a real simulation rather than filling in a preset answer.
+- Only attempts that genuinely reach the top, or that clearly lack torque, are recorded. The three initial rows are all empty; shifting or interrupting produces no successful result, while completed comparisons are kept.
+- Time comes from the same simulated clock that drives the gears and the wheel, integrating only the remaining distance at the finish. Pausing and background freezing do not count, and ¼ speed only slows the observation. The page labels the timing as simulated and does not present it as a real riding result.
+- Under the current ideal model gear 1 reaches the top in about 5.71 simulated seconds and gear 2 in about 4.29; their exact difference rounds to about 1.43 seconds, which may differ from subtracting the two rounded values shown on the page. Gear 3 offers at most 10 N·m at the wheel, short of 15 N·m, so it cannot start.
+- Collapsing the experiment pauses an unfinished climb; reopening it does not resume automatically. A full restart clears this exhibit's records; leaving the route destroys the instance, and no history carries across exhibits or browser sessions.
+- The slope line in the experiment card is a progress indicator, not real terrain or gradient. The original ideal drivetrain formulas, the 3D drawing and the tooth counts are unchanged by the timing feature.
 
-验证应覆盖先试 3→1→2、重试、暂停、收起/重开、中途换挡、自由踩踏、重置、慢速和导航销毁，以及桌面/短屏/平板/手机构图。新增 `tests/bicycle-lab.test.ts` 检查证据生成与共享时钟；真实绘图不由替身验证。测试通过不等于实际触屏、屏幕阅读器或跨浏览器验收。
+Acceptance should cover trying 3→1→2 first, retrying, pausing, collapsing and reopening, shifting mid-climb, free pedalling, resetting, slow speed and navigation destruction, plus desktop, short-screen, tablet and phone composition. The new `tests/bicycle-lab.test.ts` checks evidence generation and the shared clock; the real drawing is not verified by a stand-in. Passing tests is not acceptance of real touch, a screen reader or cross-browser behaviour.
 
-## 初版记录（历史）
+## First-version record (historical)
 
-开发候选，基于已合并统一版 main `767198c7e722a33d3a605d7c4d8204c881b3f337`（tree `07b6f2cb1729a107a579db70a8c1dab21ea14258`）。不代表已合并或生产发布。
+A development candidate based on the merged unified `main` at `767198c7e722a33d3a605d7c4d8204c881b3f337` (tree `07b6f2cb1729a107a579db70a8c1dab21ea14258`). This does not mean it was merged or released to production.
 
-## 使用方式
+## How to use it
 
-入口 `/#/bicycle`，首页第 11 张卡片，其他展品的目录使用同一馆藏列表。
+Entry is `/#/bicycle`, the eleventh card on the home page; the other exhibits' catalogs use the same collection list.
 
-- 点击开始踩踏，再切换 1/2/3 挡；调整目标踏频，观察前齿盘、闭环链条和后轮。
-- 暂停后可继续换挡、调节或看特写，不会后台空转 RAF。
-- 「传动特写」只改变该场景 SVG 视窗；返回整车、重新开始、馆藏跳转不会影响别的展品。
-- 共享原理观察含正常速度 / ¼ 速慢看，只有一个模拟时钟；关闭观察恢复原速，不重置机器。
-- 小挑战固定 60 rpm、12 米等效上坡。3 挡扭矩不足，1 挡可达但更慢，2 挡为最快的可行挡位。换挡会退出当前试爬并归零，暂停踩踏保留试爬位置。
-- 声音默认关闭，使用既有共享音效服务的按钮点击与完成提示，不播放外部音频。
+- Click to start pedalling, then switch between gears 1/2/3; adjust the target cadence and watch the chainring, the closed loop of chain and the rear wheel.
+- After pausing you can still shift, adjust or look at the close-up, with no RAF spinning in the background.
+- "Drivetrain close-up" only changes that scene's SVG viewport; returning to the whole bike, restarting and jumping through the collection do not affect other exhibits.
+- The shared principle observation includes normal speed and a ¼-speed slow look over a single simulated clock; closing the observation restores the original speed without resetting the machine.
+- The small challenge fixes 60 rpm and a 12-metre equivalent climb. Gear 3 lacks torque, gear 1 can reach the top but more slowly, and gear 2 is the fastest viable gear. Shifting exits the current climb and zeroes it; pausing pedalling keeps the climb position.
+- Sound is off by default and uses the existing shared sound service for button clicks and completion cues; no external audio is played.
 
-## 物理边界
+## Physical limits
 
-前齿盘 32 齿；三挡后飞轮分别 32、24、16 齿；轮周长 2.10 米。
+Chainring 32 teeth; the three rear sprockets have 32, 24 and 16 teeth; wheel circumference 2.10 metres.
 
-- 传动比 = 前齿数 / 后齿数。
-- 后轮 rpm = 曲柄踏频 × 传动比。
-- 理论速度 km/h = 后轮 rpm × 轮周长 × 0.06。
-- 理想轮端 / 曲柄扭矩比 = 1 / 传动比。
-- 本关曲柄扭矩上限 20 N·m，轮端需求 15 N·m。轮端可用上限分别 20、15、10 N·m；60 rpm 时理论速度分别 7.56、10.08、15.12 km/h。
+- Ratio = chainring teeth / sprocket teeth.
+- Rear-wheel rpm = crank cadence × ratio.
+- Theoretical speed in km/h = rear-wheel rpm × wheel circumference × 0.06.
+- Ideal wheel-end / crank torque ratio = 1 / ratio.
+- This level's crank-torque ceiling is 20 N·m against a wheel-end demand of 15 N·m. The available wheel-end ceilings are 20, 15 and 10 N·m; at 60 rpm the theoretical speeds are 7.56, 10.08 and 15.12 km/h.
 
-「可用上限」并不是持续输出的实际扭矩。固定踏频不等于固定用力或功率。速度是假设能维持该踏频的理论值，不模拟真实人的加速与体能。坡道阈值是教学设定，不标注或推断真实坡度，不模拟摩擦、惯性、打滑、自由轮或能量损耗。
+The "available ceiling" is not the torque actually delivered continuously. A fixed cadence is not the same as fixed effort or power. The speed is a theoretical value assuming that cadence can be held; real acceleration and fitness are not modelled. The slope threshold is a teaching setting that neither labels nor infers a real gradient, and friction, inertia, slipping, the freewheel and energy loss are not modelled.
 
-绘图是原创纸感侧视示意，不是 3D 后拨结构仿真：选中的飞轮在同一平面表示，链条采用与选中齿轮相切的等效闭环；不声称展现后拨横向移链、张紧器路径或变速过渡。前后齿轮绘制的齿数与模型一致。图中的链节为示意纹理，不作为制造尺寸。
+The drawing is an original paper-style side view, not a simulation of a 3D rear-derailleur mechanism: the selected sprocket is shown in the same plane and the chain takes an equivalent closed loop tangent to the selected gear. It does not claim to show lateral derailleur travel, the tensioner path or a shifting transient. The teeth drawn on both gears match the model. The chain links are a suggestive texture, not manufacturing dimensions.
 
-原理依据：[OpenStax — Rolling Motion](https://openstax.org/books/university-physics-volume-1/pages/11-1-rolling-motion)。这些仅作物理关系参考，没有复制图像、代码或素材。
+Physics reference: [OpenStax — Rolling Motion](https://openstax.org/books/university-physics-volume-1/pages/11-1-rolling-motion). This is a reference for the physical relationships only; no images, code or assets were copied.
 
-## 工程与验收
+## Engineering and acceptance
 
-新增 `src/exhibits/bicycle/{model.ts,drawing.ts,index.ts,style.css}`；复用 `SceneContext`、`ResourceScope`、音效和观察服务。旧十件渲染器未更改。首页计数改为来自实际馆藏数量，避免第 11 件出现 `undefined`。
+Added `src/exhibits/bicycle/{model.ts,drawing.ts,index.ts,style.css}`; reuses `SceneContext`, `ResourceScope`, the sound and observation services. The original ten renderers are unchanged. The home-page count now comes from the actual collection size, so exhibit 11 no longer shows `undefined`.
 
-`npm run check` 包含 lint、typecheck、98 项测试、Vite 构建与发布边界检查。新增 18 项覆盖比值、速度、功率关系、扭矩上限、挑战成功/失败、链条闭合及齿数、真实适配器暂停/恢复/销毁、陈旧 RAF、旧 DOM 输入、重置、快照隔离、单时钟慢看与跨路由切换。全馆导航回归包含自行车和原十件。
+`npm run check` covers lint, typecheck, 98 tests, the Vite build and the release-boundary check. Eighteen new tests cover the ratio, speed and power relationships, the torque ceiling, challenge success and failure, chain closure and tooth counts, real adapter pause/resume/destroy, stale RAF, old DOM input, reset, snapshot isolation, single-clock slow look and cross-route switching. The whole-collection navigation regression includes the bicycle and the original ten.
 
-实际云端 Chromium 已操作：自由踩踏、换挡、键盘 Enter 启动/换挡、3 挡失败、1 挡到顶、2 挡最快可行完成、暂停/重置、特写切换、¼ 速观察、运行中离开馆藏及前进/后退重新进入。浏览器检查发现并修复：特写 SVG 越界覆盖侧栏，以及旧全局 pressed 样式导致浅色按钮文字对比不足。
+Actually operated in cloud Chromium: free pedalling, shifting, starting and shifting by keyboard Enter, gear 3 failing, gear 1 reaching the top, gear 2 completing as the fastest viable, pause/reset, close-up switching, ¼-speed observation, leaving the collection while running and returning via forward/back. Browser checks found and fixed: the close-up SVG overflowing and covering the sidebar, and an old global pressed style leaving light buttons with insufficient text contrast.
 
-窄宽验收先使用同一桌面 Chromium 的 300% 缩放形成 388 CSS 像素视口，再实际缩窄窗口至 485 CSS 像素并以 125% 缩放复查 388 CSS 像素布局，document/body scrollWidth 均为 388；挑战和挡位控件可滚动访问，失败及最优成功流程再次通过。另记录 485 像素完整页面、388 像素场景和控制区的可读性截图。这不是物理手机、触摸设备或读屏软件实测。默认不播放动画，开始由用户显式触发；用户可随时暂停。音效资源清理由回归检查覆盖，没有声称实际耳听验收。
+Narrow-width acceptance first used 300% zoom in the same desktop Chromium to produce a 388 CSS-pixel viewport, then narrowed the real window to 485 CSS pixels and re-checked the 388 CSS-pixel layout at 125% zoom; document and body scrollWidth were both 388. The challenge and gear controls were reachable by scrolling, and the failure and optimal-success flows passed again. Screenshots of the full page at 485 pixels and of the scene and controls at 388 pixels were recorded. This is not a physical phone, touch device or screen-reader test. Animation does not play by default and is started explicitly by the user, who may pause at any time. Sound asset cleanup is covered by regression checks; no claim of listening acceptance is made.
 
-构建只包含一个应用入口、哈希 JS/CSS 与 11 张 SVG 预览（14 个运行时文件），不包含测试、历史原始项目或工作区文件。预览图从同一绘图函数导出；没有新增运行时依赖。
+The build contains only one app entry, hashed JS/CSS and 11 SVG previews (14 runtime files), with no tests, historical source projects or workspace files. Previews are exported from the same drawing functions; no runtime dependency was added.
+
+---
+
+中文版见 [BICYCLE-EXHIBIT.zh-CN.md](BICYCLE-EXHIBIT.zh-CN.md)。

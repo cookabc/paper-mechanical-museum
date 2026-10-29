@@ -4,7 +4,10 @@ Twelve small everyday machines you can operate by hand. Turn, press, shift gears
 
 **[Enter the museum →](https://paper-mechanical-museum.vercel.app/)** · [Development guide](docs/DEVELOPMENT.md) · [Documentation index](docs/README.md) · [Sources & attribution](THIRD_PARTY_NOTICES.md)
 
-The interface opens in English, with Chinese one click away in the header. No account, no install — open the site and start. Free play is the default entry; guided lessons and principle observation are optional ways to explore that never operate the machines for you. Sound is off until you turn it on. These are interactive teaching models, not manufacturing drawings or simulations of real-device performance.
+The interface opens in English, with Chinese one click away in the header. The shell —
+entrance page, exhibit chrome, play dock, sound and observation panels — is fully
+translated; the labels inside each machine's own model are still Chinese and are
+being translated exhibit by exhibit. No account, no install — open the site and start. Free play is the default entry; guided lessons and principle observation are optional ways to explore that never operate the machines for you. Sound is off until you turn it on. These are interactive teaching models, not manufacturing drawings or simulations of real-device performance.
 
 ## Screenshots
 

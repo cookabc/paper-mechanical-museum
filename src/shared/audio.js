@@ -1,3 +1,4 @@
+import {detectLang,translator} from './i18n';
 /* Shared, opt-in mechanical Foley. No media files, network, microphone or autoplay.
  * attach(profile, root?) => disposer; update(profile, state); pulse(kind);
  * reset(); dispose(); enabled; context/getContext(); output/getOutput(); onChange(fn).
@@ -5,6 +6,8 @@
  * stop their own notes on every onChange event whose reason is reset or !enabled.
  */
 export function createAudioService(scope) {
+  // Panel copy follows the interface language at the moment the panel is built.
+  const t=translator(detectLang());
   const global=window;
   'use strict';
   const doc = global.document, MAX_VOICES = 12, listeners = new Set(), voices = new Set(), releaseTails = new Set();
@@ -83,13 +86,13 @@ export function createAudioService(scope) {
     if (!panel) return;
     diagnostics();
     const button = panel.querySelector('button');
-    button.textContent = pending ? '音效：准备中' : enabled ? '音效：开' : '音效：关';
+    button.textContent = pending ? t('audio.preparing') : enabled ? t('audio.on') : t('audio.off');
     button.setAttribute('aria-pressed', String(enabled));
     button.setAttribute('aria-busy', String(pending));
     panel.querySelector('input').value = String(Math.round(volume * 100));
     panel.querySelector('output').textContent = Math.round(volume * 100) + '%';
     const status = panel.querySelector('[role="status"]');
-    status.textContent = message || (enabled ? '机械音效已开启' : '机械音效已关闭，点击开启');
+    status.textContent = message || (enabled ? t('audio.enabled') : t('audio.disabled'));
   }
   function mute(reason = 'mute') {
     epoch++; enabled = false; pending = false; resetBlocked = false;
@@ -130,7 +133,7 @@ export function createAudioService(scope) {
       syncUI(); notify('enabled'); reconcile();
     } catch (_) {
       if (request !== epoch) return;
-      mute('unavailable'); syncUI('当前浏览器无法播放音效，机械动作仍可正常体验');
+      mute('unavailable'); syncUI(t('audio.unsupported'));
     } finally { if (request === epoch) { pending = false; diagnostics(); } }
   }
   function voice({ type = 'sine', frequency = 160, endFrequency, level = .07, duration = .15, delay = 0, filter = 1000, looped = false }) {
@@ -298,8 +301,8 @@ export function createAudioService(scope) {
       style.textContent = '.mechanical-audio{grid-column:1/-1;display:flex;align-items:center;gap:9px;flex-wrap:wrap;width:100%;padding:8px 0 2px;color:var(--muted,#766d5f);font:inherit;font-size:11px;line-height:1.4}.mechanical-audio button{min-height:34px;flex:0 0 auto;padding:6px 10px;background:#fffdf8;border:1px solid var(--rule,#d8d1c3);border-radius:8px;color:var(--ink,#231e16);font:inherit}.mechanical-audio button[aria-pressed=true]{background:var(--accent,#93d3b0)}.mechanical-audio label{display:flex;align-items:center;gap:5px;flex:1;min-width:90px}.mechanical-audio input{width:65px;min-width:40px;max-width:95px;flex:1;accent-color:var(--ink,#231e16)}.mechanical-audio output{min-width:3em;font-variant-numeric:tabular-nums}.mechanical-audio .audio-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}';
       doc.head.append(style);
     }
-    panel = doc.createElement('div'); panel.className = 'mechanical-audio'; panel.setAttribute('role', 'group'); panel.setAttribute('aria-label', '可选机械音效');
-    panel.innerHTML = '<button type="button" aria-pressed="false" title="默认静音，点击开启合成机械音效">音效：关</button><label>音量<input type="range" min="0" max="100" step="5" value="40" aria-label="机械音效音量"><output>40%</output></label><span class="audio-status" role="status" aria-live="polite"></span>';
+    panel = doc.createElement('div'); panel.className = 'mechanical-audio'; panel.setAttribute('role', 'group'); panel.setAttribute('aria-label', t('audio.optional'));
+    panel.innerHTML = `<button type="button" aria-pressed="false" title="${t('audio.hint')}">${t('audio.off')}</button><label><span>${t('audio.volume')}</span><input type="range" min="0" max="100" step="5" value="40" aria-label="${t('audio.volume')}"><output>40%</output></label><span class="audio-status" role="status" aria-live="polite"></span>`;
     const mountedPanel=panel,toggleButton=panel.querySelector('button'),volumeInput=panel.querySelector('input');
     const onToggle=event=>{if(attached&&panel===mountedPanel)toggle(event);};
     const onVolume=event=>{

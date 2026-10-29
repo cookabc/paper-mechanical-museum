@@ -1,3 +1,5 @@
+import {detectLang,translator} from './i18n';
+const t=translator(detectLang());
 import type {SceneContext} from '../app/contracts';
 import {createColorFiguresRuntime} from '../engines/colorfigures/runtime.js';
 import './object-stage.css';
@@ -10,8 +12,8 @@ export function createObjectStage(context:SceneContext,svg:SVGSVGElement,control
  const home=options.camera||[45,35.264];
  let yaw=home[0],pitch=home[1],palette=options.palette,dead=false,drag:null|{id:number;x:number;y:number;yaw:number;pitch:number;moved:boolean;action:string|null}=null;
  const palettes:Palette[]=['mustard','tomato','mint','cobalt','blush'];
- controls.innerHTML=`<details class="object-view-panel"><summary>外观与视角</summary><div class="object-appearance"><span>机身配色</span><div class="object-swatches">${palettes.map(p=>`<button type="button" class="sw" data-palette="${p}" style="background:${g.PALS[p].l}" aria-label="${({mustard:'芥末黄',tomato:'番茄红',mint:'薄荷绿',cobalt:'钴蓝',blush:'浅粉'})[p]}" aria-pressed="${p===palette}"></button>`).join('')}</div></div><div class="object-views"><span>观察视角</span><button type="button" data-view="front">回到正面</button><button type="button" data-view="side">侧面观察</button><button type="button" data-view="back">看看背面</button></div></details>`;
- svg.setAttribute('role','group');svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','可交互纸上模型，拖动旋转视角');svg.setAttribute('aria-description','方向键调整视角，Home 回到正面。Tab 选择物体部件，Enter 或空格操作。');
+ controls.innerHTML=`<details class="object-view-panel"><summary>${t('stage.viewLabel')}</summary><div class="object-appearance"><span>${t('stage.bodyColor')}</span><div class="object-swatches">${palettes.map(p=>`<button type="button" class="sw" data-palette="${p}" style="background:${g.PALS[p].l}" aria-label="${t(('stage.'+p) as never)}" aria-pressed="${p===palette}"></button>`).join('')}</div></div><div class="object-views"><span>${t('stage.angle')}</span><button type="button" data-view="front">${t('stage.front')}</button><button type="button" data-view="side">${t('stage.side')}</button><button type="button" data-view="back">${t('stage.back')}</button></div></details>`;
+ svg.setAttribute('role','group');svg.setAttribute('tabindex','0');svg.setAttribute('aria-label',t('stage.modelLabel'));svg.setAttribute('aria-description',t('stage.modelHint'));
  svg.innerHTML='<defs class="object-defs"></defs><g class="object-art" filter="url(#hand)"></g>';
  const art=svg.querySelector<SVGGElement>('.object-art')!,defs=svg.querySelector('.object-defs')!;
  let lastFilter=0,currentBounds=options.bounds;

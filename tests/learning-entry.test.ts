@@ -15,11 +15,13 @@ it('gives all twelve exhibits one optional, honestly named doorway and canonical
  for(const id of ['washer','fan','claw','coffee','musicbox','vending','toaster','turntable','camera','elevator','bicycle','generator']){
   app.navigate(id);const entry=root.querySelector<HTMLButtonElement>('.museum-learning-entry');
   expect(root.querySelectorAll('.museum-learning-entry'),id).toHaveLength(1);
-  expect(entry!.textContent).toContain('动手学');expect(entry!.textContent).toContain('可选');
+  // Shell copy follows the interface language; English is the default.
+  expect(entry!.textContent).toContain('Learn by doing');expect(entry!.textContent).toContain('optional');
   expect(entry!.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
   expect(entry!.querySelector('svg')?.getAttribute('focusable')).toBe('false');
   expect(entry!.textContent).not.toContain('↗');
-  expect(document.title.endsWith(' · 纸上机械馆')).toBe(true);
+  // Titles are "<exhibit> · <brand>"; the brand string follows the language.
+  expect(document.title.endsWith(' · Paper Mechanical Museum')).toBe(true);
   click('.museum-learning-entry');
   if(id==='generator')expect(root.querySelector('[data-answer]')).not.toBeNull();
   else if(id==='bicycle'){

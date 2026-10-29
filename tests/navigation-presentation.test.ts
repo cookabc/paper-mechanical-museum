@@ -148,7 +148,8 @@ it.each(['automaton','geneva','rackpress'])('treats retired %s links as missing 
   app.navigate('generator');const old=app.current!;
   app.navigate(id);
   expect(app.current).toBeNull();
-  expect(root.textContent).toContain('没有找到这件藏品');
+  // The shell default is English; the dedicated language test covers Chinese.
+  expect(root.textContent).toContain('This exhibit was not found');
   expect(root.querySelector('.migration-note a')?.getAttribute('href')).toBe('#/');
   expect(root.querySelector('.scene-root svg')).toBeNull();
   const state=JSON.stringify(old.snapshot?.());old.reset();old.resume('manual');

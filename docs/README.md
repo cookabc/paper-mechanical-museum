@@ -15,15 +15,12 @@
 
 ## 历史架构与迁移证据
 
-以下内容保留原文供追溯；其中旧仓库名、分支名、路径、命令、授权及验收数字只适用于对应历史阶段。
+以下内容保留供追溯；其中旧仓库名、分支名、路径、命令、授权及验收数字只适用于对应历史阶段。
 
-| 文档 | 历史范围 |
-| --- | --- |
-| [统一架构](UNIFIED-ARCHITECTURE.md) | 原十件从四套入口迁移到统一应用的设计、生命周期与 CI 边界 |
-| [核心差异审计](CORE-DIFFERENCES.md) | 原实现的模型、几何、控制、时间与生命周期差异 |
-| [第一批](FIRST-SLICE-VALIDATION.md) / [第二批](SECOND-SLICE-VALIDATION.md) / [第三批](THIRD-SLICE-VALIDATION.md) / [最终切片](FINAL-SLICE-VALIDATION.md) | 2 → 5 → 8 → 10 件的分批迁移验收 |
-| [原架构](ARCHITECTURE.md) / [原测试](TESTING.md) / [原交付范围](DELIVERY-SCOPE.md) | 统一工程之前的完整静态源码交付包 |
-| [路径适配清单](PATH-ADAPTATIONS.json) | 原源码搬移记录 |
+- [迁移历史](MIGRATION-HISTORY.md)：四套入口合并为统一应用的分批验收（2 → 5 → 8 → 10 件），以及统一工程之前的静态源码交付包形态。
+- [统一架构](UNIFIED-ARCHITECTURE.md)：统一应用的设计、生命周期契约与 CI 边界。
+- [核心差异审计](CORE-DIFFERENCES.md)：四套原实现的模型、几何、控制、时间与生命周期差异。
+- [路径适配清单](PATH-ADAPTATIONS.json)：原源码搬移记录。
 
 `archive/` 的来源/哈希清单与 `tests/fixtures/complete-source/` 的旧源码也是历史证据，不是当前构建产物。最新代码状态看 GitHub 提交与 PR；部署状态看对应 Vercel 记录及实际网站，不能从一份旧验收文档推断。
 

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { catalog } from '../src/app/catalog';
 
 const root = resolve(process.cwd());
-const currentDocs = ['README.md', 'CONTRIBUTING.md', 'docs/README.md', 'docs/DEVELOPMENT.md', 'docs/screenshots/README.md', 'THIRD_PARTY_NOTICES.md'];
+const currentDocs = ['README.md', 'README.zh-CN.md', 'CONTRIBUTING.md', 'docs/README.md', 'docs/DEVELOPMENT.md', 'docs/screenshots/README.md', 'THIRD_PARTY_NOTICES.md'];
 const productionOrigin = 'https://paper-mechanical-museum.vercel.app';
 
 // Deliberately check current maintenance pages, not historical records or network availability.
@@ -28,12 +28,14 @@ describe('current repository documentation', () => {
   });
  }
 
- it('README exhibit links match catalog names, routes and order exactly', () => {
+ it('README exhibit links match catalog English names, routes and order exactly', () => {
   const markdown = readFileSync(resolve(root, 'README.md'), 'utf8');
-  const section = markdown.split(/^## 馆藏[ \t]*$/m)[1]?.split(/^## /m)[0];
-  expect(section, 'README must have a 馆藏 section').toBeDefined();
+  // The README leads in English; the heading and the exhibit names both come
+  // from catalog.nameEn so the two cannot drift apart.
+  const section = markdown.split(/^## The collection[ \t]*$/m)[1]?.split(/^## /m)[0];
+  expect(section, 'README must have a "The collection" section').toBeDefined();
   const entries = links((section ?? '').split('\n').filter(line => /^\|\s*\[/.test(line)).join('\n'))
    .map(({ label, href }) => ({ name: label, href }));
-  expect(entries).toEqual(catalog.map(({ id, name }) => ({ name, href: `${productionOrigin}/#/${id}` })));
+  expect(entries).toEqual(catalog.map(({ id, nameEn }) => ({ name: nameEn, href: `${productionOrigin}/#/${id}` })));
  });
 });

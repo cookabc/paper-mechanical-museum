@@ -1,69 +1,71 @@
-# 纸上机械馆
+# Paper Mechanical Museum · 纸上机械馆
 
-十二件可以亲手操作的日常小机器。转动、按下、换挡，看看运动如何传递、声音如何发生——用纸张纹理、手绘线条与立体 SVG，把机械原理放到一张工作台上。
+Twelve small everyday machines you can operate by hand. Turn, press, shift gears — and watch how motion travels and how sound happens. Paper texture, hand-drawn lines and dimensional SVG put mechanism on a single workbench.
 
-**[进入机械馆 →](https://paper-mechanical-museum.vercel.app/)** · [开发指南](docs/DEVELOPMENT.md) · [文档索引与历史记录](docs/README.md) · [来源与署名](THIRD_PARTY_NOTICES.md)
+**[Enter the museum →](https://paper-mechanical-museum.vercel.app/)** · [Development guide](docs/DEVELOPMENT.md) · [Documentation index](docs/README.md) · [Sources & attribution](THIRD_PARTY_NOTICES.md)
 
-无需登录，打开网站即可体验。自由操作是默认入口；「动手学」与原理观察是可选的探索方式，不替你操作机器。声音需主动开启。这里是交互教学模型，不是制造图纸或真实设备性能模拟。
+No account, no install — open the site and start. Free play is the default entry; guided lessons and principle observation are optional ways to explore that never operate the machines for you. Sound is off until you turn it on. These are interactive teaching models, not manufacturing drawings or simulations of real-device performance.
 
-## 项目截图
+## Screenshots
 
-### 从一张工作台，走进十二件日常小机器
+### One workbench, twelve everyday machines
 
-![纸上机械馆首页：纸张纹理、手绘标题与咖啡机立体预览](docs/screenshots/museum-home.jpg)
+![Museum home: paper texture, hand-drawn title and a dimensional coffee-machine preview](docs/screenshots/museum-home.jpg)
 
-### 亲手操作，看见机械原理
+### Operate by hand, see the mechanism
 
-![手摇发电机工作台：立体线圈与磁极、摇柄、灯泡，以及转速和电压功率读数](docs/screenshots/generator-workbench.jpg)
+![Hand-crank generator workbench: dimensional coil and magnetic poles, crank, bulb, and rpm / voltage / power readouts](docs/screenshots/generator-workbench.jpg)
 
-以上为 2026-10-28 正式站的真实浏览器截图。发电机画面通过「开始摇动」操作进入正向 60 rpm、电路接通状态；不是概念图或合成图。静态图片只展示一次状态，完整交互请进入机械馆体验。[截图来源与更新说明](docs/screenshots/README.md)。
+Real browser screenshots of the production site, taken 2026-10-28. The generator frame was captured by operating "开始摇动" into a positive 60 rpm, circuit-closed state — it is not a concept render or a composite. A still image shows one state only; the full interaction is best experienced in the museum. [Screenshot sources and update notes](docs/screenshots/README.md).
 
-## 馆藏
+## The collection
 
-| 展品 | 试着做什么 |
+| Exhibit | Try this |
 | --- | --- |
-| [洗衣机](https://paper-mechanical-museum.vercel.app/#/washer) | 装衣、加料，观察滚筒与水流 |
-| [电风扇](https://paper-mechanical-museum.vercel.app/#/fan) | 开机、换挡，让风扇摇头 |
-| [抓娃娃机](https://paper-mechanical-museum.vercel.app/#/claw) | 瞄准、下爪，领取小伙伴 |
-| [咖啡机](https://paper-mechanical-museum.vercel.app/#/coffee) | 研磨、萃取，加一点奶泡 |
-| [手摇八音盒](https://paper-mechanical-museum.vercel.app/#/musicbox) | 转动手柄，观察凸针与音梳 |
-| [自动售货机](https://paper-mechanical-museum.vercel.app/#/vending) | 投币、选择，等待商品掉落 |
-| [烤面包机](https://paper-mechanical-museum.vercel.app/#/toaster) | 放面包、调火候、压下拉杆 |
-| [唱片机](https://paper-mechanical-museum.vercel.app/#/turntable) | 放下唱臂，听唱片转起来 |
-| [拍立得相机](https://paper-mechanical-museum.vercel.app/#/camera) | 按下快门，等待照片显影 |
-| [电梯](https://paper-mechanical-museum.vercel.app/#/elevator) | 选楼层，观察轿厢、配重与门锁 |
-| [自行车变速器](https://paper-mechanical-museum.vercel.app/#/bicycle) | 踩踏、换挡，比较爬坡表现 |
-| [手摇发电机](https://paper-mechanical-museum.vercel.app/#/generator) | 摇动、反转、断开负载，观察电压与电流 |
+| [Washing Machine](https://paper-mechanical-museum.vercel.app/#/washer) | Load laundry, add detergent, watch the drum and the water |
+| [Electric Fan](https://paper-mechanical-museum.vercel.app/#/fan) | Power on, change speed, let it oscillate |
+| [Claw Machine](https://paper-mechanical-museum.vercel.app/#/claw) | Aim, drop the claw, claim a plush |
+| [Coffee Machine](https://paper-mechanical-museum.vercel.app/#/coffee) | Grind, extract, add a little foam |
+| [Hand-crank Music Box](https://paper-mechanical-museum.vercel.app/#/musicbox) | Turn the handle, watch pins meet the comb |
+| [Vending Machine](https://paper-mechanical-museum.vercel.app/#/vending) | Insert a coin, choose, wait for the drop |
+| [Toaster](https://paper-mechanical-museum.vercel.app/#/toaster) | Insert bread, set browning, push the lever |
+| [Record Player](https://paper-mechanical-museum.vercel.app/#/turntable) | Lower the tonearm, hear the record spin |
+| [Instant Camera](https://paper-mechanical-museum.vercel.app/#/camera) | Press the shutter, watch the photo develop |
+| [Elevator](https://paper-mechanical-museum.vercel.app/#/elevator) | Pick a floor, watch the car, counterweight and door lock |
+| [Bicycle Derailleur](https://paper-mechanical-museum.vercel.app/#/bicycle) | Pedal, shift, compare climbing behaviour |
+| [Hand-crank Generator](https://paper-mechanical-museum.vercel.app/#/generator) | Crank, reverse, unload — and read voltage and current |
 
-馆藏顺序与名称来自 [`src/app/catalog.ts`](src/app/catalog.ts)。所有展品都在同一个应用中运行，不嵌套旧网页。退出原理观察不会离开展品；切换展品路由则销毁当前实例，再次进入从初始状态开始，不保存跨展品进度。
+Exhibit order and names come from [`src/app/catalog.ts`](src/app/catalog.ts). All twelve run inside the same application — no embedded legacy pages. Leaving the principle observation keeps you at the exhibit; leaving an exhibit route destroys the running instance, and re-entering starts from the initial state with no progress carried across exhibits.
 
-## 本地运行
+## Running locally
 
-推荐 **Node.js 24.x + npm**，与 CI 保持一致；完整版本范围见 [`package.json`](package.json) 的 `engines`。安装依赖需要访问 npm registry；运行应用不需要账号、应用密钥或后端。
+**Node.js 24.x + npm** is recommended, matching CI; the full version range is in [`package.json`](package.json) `engines`. Installing dependencies needs access to the npm registry; running the app needs no account, API key or backend.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-打开 **http://127.0.0.1:4182/**。端口已占用时用 `npm run dev -- --port 4183`；停止服务按 Ctrl+C。
+Open **http://127.0.0.1:4182/**. If the port is taken, use `npm run dev -- --port 4183`; stop with Ctrl+C.
 
 ```sh
-npm run check       # lint → typecheck → 当前模块测试 → 构建及发布边界检查
-npm run test:legacy # 独立的历史源码兼容基线，不替代当前模块验收
-npm run preview     # 先构建，再按终端地址预览 dist
+npm run check       # lint → typecheck → current-module tests → build + release-boundary check
+npm run test:legacy # the independent historical source-compatibility baseline; not a substitute
+npm run preview     # build first, then serve dist at the printed address
 ```
 
-修改 `src/`，不要编辑生成的 `dist/`，也不要把 `tests/fixtures/` 或 `archive/` 当作当前运行源码。不能用旧的 `npm start` 或 `file://` 打开方式代替 Vite。
+Edit `src/`, never the generated `dist/`, and do not treat `tests/fixtures/` or `archive/` as current running source. The old `npm start` or a `file://` opening is not a substitute for Vite.
 
-## 开发与维护
+## Development and maintenance
 
-- **[开发指南](docs/DEVELOPMENT.md)**：目录、生命周期、测试、浏览器验收与发布边界。
-- **[文档索引](docs/README.md)**：区分现行操作说明、展品设计记录与历史迁移证据。
-- **[参与维护](CONTRIBUTING.md)**：问题报告与小范围 PR 的提交方式。
-- 报告问题请提供展品链接、复现步骤、预期/实际行为、浏览器及屏幕大小；视觉问题附截图，避免包含个人信息。
-- 变更以小而可验证的 PR 提交；保留各展品的机械逻辑、画风、署名与许可证。自动检查通过不等于已完成浏览器验收或已发布。
+- **[Development guide](docs/DEVELOPMENT.md)**: layout, lifecycle, testing, browser acceptance and release boundaries.
+- **[Documentation index](docs/README.md)**: separates current operating notes from exhibit design records and historical migration evidence.
+- **[Contributing](CONTRIBUTING.md)**: how to file issues and small-scope PRs.
+- When reporting a problem, include the exhibit link, steps to reproduce, expected vs. actual behaviour, and the browser and window size; attach screenshots for visual issues, without personal information.
+- Changes go in as small, verifiable PRs; keep each exhibit's mechanism logic, art style, attribution and licence. Passing automated checks does not mean browser acceptance or release has happened.
 
-## 来源与许可
+## Sources and licence
 
-本仓库保留 [第三方来源与署名](THIRD_PARTY_NOTICES.md) 和 [Colorfigures 上游 MIT 许可全文](licenses/Colorfigures-LICENSE.txt)。上游许可适用于对应原始代码及衍生部分，不代表所有独立场景与新增代码都归属上游作者，**也不为整个仓库另行授予开源许可证**。
+This repository keeps [third-party sources, attribution and licence notes](THIRD_PARTY_NOTICES.md) and the [full upstream MIT licence for Colorfigures](licenses/Colorfigures-LICENSE.txt). Upstream licences cover the corresponding original code and derived parts; they do not mean every independent scene and added file belongs to the upstream authors, **and no repo-wide open-source licence is granted beyond them**.
+
+中文说明见 [README.zh-CN.md](README.zh-CN.md)。

@@ -28,7 +28,7 @@ The source/hash manifest in `archive/` and the old source in `tests/fixtures/com
 
 ## Origins and licences
 
-[Third-party origins and attribution](../THIRD_PARTY_NOTICES.md) · [Full upstream MIT licence text](../licenses/Colorfigures-LICENSE.txt). Keep the corresponding code's copyright and licence, and do not extend the upstream licence to the whole repository.
+The repository is [MIT licensed](../LICENSE). It also includes upstream work that stays under its own MIT terms — [third-party origins and attribution](../THIRD_PARTY_NOTICES.md) · [full upstream licence text](../licenses/Colorfigures-LICENSE.txt). Keep the corresponding code's copyright and licence; the repository licence does not relicense that upstream work.
 
 ---
 

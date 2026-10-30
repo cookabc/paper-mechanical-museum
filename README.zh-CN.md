@@ -74,6 +74,8 @@ npm run preview     # 先构建，再按终端地址预览 dist
 
 ## 来源与许可
 
-本仓库保留 [第三方来源与署名](THIRD_PARTY_NOTICES.md) 和 [Colorfigures 上游 MIT 许可全文](licenses/Colorfigures-LICENSE.txt)。上游许可适用于对应原始代码及衍生部分，不代表所有独立场景与新增代码都归属上游作者，**也不为整个仓库另行授予开源许可证**。
+本仓库代码以 [MIT 许可](LICENSE) 发布，版权归 cookabc（2026）。
+
+仓库同时包含按自身 MIT 条款保留的上游成果：等距 SVG 核心与洗衣机源自 April Zhu 的 Colorfigures，而后者建立于 ISO-GLOW（April Zhu）与 iso-figure（Tolga Cohce）之上。这些声明全文保存在 [licenses/Colorfigures-LICENSE.txt](licenses/Colorfigures-LICENSE.txt)，摘要见[第三方来源与署名](THIRD_PARTY_NOTICES.zh-CN.md)，必须与对应代码一同保留。仓库许可不改变上游成果的署名归属，也不对声明中列出的第三方素材重新授权。
 
 English readme: [README.md](README.md).

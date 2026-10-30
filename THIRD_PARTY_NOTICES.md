@@ -11,7 +11,7 @@ Official source package: https://april-zhu.com/colorfigures/colorfigures.zip
 
 `licenses/Colorfigures-LICENSE.txt` is the complete MIT text preserved from `colorfigures/LICENSE` in the official package, including all three original copyright statements; SHA-256: `bc54cadb579906c051d7aad84f41f88c0df6c50089e052134226fe0b76fd5280`.
 
-That licence must travel with the corresponding original code and its derived parts. The scenes, navigation, mechanism observation and tests added here are not thereby granted a new repository-wide open-source licence.
+That licence must travel with the corresponding original code and its derived parts. The scenes, navigation, mechanism observation and tests added here are original work released under the repository's [MIT licence](LICENSE); the upstream notice is not replaced by it, and the upstream authors are not credited for that original work.
 
 ## Test tooling
 

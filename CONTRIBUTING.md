@@ -9,7 +9,7 @@ Include the exhibit link, reproduction steps, expected and actual results, brows
 ## Submitting a change
 
 1. Branch from the current `main`; a small, single-purpose PR is easier to review.
-2. Change `src/`, never hand-edit `dist/`, and never modify historical fixtures to hide a regression. Keep attribution and licence notices intact; this repository grants no separate repository-wide open-source licence.
+2. Change `src/`, never hand-edit `dist/`, and never modify historical fixtures to hide a regression. Keep attribution and licence notices intact. The repository is MIT licensed, but the upstream work it includes stays under its own terms — do not drop or relicense those notices.
 3. With the recommended Node.js 24.x, run `npm ci`, `npm run check` and `npm run test:legacy`; add regression tests for your change. Re-run the affected checks after your last edit.
 4. Interaction and visual changes need a real-browser acceptance pass covering normal operation, pause/reset, exit/re-entry and repeated or interrupted input. Layout changes also need narrow and short viewports, visible focus, and resizing across layout boundaries while the exhibit is active. The checklist is in the development guide.
 5. Open a draft PR stating the purpose, the scope, the exact results of the checks you ran, screenshots or reproduction steps, and anything you did not test. Historical baselines, current modules, browsers and remote CI are different kinds of evidence.

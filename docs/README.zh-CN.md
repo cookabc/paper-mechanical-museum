@@ -28,4 +28,4 @@
 
 ## 来源与许可
 
-[第三方来源与署名](../THIRD_PARTY_NOTICES.zh-CN.md)（[English](../THIRD_PARTY_NOTICES.md)） · [上游 MIT 许可全文](../licenses/Colorfigures-LICENSE.txt)。保留对应代码的版权与许可，不将上游许可扩展为整个仓库的新许可证。
+本仓库以 [MIT 许可](../LICENSE) 发布。同时包含按自身 MIT 条款保留的上游成果——[第三方来源与署名](../THIRD_PARTY_NOTICES.zh-CN.md)（[English](../THIRD_PARTY_NOTICES.md)） · [上游许可全文](../licenses/Colorfigures-LICENSE.txt)。保留对应代码的版权与许可；仓库许可不对上游成果重新授权。

@@ -76,6 +76,8 @@ Every document leads in English, with a Chinese edition beside it.
 
 ## Sources and licence
 
-This repository keeps [third-party sources, attribution and licence notes](THIRD_PARTY_NOTICES.md) and the [full upstream MIT licence for Colorfigures](licenses/Colorfigures-LICENSE.txt). Upstream licences cover the corresponding original code and derived parts; they do not mean every independent scene and added file belongs to the upstream authors, **and no repo-wide open-source licence is granted beyond them**.
+The code in this repository is [MIT licensed](LICENSE), copyright © 2026 cookabc.
+
+It also carries upstream work that stays under its own MIT terms: the isometric SVG core and washing machine derive from April Zhu's Colorfigures, which builds on ISO-GLOW (April Zhu) and iso-figure (Tolga Cohce). Those notices are reproduced in full in [licenses/Colorfigures-LICENSE.txt](licenses/Colorfigures-LICENSE.txt) and summarised in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); they must stay with the corresponding code. The repository licence does not reassign authorship of that upstream work, and it does not relicense third-party assets listed in the notices.
 
 中文说明见 [README.zh-CN.md](README.zh-CN.md)。

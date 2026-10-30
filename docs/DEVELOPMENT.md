@@ -75,3 +75,15 @@ Local acceptance, exact-commit CI, a merge and a production deploy are four diff
 ---
 
 中文版见 [DEVELOPMENT.zh-CN.md](DEVELOPMENT.zh-CN.md)。
+
+## Browser acceptance and route loading
+
+Exhibit modules load on demand through `src/app/exhibit-loaders.ts`; its typed registry must cover every catalog ID. The collection entry has a 100 kB uncompressed JavaScript budget, enforced by the release check. `createApp().navigate(id)` returns a promise that settles after mounting or displaying recovery. Await it in integration tests. A newer route or disposal invalidates an older pending import; failed mounts dispose their resources and expose a retry control.
+
+```sh
+npx playwright install chromium  # once per machine, after npm ci
+npm run test:e2e                 # builds, then tests the actual dist output
+npm run test:e2e:ui              # interactive Playwright runner
+```
+
+Browser tests start their own production preview on **127.0.0.1:4282**, separate from development at **4182**. Desktop and mobile Chromium cover all twelve routes, feature selection, language changes and resource ownership. CI installs its own Chromium; to use an existing local Chrome, run `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e`. Traces and screenshots are retained for failures in ignored `test-results/` and uploaded by CI. These checks complement the mechanical-model tests; they do not establish physical simulation accuracy or coverage of Safari and Firefox.

@@ -71,3 +71,15 @@ index.html → src/main.ts → src/app/app.ts
 生产目标为 [paper-mechanical-museum.vercel.app](https://paper-mechanical-museum.vercel.app/)。[`vercel.json`](../vercel.json) 配置 `npm ci`、`npm run build` 和输出目录 `dist`，仅对两个历史分支关闭 Git 自动部署，**并非关闭所有分支部署**。
 
 本地验收、精确提交 CI、合并与生产部署是四个不同事实。维护者应先评审变更和最新基线，再按当前授权与仓库规则合并/发布；发布后核对生产提交并复查受影响流程。保持现有访问权限，不新增凭据、权限或费用承诺。
+
+## 浏览器验收与展品加载
+
+展品通过 `src/app/exhibit-loaders.ts` 按需加载。类型检查要求注册表覆盖全部馆藏 ID，构建检查将首页 JavaScript 入口限制在 100 kB 以内（未压缩）。`createApp().navigate(id)` 返回 Promise，在展品挂载完成或显示恢复提示后结束；集成测试须等待该 Promise。切换路线或销毁应用后，旧加载请求不再挂载展品。挂载失败时，应用清理资源并显示重试按钮。
+
+```sh
+npx playwright install chromium  # npm ci 后，每台机器安装一次
+npm run test:e2e                 # 构建后检查 dist 中的生产页面
+npm run test:e2e:ui              # 打开 Playwright 交互界面
+```
+
+浏览器测试使用 **127.0.0.1:4282**，与开发服务的 **4182** 端口分开。桌面和手机尺寸的 Chromium 测试覆盖全部 12 条展品路线、首页推荐切换、语言切换和资源归属。CI 自动安装 Chromium；本机已有 Chrome 时，可运行 `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e`。失败轨迹与截图保存在 Git 忽略的 `test-results/` 中，CI 同时上传这些文件。浏览器检查补充机械模型测试，不证明物理仿真精度，也不代表已覆盖 Safari 和 Firefox。

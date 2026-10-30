@@ -10,15 +10,18 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build && node scripts/verify-build.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "lint": "eslint src tests/*.test.ts",
+    "lint": "eslint src tests/*.test.ts tests/e2e playwright.config.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:legacy": "node tests/legacy/run.cjs",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:ui": "npm run build && playwright test --ui"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "26.6.6",
     "acorn": "8.19.0",
     "eslint": "10.13.0",
@@ -28,5 +31,6 @@
     "vite": "8.3.5",
     "vitest": "5.0.5"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "npm@11.19.1"
 }

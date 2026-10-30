@@ -10,3 +10,6 @@ qa-output/
 .vite/
 .vitest/
 coverage/
+
+playwright-report/
+test-results/

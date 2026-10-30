@@ -79,3 +79,15 @@ npm run preview     # 先构建，再按终端地址预览 dist
 仓库同时包含按自身 MIT 条款保留的上游成果：等距 SVG 核心与洗衣机源自 April Zhu 的 Colorfigures，而后者建立于 ISO-GLOW（April Zhu）与 iso-figure（Tolga Cohce）之上。这些声明全文保存在 [licenses/Colorfigures-LICENSE.txt](licenses/Colorfigures-LICENSE.txt)，摘要见[第三方来源与署名](THIRD_PARTY_NOTICES.zh-CN.md)，必须与对应代码一同保留。仓库许可不改变上游成果的署名归属，也不对声明中列出的第三方素材重新授权。
 
 English readme: [README.md](README.md).
+
+## 浏览器验收与展品加载
+
+展品通过 `src/app/exhibit-loaders.ts` 按需加载。类型检查要求注册表覆盖全部馆藏 ID，构建检查将首页 JavaScript 入口限制在 100 kB 以内（未压缩）。`createApp().navigate(id)` 返回 Promise，在展品挂载完成或显示恢复提示后结束；集成测试须等待该 Promise。切换路线或销毁应用后，旧加载请求不再挂载展品。挂载失败时，应用清理资源并显示重试按钮。
+
+```sh
+npx playwright install chromium  # npm ci 后，每台机器安装一次
+npm run test:e2e                 # 构建后检查 dist 中的生产页面
+npm run test:e2e:ui              # 打开 Playwright 交互界面
+```
+
+浏览器测试使用 **127.0.0.1:4282**，与开发服务的 **4182** 端口分开。桌面和手机尺寸的 Chromium 测试覆盖全部 12 条展品路线、首页推荐切换、语言切换和资源归属。CI 自动安装 Chromium；本机已有 Chrome 时，可运行 `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e`。失败轨迹与截图保存在 Git 忽略的 `test-results/` 中，CI 同时上传这些文件。浏览器检查补充机械模型测试，不证明物理仿真精度，也不代表已覆盖 Safari 和 Firefox。

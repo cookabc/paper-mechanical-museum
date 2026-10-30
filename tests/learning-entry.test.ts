@@ -4,16 +4,16 @@ import {createVending} from '../src/exhibits/vending/model.js';
 
 let root:HTMLElement,app:ReturnType<typeof createApp>;
 beforeEach(()=>{
- document.body.replaceChildren();location.hash='';
+ document.body.replaceChildren();history.replaceState(null,'','#/');
  Object.defineProperty(document,'hidden',{configurable:true,value:false});
  root=document.createElement('div');document.body.append(root);app=createApp(root);
 });
 afterEach(()=>{app.dispose();root.remove();vi.restoreAllMocks();vi.unstubAllGlobals();});
 const click=(selector:string)=>{const button=root.querySelector<HTMLButtonElement>(selector);expect(button,selector).not.toBeNull();button!.click();};
 
-it('gives all twelve exhibits one optional, honestly named doorway and canonical title',()=>{
+it('gives all twelve exhibits one optional, honestly named doorway and canonical title',async()=>{
  for(const id of ['washer','fan','claw','coffee','musicbox','vending','toaster','turntable','camera','elevator','bicycle','generator']){
-  app.navigate(id);const entry=root.querySelector<HTMLButtonElement>('.museum-learning-entry');
+  await app.navigate(id);const entry=root.querySelector<HTMLButtonElement>('.museum-learning-entry');
   expect(root.querySelectorAll('.museum-learning-entry'),id).toHaveLength(1);
   // Shell copy follows the interface language; English is the default.
   expect(entry!.textContent).toContain('Learn by doing');expect(entry!.textContent).toContain('optional');
@@ -32,12 +32,12 @@ it('gives all twelve exhibits one optional, honestly named doorway and canonical
   const state=app.current!.snapshot!() as Record<string,unknown>;
   if(id==='bicycle'||id==='generator')expect(state.running).toBe(false);
   if(id==='vending')expect(state.tokens).toBe(0);
-  app.navigate('');entry!.click();expect(root.querySelector('.museum-learning-entry')).toBeNull();
+  await app.navigate('');entry!.click();expect(root.querySelector('.museum-learning-entry')).toBeNull();
  }
 });
 
-it('opens the existing coffee lesson without filling beans, then restores free actions on exit',()=>{
- app.navigate('coffee');const entry=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;
+it('opens the existing coffee lesson without filling beans, then restores free actions on exit',async()=>{
+ await app.navigate('coffee');const entry=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;
  entry.click();const guide=root.querySelector<HTMLDetailsElement>('.coffee-guide')!;
  // Native details dispatches toggle asynchronously; exercise the real registered handlers.
  root.querySelector('.mechanism-observer')!.dispatchEvent(new Event('toggle'));guide.dispatchEvent(new Event('toggle'));
@@ -49,9 +49,9 @@ it('opens the existing coffee lesson without filling beans, then restores free a
  entry.click();guide.dispatchEvent(new Event('toggle'));expect(guide.open).toBe(true);
 });
 
-it('recommends a state-backed starting action but retains every free-play button',()=>{
+it('recommends a state-backed starting action but retains every free-play button',async()=>{
  for(const [id,label,count] of [['coffee','加入咖啡豆',8],['vending','投入体验币',6],['toaster','放入两片吐司',6]] as const){
-  app.navigate(id);const recommended=root.querySelectorAll<HTMLButtonElement>('.act[data-recommended=true]');
+  await app.navigate(id);const recommended=root.querySelectorAll<HTMLButtonElement>('.act[data-recommended=true]');
   expect(recommended,id).toHaveLength(1);expect(recommended[0].dataset.actionLabel).toBe(label);
   expect(recommended[0].getAttribute('aria-description')).toContain('建议下一步');
   expect(root.querySelectorAll('#btns .act')).toHaveLength(count);
@@ -59,7 +59,7 @@ it('recommends a state-backed starting action but retains every free-play button
  }
 });
 
-it('does not confuse an available cancel action with the recommended next action',()=>{
+it('does not confuse an available cancel action with the recommended next action',async()=>{
  let clock=0,sequence=0;const frames=new Map<number,FrameRequestCallback>();
  // RAF timestamps and the runtime share one virtual clock: real SVG render time
  // must not shift animation starts or trigger wall-time-dependent frame skipping.
@@ -68,14 +68,14 @@ it('does not confuse an available cancel action with the recommended next action
  vi.stubGlobal('cancelAnimationFrame',(id:number)=>frames.delete(id));
  const tick=(seconds:number)=>{for(let t=0;t<seconds*20;t++){clock+=50;const pending=[...frames.values()];frames.clear();for(const fn of pending)fn(clock);}};
  const action=(label:string)=>click('[data-action-label="'+label+'"]');
- app.navigate('toaster');action('放入两片吐司');tick(1.4);
+ await app.navigate('toaster');action('放入两片吐司');tick(1.4);
  expect(root.querySelector<HTMLButtonElement>('.act[data-recommended=true]')!.dataset.actionLabel).toBe('压下烘烤手柄');
  action('压下烘烤手柄');tick(.9);
  expect((app.current!.snapshot!() as Record<string,unknown>).phase).toBe('heating');
  expect(root.querySelectorAll('.act[data-recommended=true]')).toHaveLength(0);
  expect(root.querySelector('[data-action-label="取消烘烤"]')).not.toBeNull();
  tick(8);expect(root.querySelector<HTMLButtonElement>('.act[data-recommended=true]')!.dataset.actionLabel).toBe('领取吐司');
- app.navigate('coffee');action('加入咖啡豆');tick(.9);action('研磨咖啡豆');tick(3);action('锁入手柄');tick(1.2);action('放置杯子');tick(1.1);action('开始萃取');tick(1);
+ await app.navigate('coffee');action('加入咖啡豆');tick(.9);action('研磨咖啡豆');tick(3);action('锁入手柄');tick(1.2);action('放置杯子');tick(1.1);action('开始萃取');tick(1);
  expect((app.current!.snapshot!() as Record<string,unknown>).phase).toBe('brewing');
  expect(root.querySelectorAll('.act[data-recommended=true]')).toHaveLength(0);
  expect(root.querySelector('[data-action-label="开始萃取"]')!.textContent).toContain('停止');

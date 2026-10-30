@@ -1,19 +1,8 @@
 import { ResourceScope } from './scope';
-import type { SceneController, SceneContext } from './contracts';
+import type { SceneController } from './contracts';
 import {createAudioService} from '../shared/audio.js';
 import {createObservation} from '../shared/observation.js';
-import {mountCoffee} from '../exhibits/coffee/index.js';
-import {mountFan} from '../exhibits/fan/index.js';
-import {mountCamera} from '../exhibits/camera/index.js';
-import {mountVending} from '../exhibits/vending/index.js';
-import {mountToaster} from '../exhibits/toaster/index.js';
-import {mountMusicbox} from '../exhibits/musicbox/index.js';
-import {mountTurntable} from '../exhibits/turntable/index.js';
-import {mountElevator} from '../exhibits/elevator/index.js';
-import {mountWasher} from '../exhibits/washer/index.js';
-import {mountClaw} from '../exhibits/claw/index.js';
-import {mountBicycle} from '../exhibits/bicycle';
-import {mountGenerator} from '../exhibits/generator';
+import {exhibitLoaders, type ExhibitLoader} from './exhibit-loaders';
 import {renderHome} from './home.js';
 import {detectLang,translator} from '../shared/i18n';
 import {mountLearningEntry} from '../shared/learning-entry';
@@ -21,12 +10,10 @@ import {catalog as items} from './catalog';
 import {bindLanguageSwitch,createExhibitHeader,mountExhibitPresentation} from './exhibit-presentation';
 // Titles follow the interface language; the Chinese name is the fallback.
 const nameFor=(id:string,lang:'en'|'zh')=>{
- const entry=items.find(item=>item.id===id) as unknown as Record<string,string>|undefined;
- if(!entry)return '';
- return lang==='zh'?(entry.name??''):(entry.nameEn||entry.name||'');
+ const entry=items.find(item=>item.id===id);
+ return entry?(lang==='zh'?entry.name:entry.nameEn):'';
 };
-const adapters:Record<string,(context:SceneContext)=>SceneController>={coffee:mountCoffee,fan:mountFan,camera:mountCamera,vending:mountVending,toaster:mountToaster,musicbox:mountMusicbox,turntable:mountTurntable,elevator:mountElevator,washer:mountWasher,claw:mountClaw,bicycle:mountBicycle,generator:mountGenerator};
-export function createApp(root:HTMLElement){
+export function createApp(root:HTMLElement, loaders:Readonly<Record<string, ExhibitLoader>> = exhibitLoaders){
  const appScope=new ResourceScope();const audio=createAudioService(appScope);
  let lang0=detectLang(),tr=translator(lang0);
  // The switch rebuilds the route, so re-read the language on every navigate.
@@ -35,27 +22,59 @@ export function createApp(root:HTMLElement){
  appScope.onCleanup(()=>{history.scrollRestoration=previousRestoration;});
  const startAtTop=()=>window.scrollTo({top:0,left:0,behavior:'instant'});
  let current:SceneController|null=null,sceneScope:ResourceScope|null=null,id='',disposed=false;
- function navigate(next:string){
+ let revision=0;
+ let pending:Promise<void>|null=null;
+ function navigate(next:string):Promise<void>{
+  if(disposed)return Promise.resolve();
+  next=next.replace(/^#?\/?/,'').split(/[?&]/)[0];
+  if(next===id&&(current||pending))return pending??Promise.resolve();
+  const task=showRoute(next);
+  pending=task;
+  void task.finally(()=>{if(pending===task)pending=null;});
+  return task;
+ }
+ async function showRoute(next:string){
   syncLang();
-  if(disposed)return;next=next.replace(/^#?\/?/,'').split(/[?&]/)[0];
-  if(current&&next===id)return;
+  const visit=++revision;
   current?.dispose();sceneScope?.dispose();current=null;sceneScope=new ResourceScope();id=next;
+  const scope=sceneScope;
   root.replaceChildren();root.className='';document.body.className=next?'museum-scene':'museum-home';
-  if(!next){renderHome(root,sceneScope,items,Object.keys(adapters));startAtTop();return;}
+  if(!next){renderHome(root,sceneScope,items,Object.keys(loaders));startAtTop();return;}
   document.title=(nameFor(next,lang0)||tr('exhibit.unknown'))+' · '+tr('brand.name');
   const header=createExhibitHeader(next);root.append(header);
   // A language change rebuilds the whole scene, because exhibit chrome is
   // generated as markup rather than patched in place.
-  bindLanguageSwitch(sceneScope,()=>{root.replaceChildren();navigate('');if(next)navigate(next);});
+  bindLanguageSwitch(scope,()=>{void navigate('');if(next)void navigate(next);});
   const host=document.createElement('section');host.className='scene-root';host.setAttribute('aria-label',tr('exhibit.sceneLabel'));root.append(host);
-  const mount=adapters[next];
-  if(!mount){host.innerHTML=`<div class="migration-note"><h2>${tr('exhibit.missingTitle')}</h2><p>${tr('exhibit.missingBody')}</p><a href="#/">${tr('exhibit.missingLink')}</a></div>`;startAtTop();return;}
-  try{current=mount({root:host,scope:sceneScope,audio,observation:createObservation(host,sceneScope),catalog:items.filter(item=>adapters[item.id])});}
-  catch(error){sceneScope.dispose();host.textContent=tr('exhibit.loadFailed');throw error;}
-  mountLearningEntry(host,sceneScope,next);
-  mountExhibitPresentation(host,items.find(item=>item.id===next));
-  document.title=(nameFor(next,lang0)||tr('exhibit.unknown'))+' · '+tr('brand.name');
-  if(document.hidden)current.pause('hidden');
+  const load=Object.hasOwn(loaders,next)?loaders[next]:undefined;
+  if(!load){host.innerHTML=`<div class="migration-note"><h2>${tr('exhibit.missingTitle')}</h2><p>${tr('exhibit.missingBody')}</p><a href="#/">${tr('exhibit.missingLink')}</a></div>`;startAtTop();return;}
+  host.setAttribute('aria-busy','true');
+  const status=document.createElement('p');
+  status.className='scene-status';status.setAttribute('role','status');status.textContent=tr('exhibit.loading');host.append(status);
+  startAtTop();
+  try{
+   const mount=await load();
+   // A slow import cannot revive a route that was left or an app that was closed.
+   if(disposed||visit!==revision)return;
+   host.replaceChildren();
+   current=mount({root:host,scope,audio,observation:createObservation(host,scope),catalog:items.filter(item=>Object.hasOwn(loaders,item.id))});
+   mountLearningEntry(host,scope,next);
+   mountExhibitPresentation(host,items.find(item=>item.id===next));
+   document.title=(nameFor(next,lang0)||tr('exhibit.unknown'))+' · '+tr('brand.name');
+   if(document.hidden)current.pause('hidden');
+  }catch(error){
+   if(disposed||visit!==revision)return;
+   current?.dispose();current=null;scope.dispose();
+   const message=document.createElement('p');message.textContent=tr('exhibit.loadFailed');
+   const retry=document.createElement('button');retry.type='button';retry.textContent=tr('exhibit.retry');
+   // Own recovery controls separately from the failed exhibit's disposed resources.
+   sceneScope=new ResourceScope();sceneScope.listen(retry,'click',()=>{void navigate(next);});
+   const home=document.createElement('a');home.href='#/';home.textContent=tr('exhibit.missingLink');
+   const notice=document.createElement('div');notice.className='scene-status';notice.setAttribute('role','alert');notice.append(message,retry,home);host.replaceChildren(notice);
+   console.error('Exhibit load failed:',next,error);
+  }finally{
+   if(!disposed&&visit===revision)host.removeAttribute('aria-busy');
+  }
   header.querySelector('h1')?.focus({preventScroll:true});startAtTop();
  }
  // Keep this boundary aligned with responsive-scene.css's stage-first layout.
@@ -89,10 +108,10 @@ export function createApp(root:HTMLElement){
   }
   wasFixedDesktop=fixed;
  });
- appScope.listen(window,'hashchange',()=>navigate(location.hash));
+ appScope.listen(window,'hashchange',()=>{void navigate(location.hash);});
  appScope.listen(document,'visibilitychange',()=>{if(document.hidden)current?.pause('hidden');else current?.resume('hidden');});
  appScope.listen(window,'pagehide',()=>current?.pause('navigation'));
  appScope.listen(window,'pageshow',()=>current?.resume('navigation'));
- navigate(location.hash);
- return {navigate,get current(){return current;},diagnostics(){return {id,scope:sceneScope?.diagnostics(),app:appScope.diagnostics()};},dispose(){if(disposed)return;disposed=true;current?.dispose();sceneScope?.dispose();appScope.dispose();root.replaceChildren();current=null;}};
+ void navigate(location.hash);
+ return {navigate,get current(){return current;},diagnostics(){return {id,scope:sceneScope?.diagnostics(),app:appScope.diagnostics()};},dispose(){if(disposed)return;disposed=true;++revision;current?.dispose();sceneScope?.dispose();appScope.dispose();root.replaceChildren();current=null;}};
 }

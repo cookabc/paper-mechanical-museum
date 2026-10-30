@@ -150,7 +150,9 @@ export const copy = {
     'exhibit.missingTitle': 'This exhibit was not found',
     'exhibit.missingBody': 'Go back to the collection and choose a machine to try.',
     'exhibit.missingLink': 'Back to the collection',
-    'exhibit.loadFailed': 'The exhibit could not load. Return to the collection and try again.',
+    'exhibit.loading': 'Opening the exhibit…',
+    'exhibit.retry': 'Try again',
+    'exhibit.loadFailed': 'The exhibit could not load. Check your connection and try again, or return to the collection.',
     'exit.leaving': 'Leaving this exhibit…',
   },
   zh: {
@@ -291,7 +293,9 @@ export const copy = {
     'exhibit.missingTitle': '没有找到这件藏品',
     'exhibit.missingBody': '请回到馆藏目录，选择想体验的小机器。',
     'exhibit.missingLink': '回到馆藏',
-    'exhibit.loadFailed': '展品未能加载，请返回馆藏重试。',
+    'exhibit.loading': '正在打开藏品…',
+    'exhibit.retry': '重试',
+    'exhibit.loadFailed': '藏品未能加载。请检查网络后重试，或返回馆藏。',
     'exit.leaving': '正在离开这件展品…',
   },
 };

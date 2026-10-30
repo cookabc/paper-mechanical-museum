@@ -1,20 +1,20 @@
 import {it,expect,vi} from 'vitest';
 import {createApp} from '../src/app/app';
-it('owns scroll restoration and resets scroll for every new scene and home',()=>{
+it('owns scroll restoration and resets scroll for every new scene and home',async()=>{
  const root=document.createElement('div');document.body.append(root);
  const before=history.scrollRestoration;const scroll=vi.mocked(window.scrollTo);scroll.mockClear();
- const app=createApp(root);app.navigate('fan');app.navigate('coffee');app.navigate('');
+ const app=createApp(root);await app.navigate('fan');await app.navigate('coffee');await app.navigate('');
  expect(history.scrollRestoration).toBe('manual');
  expect(scroll).toHaveBeenCalledWith({top:0,left:0,behavior:'instant'});
  expect(scroll.mock.calls.length).toBeGreaterThanOrEqual(4);
  app.dispose();expect(history.scrollRestoration).toBe(before);root.remove();
 });
-it('switches all twelve ready scenes in one app and retires their old resources and controls',()=>{
+it('switches all twelve ready scenes in one app and retires their old resources and controls',async()=>{
  const root=document.createElement('div');document.body.append(root);const app=createApp(root);
  const retained:Array<{controller:NonNullable<typeof app.current>;control:HTMLElement|null;state:string}>=[];
  for(const id of ['coffee','camera','vending','toaster','fan','musicbox','turntable','elevator','washer','claw','bicycle','generator','camera','coffee']){
-  if(app.current){const controller=app.current,control=root.querySelector<HTMLElement>('button');app.navigate('');retained.push({controller,control,state:JSON.stringify(controller.snapshot?.())});}
-  app.navigate(id);expect(root.querySelector('.scene-root svg'),id+' has a model').not.toBeNull();expect(root.querySelectorAll('header')).toHaveLength(1);
+  if(app.current){const controller=app.current,control=root.querySelector<HTMLElement>('button');await app.navigate('');retained.push({controller,control,state:JSON.stringify(controller.snapshot?.())});}
+  await app.navigate(id);expect(root.querySelector('.scene-root svg'),id+' has a model').not.toBeNull();expect(root.querySelectorAll('header')).toHaveLength(1);
   expect(app.diagnostics().scope?.active).toBe(true);
   for(const old of retained){old.control?.click();old.controller.reset();old.controller.resume('manual');expect(JSON.stringify(old.controller.snapshot?.())).toBe(old.state);}
  }
@@ -23,8 +23,8 @@ it('switches all twelve ready scenes in one app and retires their old resources 
  app.dispose();expect(root.childElementCount).toBe(0);expect(app.diagnostics().app).toMatchObject({active:false,frames:0,timers:0,listeners:0});root.remove();
 });
 
-it('resets only outer scroll when crossing into the fixed desktop shell',()=>{
- const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate('generator');
+it('resets only outer scroll when crossing into the fixed desktop shell',async()=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);await app.navigate('generator');
  const scroll=vi.mocked(window.scrollTo);const controller=app.current;
  const width=window.innerWidth,height=window.innerHeight;
  const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
@@ -44,8 +44,8 @@ it('resets only outer scroll when crossing into the fixed desktop shell',()=>{
  Object.defineProperty(window,'innerWidth',{configurable:true,value:width});Object.defineProperty(window,'innerHeight',{configurable:true,value:height});root.remove();
 });
 
-it('reveals clipped dock focus on fixed-shell entry without scrolling visible focus or the outer page again',()=>{
- const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate('generator');
+it('reveals clipped dock focus on fixed-shell entry without scrolling visible focus or the outer page again',async()=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);await app.navigate('generator');
  const width=window.innerWidth,height=window.innerHeight;
  const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
  const dock=root.querySelector<HTMLElement>('.play-dock')!,button=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;
@@ -78,8 +78,8 @@ it('reveals clipped dock focus on fixed-shell entry without scrolling visible fo
  }
 });
 
-it.each(['washer','fan','bicycle','generator'])('preserves %s learning, focus and machine state across the stage-first boundary',id=>{
- const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate(id);
+it.each(['washer','fan','bicycle','generator'])('preserves %s learning, focus and machine state across the stage-first boundary',async id=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);await app.navigate(id);
  const width=window.innerWidth,height=window.innerHeight;
  const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
  try {
@@ -107,8 +107,8 @@ it.each(['washer','fan','bicycle','generator'])('preserves %s learning, focus an
  }
 });
 
-it('keeps dock focus visible when returning to page flow without moving visible or unrelated focus',()=>{
- const root=document.createElement('div');document.body.append(root);const app=createApp(root);app.navigate('generator');
+it('keeps dock focus visible when returning to page flow without moving visible or unrelated focus',async()=>{
+ const root=document.createElement('div');document.body.append(root);const app=createApp(root);await app.navigate('generator');
  const width=window.innerWidth,height=window.innerHeight,x=window.scrollX,y=window.scrollY;
  const resize=(w:number,h:number)=>{Object.defineProperty(window,'innerWidth',{configurable:true,value:w});Object.defineProperty(window,'innerHeight',{configurable:true,value:h});window.dispatchEvent(new Event('resize'));};
  const dock=root.querySelector<HTMLElement>('.play-dock')!,button=root.querySelector<HTMLButtonElement>('.museum-learning-entry')!;
@@ -142,11 +142,11 @@ it('keeps dock focus visible when returning to page flow without moving visible 
  }
 });
 
-it.each(['automaton','geneva','rackpress'])('treats retired %s links as missing and can return to the twelve-item collection',id=>{
+it.each(['automaton','geneva','rackpress'])('treats retired %s links as missing and can return to the twelve-item collection',async id=>{
  const root=document.createElement('div');document.body.append(root);const app=createApp(root);
  try {
-  app.navigate('generator');const old=app.current!;
-  app.navigate(id);
+  await app.navigate('generator');const old=app.current!;
+  await app.navigate(id);
   expect(app.current).toBeNull();
   // The shell default is English; the dedicated language test covers Chinese.
   expect(root.textContent).toContain('This exhibit was not found');
@@ -154,7 +154,7 @@ it.each(['automaton','geneva','rackpress'])('treats retired %s links as missing 
   expect(root.querySelector('.scene-root svg')).toBeNull();
   const state=JSON.stringify(old.snapshot?.());old.reset();old.resume('manual');
   expect(JSON.stringify(old.snapshot?.())).toBe(state);
-  app.navigate('');
+  await app.navigate('');
   expect(root.querySelectorAll('.museum-card')).toHaveLength(12);
   expect(root.querySelector('.collection-count')?.textContent).toContain('12');
  } finally {app.dispose();root.remove();}

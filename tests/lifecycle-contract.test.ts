@@ -428,7 +428,7 @@ describe('real unified host route lifecycle', () => {
 
   it('leaves focus in the current scene instead of restoring an outgoing lesson summary', async () => {
     const { root, instance } = await app();
-    instance.navigate('coffee');
+    await instance.navigate('coffee');
     const observer = root.querySelector<HTMLDetailsElement>('.mechanism-observer')!;
     observer.open = true;
     observer.dispatchEvent(new Event('toggle'));
@@ -438,7 +438,7 @@ describe('real unified host route lifecycle', () => {
     const oldSummary = lesson.querySelector('summary')!;
     lesson.querySelector<HTMLButtonElement>('.mechanism-lesson-go')!.focus();
     const oldFocus = vi.spyOn(oldSummary, 'focus');
-    instance.navigate('fan');
+    await instance.navigate('fan');
     expect(oldFocus).not.toHaveBeenCalled();
     expect(document.activeElement?.isConnected).toBe(true);
     expect(root.contains(document.activeElement)).toBe(true);
@@ -515,7 +515,7 @@ describe('actual audio service ownership across route changes', () => {
     document.body.append(root);
     const app = createApp(root);
     cleanups.push(() => app.dispose());
-    app.navigate('coffee');
+    await app.navigate('coffee');
     const button = root.querySelector<HTMLButtonElement>('.mechanical-audio button')!;
     button.click();
     expect(contexts).toHaveLength(0);
@@ -526,7 +526,7 @@ describe('actual audio service ownership across route changes', () => {
     const pending = Reflect.apply(listener as EventListener, button, [{ isTrusted: true }]);
     expect(contexts).toHaveLength(1);
     expect(root.querySelector<HTMLElement>('.mechanical-audio')?.dataset.audioState).toBe('pending');
-    app.navigate('fan');
+    await app.navigate('fan');
     expect(contexts[0].close).toHaveBeenCalledTimes(1);
     contexts[0].finishResume();
     await pending;
@@ -569,12 +569,12 @@ describe('actual audio service ownership across route changes', () => {
     document.body.append(root);
     const app = createApp(root);
     cleanups.push(() => app.dispose());
-    app.navigate('coffee');
+    await app.navigate('coffee');
     const oldButton = root.querySelector<HTMLButtonElement>('.mechanical-audio button')!;
     const oldVolume = root.querySelector<HTMLInputElement>('.mechanical-audio input')!;
     const oldToggleHandler = handlers.get(oldButton)!;
     const oldVolumeHandler = handlers.get(oldVolume)!;
-    app.navigate('fan');
+    await app.navigate('fan');
     const currentPanel = root.querySelector<HTMLElement>('.mechanical-audio')!;
     const baseline = currentPanel.innerHTML;
     expect(oldButton.isConnected).toBe(false);

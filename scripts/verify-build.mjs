@@ -13,5 +13,8 @@ for(const file of files){
 }
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 for(const match of html.matchAll(/(?:src|href)="(\.\/assets\/[^"?#]+)"/g))assert(fs.existsSync(path.join(root,match[1])),'missing entry asset '+match[1]);
+const entryScript=html.match(/src="(\.\/assets\/[^"?#]+\.js)"/);
+assert(entryScript,'missing module entry');
+assert(fs.statSync(path.join(root,entryScript[1])).size<100_000,'collection entry exceeds 100 kB; keep exhibits lazy-loaded');
 assert(!/<iframe\b/i.test(html),'nested site is not a unified entry');
 console.log(`Build boundary PASS: ${files.length} runtime assets; entry, bundles and twelve previews only.`);

@@ -73,6 +73,8 @@ it('keeps home filters and recommendations aligned with the same catalogue',()=>
   for(const id of ['coffee','claw','turntable']){
    root.querySelector<HTMLButtonElement>(`[data-feature="${id}"]`)!.click();
    expect(root.querySelector('.exhibit-index')?.textContent).toBe(detectLang()==='zh'?('藏品 / '+catalogNumber(id)):('Object / '+catalogNumber(id)));
+   const entry=catalog.find(item=>item.id===id)!;
+   expect(root.querySelector('.exhibit-name')?.textContent).toBe(detectLang()==='zh'?entry.caption:entry.captionEn);
    expect(root.querySelector('.exhibit-object')?.getAttribute('href')).toBe('#/'+id);
   }
   const media=vi.spyOn(window,'matchMedia').mockReturnValue({matches:true} as MediaQueryList);

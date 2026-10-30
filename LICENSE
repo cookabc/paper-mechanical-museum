@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party notices
-
-This project's isometric SVG core, its scenes and the washing machine are
-derived from April Zhu's Colorfigures, which itself builds on ISO-GLOW (April
-Zhu) and iso-figure (Tolga Cohce). Those parts remain under their own MIT
-terms, reproduced in full at licenses/Colorfigures-LICENSE.txt, and that file
-must travel with the corresponding code. See THIRD_PARTY_NOTICES.md for
-details.

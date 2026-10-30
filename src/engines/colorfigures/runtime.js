@@ -1,3 +1,4 @@
+import {localizeMarkup,localizeText} from '../../shared/message-language.ts';
 import {scopedDocument} from '../../app/scoped-dom';
 export function createColorFiguresRuntime(context){
 const {root,scope,audio,observation}=context;
@@ -196,6 +197,7 @@ let _clipN = 0;
 // dx, dy = where the pill sits, in screen units at the reference zoom (they scale with the figure like stroke widths).
 // on = that part is working right now (the pill turns the accent colour). 部件名称 can be hidden with the 部件名称 switch.
 function tag(p3, dx, dy, text, on=false){
+  text = localizeText(text);
   const k = INK_K, [X,Y] = P(...p3), fs = 8.6*k, w = text.length*fs*.62 + fs*1.5, h = fs*1.8, cx = X + dx*k, cy = Y + dy*k;
   return `<g class="tag${on ? ' on' : ''}"><path d="M${f(X)} ${f(Y)}L${f(cx)} ${f(cy)}" fill="none" stroke="${INK}" stroke-width="1"/>`
     + `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(1.3*k)}" fill="${INK}"/>`
@@ -284,7 +286,7 @@ function mountFigure(cfg){
   document.title = cfg.title;
   // Base engine styles must precede the already-loaded, canonical museum shell.
   // Appending them used to overwrite layout on first paint until a duplicate CSS request completed.
-  document.body.innerHTML = `
+  document.body.innerHTML = localizeMarkup(`
     <div class="stage">
       ${cfg.buttons && cfg.buttons.length ? `<div class="actions" id="btns"><div class="cap">${cfg.buttonsLabel || 'Try it'}</div></div>` : ''}
       ${cfg.stats ? '<div class="stats" id="stats"></div>' : ''}
@@ -299,7 +301,7 @@ function mountFigure(cfg){
       <div class="ctl"><label>观察视角</label><div class="row"><button id="vreset">回到正面</button><button id="vspin" aria-pressed="false">自动旋转</button></div></div>
       <div class="ctl"><label>画面性能</label><div class="row"><button id="quality" aria-pressed="true">流畅模式：开</button></div></div><div class="ctl" id="lblctl" hidden><label>部件名称</label><div class="row"><button id="lbl" aria-pressed="true">显示</button></div></div>
     </div>
-    ${cfg.credit === false ? '' : '<footer class="made-with"><a href="https://april-zhu.com/colorfigures" target="_blank" rel="noopener">查看原作与作者 ↗</a></footer>'}`;
+    ${cfg.credit === false ? '' : '<footer class="made-with"><a href="https://april-zhu.com/colorfigures" target="_blank" rel="noopener">查看原作与作者 ↗</a></footer>'}`);
   const st = cfg.state || {};            // kept as the same object, so a figure may hold on to it
   if (!st.pal) st.pal = cfg.palette || 'mustard';
   if (st.az == null) st.az = 105;
@@ -321,7 +323,7 @@ function mountFigure(cfg){
   const svg = document.getElementById('fig');
   svg.setAttribute('viewBox', `0 0 ${f(vbW)} ${f(vbH)}`);
   INK_K = vbW / INK_REF_VB;
-  document.getElementById('fdefs').innerHTML = filterFor(INK_K);
+  document.getElementById('fdefs').innerHTML = localizeMarkup(filterFor(INK_K));
   bakeNoise(svg);
 
   const art = document.getElementById('art'), readout = document.getElementById('readout');
@@ -338,7 +340,7 @@ function mountFigure(cfg){
   if (cfg.progress && actionsHost) {
     progress = document.createElement('div'); progress.className = 'scene-progress';
     progress.style.cssText = 'grid-column:1/-1;font-size:11px;color:var(--muted);display:grid;gap:5px';
-    progress.innerHTML = '<span></span><progress max="1" value="0" style="width:100%;height:5px;accent-color:var(--accent)"></progress>';
+    progress.innerHTML = localizeMarkup('<span></span><progress max="1" value="0" style="width:100%;height:5px;accent-color:var(--accent)"></progress>');
     actionsHost.append(progress);
   }
   if (cfg.actionState && actionsHost) {
@@ -359,7 +361,7 @@ function mountFigure(cfg){
     const control = actionControl(target);
     const meta = control ? cfg.actionState?.(st, control.dataset.act) : null;
     const hint = meta?.hint || '';
-    if (contextHint.textContent !== hint) contextHint.textContent = hint;
+    if (contextHint.textContent !== hint) contextHint.textContent = localizeText(hint);
   };
   const refreshActionHint = () => {
     if (!contextHint) return;
@@ -387,32 +389,32 @@ function mountFigure(cfg){
         const meta = cfg.actionState(st, config.action) || {};
         const recommended = cfg.recommendedAction?.(st) === config.action;
         button.dataset.recommended = String(recommended);
-        button.setAttribute('aria-description', (recommended ? '建议下一步。' : '') + (meta.hint || ''));
+        button.setAttribute('aria-description', localizeText((recommended ? '建议下一步。' : '') + (meta.hint || '')));
       }
       if (typeof config.text === 'function') {
         const label = String(config.text(st) ?? config.label);
-        if (button.firstChild?.nodeType === 3) button.firstChild.nodeValue = label;
-        else if (!config.choices) button.textContent = label;
+        if (button.firstChild?.nodeType === 3) button.firstChild.nodeValue = localizeText(label);
+        else if (!config.choices) button.textContent = localizeText(label);
       }
     }
     if (cfg.actionState) for (const control of art.querySelectorAll('[data-act]')) {
       const meta = cfg.actionState(st, control.dataset.act) || {};
-      if (meta.label) control.setAttribute('aria-label', meta.label);
+      if (meta.label) control.setAttribute('aria-label', localizeText(meta.label));
       control.dataset.actionHint = meta.hint || '';
-      control.setAttribute('aria-description', meta.hint || '');
+      control.setAttribute('aria-description', localizeText(meta.hint || ''));
       control.setAttribute('aria-busy', String(!!meta.busy));
       control.dataset.active = String(!!meta.active);
       if (typeof meta.active === 'boolean') control.setAttribute('aria-pressed', String(meta.active));
       let title = [...control.children].find(node => node.tagName.toLowerCase() === 'title');
-      if (meta.hint) { if (!title) { title = document.createElementNS('http://www.w3.org/2000/svg','title'); control.prepend(title); } title.dataset.actionHint = 'true'; title.textContent = meta.hint; }
+      if (meta.hint) { if (!title) { title = document.createElementNS('http://www.w3.org/2000/svg','title'); control.prepend(title); } title.dataset.actionHint = 'true'; title.textContent = localizeText(meta.hint); }
       else if (title?.dataset.actionHint) title.remove();
     }
     if (progress) {
       const value = cfg.progress(st); progress.hidden = !value; progress.style.display = value ? 'grid' : 'none';
       if (value) {
         const meter = progress.querySelector('progress'); meter.value = Math.min(1,Math.max(0,Number(value.value)||0));
-        meter.setAttribute('aria-label', value.label || '机械动作进度');
-        progress.querySelector('span').textContent = (value.label || '进度') + ' · ' + Math.round(meter.value * 100) + '%';
+        meter.setAttribute('aria-label', localizeText(value.label || '机械动作进度'));
+        progress.querySelector('span').textContent = localizeText((value.label || '进度') + ' · ' + Math.round(meter.value * 100) + '%');
       }
     }
     refreshActionHint();
@@ -421,7 +423,7 @@ function mountFigure(cfg){
   const beforeAction = (key, label) => { if (isResetAction(key, label)) { audio?.reset(); ui.observation?.reset(); } };
   ui.beforeAction = beforeAction;
 
-  const layerNodes=new Map();let lastPal='';let smoothMotion=true;const quality=document.getElementById('quality');scope.bindProperty(quality,"onclick",()=>{smoothMotion=!smoothMotion;quality.setAttribute('aria-pressed',smoothMotion);quality.textContent='流畅模式：'+(smoothMotion?'开':'关');ui.invalidate();});
+  const layerNodes=new Map();let lastPal='';let smoothMotion=true;const quality=document.getElementById('quality');scope.bindProperty(quality,"onclick",()=>{smoothMotion=!smoothMotion;quality.setAttribute('aria-pressed',smoothMotion);quality.textContent=localizeText('流畅模式：'+(smoothMotion?'开':'关'));ui.invalidate();});
   const renderSamples=[];ui.metrics={frames:0,lastMs:0,layersUpdated:0};
   ui.render = () => { if (!scope.active) return;
     const started=performance.now();_clipN=0;if(lastPal!==st.pal){document.documentElement.style.setProperty('--accent',PALS[st.pal].l);lastPal=st.pal;}
@@ -433,14 +435,14 @@ function mountFigure(cfg){
     if(cfg.scene.layers){const live=new Set();let previous=null;
       for(const layer of cfg.scene.layers){live.add(layer.key);let item=layerNodes.get(layer.key);
         if(!item){const node=document.createElementNS('http://www.w3.org/2000/svg','g');node.dataset.layer=layer.key;item={node,svg:null,scale:0};layerNodes.set(layer.key,item);}
-        const node=item.node;if(item.svg!==layer.svg||item.scale!==INK_K){node.innerHTML=inkScale(layer.svg);item.svg=layer.svg;item.scale=INK_K;updates++;}
+        const node=item.node;if(item.svg!==layer.svg||item.scale!==INK_K){node.innerHTML=localizeMarkup(inkScale(layer.svg));item.svg=layer.svg;item.scale=INK_K;updates++;}
         if(item.transform!==layer.transform){node.setAttribute('transform',layer.transform||'');item.transform=layer.transform;}
         if(item.opacity!==layer.opacity){node.setAttribute('opacity',layer.opacity);item.opacity=layer.opacity;}
         const expected=previous?previous.nextSibling:art.firstChild;if(node!==expected)art.insertBefore(node,expected);previous=node;
       }
       for(const [key,item]of layerNodes)if(!live.has(key)){item.node.remove();layerNodes.delete(key);}
-    }else art.innerHTML=inkScale(markup);
-    if(!ui._flash)readout.textContent=cfg.readout?cfg.readout(st):'';if(ui.drawStats)ui.drawStats();
+    }else art.innerHTML=localizeMarkup(inkScale(markup));
+    if(!ui._flash)readout.textContent=localizeText(cfg.readout?cfg.readout(st):'');if(ui.drawStats)ui.drawStats();
     if(ui.updateTargets)ui.updateTargets();
     ui.updateActionMetadata();
     ui.updateExploration?.();
@@ -459,11 +461,11 @@ function mountFigure(cfg){
   const statsEl = document.getElementById('stats'), prevStats = {};
   ui.drawStats = () => { if (!statsEl) return;
     const list = cfg.stats(st).filter(Boolean), html = list.map(x => `<div class="stat${x.small ? ' small' : ''}"><div class="k">${x.label}</div><div class="v" data-k="${x.label}">${x.value}</div></div>`).join('');
-    if (statsEl._html !== html){ statsEl._html = html; statsEl.innerHTML = html;
+    if (statsEl._html !== html){ statsEl._html = html; statsEl.innerHTML = localizeMarkup(html);
       statsEl.querySelectorAll('.v').forEach(v => { if (prevStats[v.dataset.k] != null && prevStats[v.dataset.k] !== v.textContent) v.classList.add('bump'); prevStats[v.dataset.k] = v.textContent; }); } };
   let flashT = 0;
   const toast = document.getElementById('toast');
-  ui.flash = (text, ms=1600) => { ui._flash = true; readout.textContent = text; toast.textContent = text;
+  ui.flash = (text, ms=1600) => { ui._flash = true; readout.textContent = localizeText(text); toast.textContent = localizeText(text);
     toast.style.top = ((document.getElementById('btns') ? document.getElementById('btns').offsetTop + document.getElementById('btns').offsetHeight : 0) + 8) + 'px'; toast.classList.add('show');
     clearTimeout(flashT); flashT = setTimeout(() => { ui._flash = false; toast.classList.remove('show'); ui.render(); }, ms); };
   // One frame driver for every running animation: each frame runs all the steps, then draws once (two animations at
@@ -564,18 +566,18 @@ function mountFigure(cfg){
   if (btns) cfg.buttons.forEach((b, i) => {
     const wrap = document.createElement('div'); wrap.className = 'stepwrap';
     const el = document.createElement('button'); el.className = 'act';
-    el.innerHTML = `${b.label}${b.choices ? '<span class="car">▾</span>' : ''}`;
+    el.innerHTML = localizeMarkup(`${b.label}${b.choices ? '<span class="car">▾</span>' : ''}`);
     wrap.appendChild(el); btns.insertBefore(wrap, btns.querySelector('.mechanical-audio,.scene-progress,.interaction-context')); stepEls.push(el);
     el.dataset.actionLabel = b.label; dynamicButtons.push({button:el,config:b});
     if (!b.choices){ scope.bindProperty(el,"onclick",() => { closeChips(); beforeAction('', b.label); b.onClick(st, ui); ui.render(); }); return; }
     const chips = document.createElement('div'); chips.className = 'chips'; wrap.appendChild(chips);
     scope.bindProperty(el,"onclick",e => { e.stopPropagation(); const open = !wrap.classList.contains('open'); closeChips();
       if (!open) return;
-      chips.innerHTML = '';
+      chips.innerHTML = localizeMarkup('');
       // every choice stays clickable, so nothing silently ignores a press:
       //   current:true  = the one in use (shown selected); a press just says so
       //   disabled:true = not possible right now (shown faded); a press says why (c.why, or a generic note)
-      for (const c of b.choices(st)){ const ch = document.createElement('button'); ch.className = 'chip' + (c.current ? ' current' : c.disabled ? ' off' : ''); ch.textContent = c.label;
+      for (const c of b.choices(st)){ const ch = document.createElement('button'); ch.className = 'chip' + (c.current ? ' current' : c.disabled ? ' off' : ''); ch.textContent = localizeText(c.label);
         if (c.current) ch.setAttribute('aria-pressed', 'true');
         scope.bindProperty(ch,"onclick",ev => { ev.stopPropagation(); closeChips();
           if (c.current) return ui.flash(`已经选择${c.label}`);
@@ -589,13 +591,13 @@ function mountFigure(cfg){
   scope.bindProperty(document.getElementById('wb'),"oninput",e => document.getElementById('wob').setAttribute('scale', (e.target.value * INK_K).toFixed(2)));
   const pals = document.getElementById('pals');
   for (const [k,p] of Object.entries(PALS)){
-    const b = document.createElement('button'); b.className='sw'; b.title=({mustard:'芥末黄',tomato:'番茄红',mint:'薄荷绿',cobalt:'钴蓝',blush:'浅粉'})[k];b.setAttribute('aria-label',b.title); b.style.background=p.l; b.setAttribute('aria-pressed', k===st.pal);
+    const b = document.createElement('button'); b.className='sw'; b.title=localizeText(({mustard:'芥末黄',tomato:'番茄红',mint:'薄荷绿',cobalt:'钴蓝',blush:'浅粉'})[k]);b.setAttribute('aria-label',localizeText(b.title)); b.style.background=p.l; b.setAttribute('aria-pressed', k===st.pal);
     scope.bindProperty(b,"onclick",() => { st.pal=k; [...pals.children].forEach(c=>c.setAttribute('aria-pressed', c===b)); ui.render(); });
     pals.appendChild(b);
   }
   // labels: the switch appears when the figure draws any tag(); ?labels=0 starts with them hidden
   const lblctl = document.getElementById('lblctl'), lbl = document.getElementById('lbl');
-  const set部件名称 = on => { document.documentElement.classList.toggle('nolabels', !on); lbl.textContent = on ? '显示' : '隐藏'; lbl.setAttribute('aria-pressed', on); ui.invalidate(); };
+  const set部件名称 = on => { document.documentElement.classList.toggle('nolabels', !on); lbl.textContent = localizeText(on ? '显示' : '隐藏'); lbl.setAttribute('aria-pressed', on); ui.invalidate(); };
   scope.bindProperty(lbl,"onclick",() => set部件名称(document.documentElement.classList.contains('nolabels')));
   if (q.get('labels') === '0') set部件名称(false);
   // testing: ?press=Label@ms,Label@ms clicks the buttons whose text starts with Label at those times after load
@@ -612,7 +614,7 @@ function mountFigure(cfg){
       if (c && !c.disabled) c.click(); else noteErr(`no choice "${choice}" in "${label}"`); }, +ms || 0); });
   setLight(st.az); ui.render();
   if (art.querySelector('.tag')) lblctl.hidden = false;
-  ui.clearTransient=()=>{if(!scope.active)return;cancelInput();clearTimeout(flashT);ui._flash=false;toast.classList.remove('show');toast.textContent='';audio?.reset();ui.observation?.reset();};
+  ui.clearTransient=()=>{if(!scope.active)return;cancelInput();clearTimeout(flashT);ui._flash=false;toast.classList.remove('show');toast.textContent=localizeText('');audio?.reset();ui.observation?.reset();};
   ui.pause=()=>{if(!scope.active)return;cancelInput();cancelAnimationFrame(frameId);driving=false;scope.pause();audio?.suspend?.('pause');};
   ui.resume=()=>{if(!scope.active)return;lastT=performance.now();lastPaint=0;scope.resume();ui.invalidate();};
   ui.dispose=()=>{if(!scope.active)return;cancelInput();steps.clear();camAnim++;spinRun++;scope.dispose();};

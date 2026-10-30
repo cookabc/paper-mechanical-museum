@@ -1,3 +1,4 @@
+import {localizeMarkup,localizeText} from '../../shared/message-language.ts';
 /** Static extraction of the complete washer model and its native controls. */
 import {layoutWasherCallouts,measureCalloutFrame} from './callout-layout.js';
 export function createWasherModel(geometry,environment){
@@ -956,7 +957,7 @@ st0 = ui.st;
 // view set, top right: see-through on/off and labels on/off, independent (labels start off unless ?labels=1)
 if (new URLSearchParams(location.search).get('labels') !== '1') document.documentElement.classList.add('nolabels');
 const vset = document.createElement('div'); vset.className = 'vset';
-vset.innerHTML = '<div class="vrow"><button class="act" id="xrb" aria-pressed="false">查看内部</button><button class="act" id="lblb" aria-pressed="true">部件名称</button></div>';
+vset.innerHTML = localizeMarkup('<div class="vrow"><button class="act" id="xrb" aria-pressed="false">查看内部</button><button class="act" id="lblb" aria-pressed="true">部件名称</button></div>');
 document.querySelector('.stage').appendChild(vset);
 const xrb = document.getElementById('xrb'), lblb = document.getElementById('lblb');
 const syncSet = () => { const on = !!ui.st.xrT; xrb.setAttribute('aria-pressed', on);
@@ -969,7 +970,7 @@ syncSet();
 const capEl = document.createElement('p'); capEl.className = 'mcap'; document.querySelector('.stage').after(capEl);
 
 const _render = ui.render; ui.render = () => { _render(); const st = ui.st; capEl.hidden=st.xr<=.5; capEl.style.opacity=st.xr>.5?1:0;
-  capEl.textContent = CAPS_X[st.run ? phaseAt(prog(st), st.tau) : 'idle']; };
+  capEl.textContent = localizeText(CAPS_X[st.run ? phaseAt(prog(st), st.tau) : 'idle']); };
 ui.render();
 
 /* Stable interaction layer, above the drawing and outside its texture filter. */
@@ -981,7 +982,7 @@ const hitNodes=new Map();
 const targetClip=document.createElementNS(NS,'clipPath'),targetClipShape=document.createElementNS(NS,'path');
 targetClip.id='outside-cabinet';targetClipShape.setAttribute('clip-rule','evenodd');targetClip.appendChild(targetClipShape);document.getElementById('fdefs').appendChild(targetClip);
 
-const help=document.createElement('p');help.className='scene-help';help.textContent='直接点画面：衣篮装衣 · 抽屉开合 · 抽屉打开后点槽内加洗涤剂 · 旋钮换程序 · 圆键启停 · 舱门开合。拖动任意位置可旋转。';sceneSvg.parentElement.before(help);
+const help=document.createElement('p');help.className='scene-help';help.textContent=localizeText('直接点画面：衣篮装衣 · 抽屉开合 · 抽屉打开后点槽内加洗涤剂 · 旋钮换程序 · 圆键启停 · 舱门开合。拖动任意位置可旋转。');sceneSvg.parentElement.before(help);
 const hint=document.createElement('div');hint.className='scene-hint';hint.setAttribute('aria-live','polite');sceneSvg.parentElement.appendChild(hint);
 
 ui.updateTargets=()=>{
@@ -998,19 +999,19 @@ ui.updateTargets=()=>{
   if(st.drawer>.5)add('soap',geometry.on(geometry.PZ(DRW[1]+4),[[W+1,DRW[0]+1],[W+geometry.ease(st.drawer)*DRAWER_MAX,DRW[0]+1],[W+geometry.ease(st.drawer)*DRAWER_MAX,DRW[2]-1],[W+1,DRW[2]-1]]),'点击槽内添加洗涤剂');
  }
  if(st.laundry==='basket'&&!st.xfer&&!st.loading)add('laundry',geometry.on(geometry.PZ(BASKET.h+3),[[BASKET.x0,BASKET.y0],[BASKET.x1,BASKET.y0],[BASKET.x1,BASKET.y1],[BASKET.x0,BASKET.y1]]),'点击衣篮，自动打开舱门并装入衣物');
- const live=new Set();for(const t of targets){live.add(t.key);let node=hitNodes.get(t.key);if(!node){node=document.createElementNS(NS,'path');node.dataset.act=t.key;node.setAttribute('role','button');node.setAttribute('tabindex','0');scope.listen(node,'pointerenter',()=>{hint.textContent=node.getAttribute('aria-label');hint.classList.add('on')});scope.listen(node,'pointerleave',()=>hint.classList.remove('on'));scope.listen(node,'focus',()=>{hint.textContent=node.getAttribute('aria-label');hint.classList.add('on')});scope.listen(node,'blur',()=>hint.classList.remove('on'));hitLayer.appendChild(node);hitNodes.set(t.key,node)}if(node.getAttribute('d')!==t.d)node.setAttribute('d',t.d);node.setAttribute('aria-label',t.label);if(t.clipped)node.setAttribute('clip-path','url(#outside-cabinet)');else node.removeAttribute('clip-path');if(document.activeElement===node||node.matches(':hover'))hint.textContent=t.label;}
+ const live=new Set();for(const t of targets){live.add(t.key);let node=hitNodes.get(t.key);if(!node){node=document.createElementNS(NS,'path');node.dataset.act=t.key;node.setAttribute('role','button');node.setAttribute('tabindex','0');scope.listen(node,'pointerenter',()=>{hint.textContent=localizeText(node.getAttribute('aria-label'));hint.classList.add('on')});scope.listen(node,'pointerleave',()=>hint.classList.remove('on'));scope.listen(node,'focus',()=>{hint.textContent=localizeText(node.getAttribute('aria-label'));hint.classList.add('on')});scope.listen(node,'blur',()=>hint.classList.remove('on'));hitLayer.appendChild(node);hitNodes.set(t.key,node)}if(node.getAttribute('d')!==t.d)node.setAttribute('d',t.d);node.setAttribute('aria-label',localizeText(t.label));if(t.clipped)node.setAttribute('clip-path','url(#outside-cabinet)');else node.removeAttribute('clip-path');if(document.activeElement===node||node.matches(':hover'))hint.textContent=localizeText(t.label);}
  for(const[key,node]of hitNodes)if(!live.has(key)){if(document.activeElement===node)sceneSvg.focus({preventScroll:true});node.remove();hitNodes.delete(key);hint.classList.remove('on')}
 };
 ui.render();
 /* Compact shared studio layout: only relocate existing controls; state and scene stay intact. */
 const studio=document.createElement('main');studio.className='studio-layout';
-const sidebar=document.createElement('aside');sidebar.className='studio-sidebar';sidebar.setAttribute('aria-label','洗衣操作与设置');
+const sidebar=document.createElement('aside');sidebar.className='studio-sidebar';sidebar.setAttribute('aria-label',localizeText('洗衣操作与设置'));
 const heading=document.querySelector('header');const stage=document.querySelector('.stage');
-const settings=document.createElement('details');settings.className='studio-details';settings.innerHTML='<summary>外观与视角<span>展开后可在此滚动</span></summary><div class="disclosure-scroll"></div>';
+const settings=document.createElement('details');settings.className='studio-details';settings.innerHTML=localizeMarkup('<summary>外观与视角<span>展开后可在此滚动</span></summary><div class="disclosure-scroll"></div>');
 settings.lastElementChild.append(document.querySelector('.controls'));
-const guide=document.createElement('details');guide.className='studio-details';guide.innerHTML='<summary>操作说明与原理<span>点击展开</span></summary><div class="disclosure-scroll"></div>';
-guide.lastElementChild.append(help,capEl);const idleGuide=document.createElement('p');idleGuide.textContent='先点衣篮装衣，再添加洗涤剂。选择程序后启动，运行时舱门锁定。洗涤结束，点舱门取衣。查看内部可观察滚筒与传动机构。';guide.lastElementChild.prepend(idleGuide);
-const secondary=document.createElement('section');secondary.className='studio-secondary';secondary.setAttribute('aria-label','更多设置与说明，可滚动');secondary.append(settings,guide);
+const guide=document.createElement('details');guide.className='studio-details';guide.innerHTML=localizeMarkup('<summary>操作说明与原理<span>点击展开</span></summary><div class="disclosure-scroll"></div>');
+guide.lastElementChild.append(help,capEl);const idleGuide=document.createElement('p');idleGuide.textContent=localizeText('先点衣篮装衣，再添加洗涤剂。选择程序后启动，运行时舱门锁定。洗涤结束，点舱门取衣。查看内部可观察滚筒与传动机构。');guide.lastElementChild.prepend(idleGuide);
+const secondary=document.createElement('section');secondary.className='studio-secondary';secondary.setAttribute('aria-label',localizeText('更多设置与说明，可滚动'));secondary.append(settings,guide);
 sidebar.append(heading,document.getElementById('btns'),document.getElementById('readout'),vset,secondary);
 const credit=document.querySelector('.made-with');if(credit)sidebar.append(credit);
 studio.append(sidebar,stage);document.body.append(studio);
@@ -1019,21 +1020,21 @@ studio.append(sidebar,stage);document.body.append(studio);
 /* Shared ten-object visual system; reuse existing scene and control nodes. */
 studio.className='play-layout';sidebar.className='play-dock';secondary.className='dock-extras';settings.className='';guide.className='';
 heading.remove();
-const dockTitle=document.createElement('p');dockTitle.className='dock-title';dockTitle.textContent='装衣、加料，开始一轮洗涤。';
+const dockTitle=document.createElement('p');dockTitle.className='dock-title';dockTitle.textContent=localizeText('装衣、加料，开始一轮洗涤。');
 const readoutNode=document.getElementById('readout');sidebar.prepend(dockTitle,readoutNode);readoutNode.setAttribute('aria-live','polite');document.querySelector('.actions .cap')?.remove();
-settings.querySelector('summary').innerHTML='外观与视角';guide.querySelector('summary').innerHTML='怎么玩 · 制作原理';
-if(credit)secondary.append(credit);const stageNote=document.createElement('p');stageNote.className='stage-note';stageNote.textContent='拖动空白旋转观察 · 点击机器部件操作';stage.append(stageNote);
+settings.querySelector('summary').innerHTML=localizeMarkup('外观与视角');guide.querySelector('summary').innerHTML=localizeMarkup('怎么玩 · 制作原理');
+if(credit)secondary.append(credit);const stageNote=document.createElement('p');stageNote.className='stage-note';stageNote.textContent=localizeText('拖动空白旋转观察 · 点击机器部件操作');stage.append(stageNote);
 
 // Names stay in normal, scrollable HTML when the stage cannot fit full pills.
 // This lives outside the action sequence and never takes height from the SVG.
-calloutLegend=document.createElement('section');calloutLegend.className='washer-callout-legend';calloutLegend.hidden=true;calloutLegend.setAttribute('aria-label','洗衣机部件名称');vset.after(calloutLegend);
+calloutLegend=document.createElement('section');calloutLegend.className='washer-callout-legend';calloutLegend.hidden=true;calloutLegend.setAttribute('aria-label',localizeText('洗衣机部件名称'));vset.after(calloutLegend);
 const syncCalloutLegend=()=>{
  const layout=calloutPresentation,visible=layout&&layout.mode!=='names'&&!document.documentElement.classList.contains('nolabels');
  sceneSvg.dataset.calloutMode=layout?.mode||'off';
  calloutLegend.hidden=!visible;if(!visible)return;
  const key=JSON.stringify([layout.mode,layout.items.map(item=>[item.number,item.text,!!item.on])]);if(key===calloutLegendKey)return;calloutLegendKey=key;
- calloutLegend.replaceChildren();const caption=document.createElement('p');caption.textContent=layout.mode==='numbered'?'部件定位 · 对照画面编号':'部件名称 · 放大画面可显示定位编号';calloutLegend.append(caption);
- const list=document.createElement('ol');for(const item of layout.items){const row=document.createElement('li');row.dataset.active=String(!!item.on);const number=document.createElement('span');number.className='callout-number';number.textContent=String(item.number);number.setAttribute('aria-hidden','true');row.append(number,document.createTextNode(item.text));list.append(row);}calloutLegend.append(list);
+ calloutLegend.replaceChildren();const caption=document.createElement('p');caption.textContent=localizeText(layout.mode==='numbered'?'部件定位 · 对照画面编号':'部件名称 · 放大画面可显示定位编号');calloutLegend.append(caption);
+ const list=document.createElement('ol');for(const item of layout.items){const row=document.createElement('li');row.dataset.active=String(!!item.on);const number=document.createElement('span');number.className='callout-number';number.textContent=localizeText(String(item.number));number.setAttribute('aria-hidden','true');row.append(number,document.createTextNode(localizeText(item.text)));list.append(row);}calloutLegend.append(list);
 };
 const calloutRender=ui.render;ui.render=()=>{calloutRender();syncCalloutLegend();};
 // ResizeObserver also handles dock/layout and font changes while the machine is
@@ -1043,18 +1044,18 @@ if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(reflow
 addEventListener('resize',reflowCallouts);
 
 
-const scrollHint=document.createElement('p');scrollHint.className='extras-scroll-hint';sidebar.append(scrollHint);const hintOverflow=()=>scrollHint.textContent=secondary.scrollHeight>secondary.clientHeight+2?'设置区可上下滚动 ↕':'';[settings,guide].forEach(el=>scope.listen(el,'toggle',hintOverflow));addEventListener('resize',hintOverflow);setTimeout(hintOverflow,200);
+const scrollHint=document.createElement('p');scrollHint.className='extras-scroll-hint';sidebar.append(scrollHint);const hintOverflow=()=>scrollHint.textContent=localizeText(secondary.scrollHeight>secondary.clientHeight+2?'设置区可上下滚动 ↕':'');[settings,guide].forEach(el=>scope.listen(el,'toggle',hintOverflow));addEventListener('resize',hintOverflow);setTimeout(hintOverflow,200);
 
 /* Contextual workflow, without moving controls or changing the scene envelope. */
 const washButtons=[...document.querySelectorAll('#btns>.stepwrap>.act')];
-const washProgress=document.createElement('div');washProgress.className='toy-progress';washProgress.setAttribute('role','progressbar');washProgress.setAttribute('aria-label','当前洗衣程序进度');washProgress.innerHTML='<span></span>';readoutNode.after(washProgress);
+const washProgress=document.createElement('div');washProgress.className='toy-progress';washProgress.setAttribute('role','progressbar');washProgress.setAttribute('aria-label',localizeText('当前洗衣程序进度'));washProgress.innerHTML=localizeMarkup('<span></span>');readoutNode.after(washProgress);
 const detachAudio=window.MechanicalAudio?.attach('washer',document.getElementById('btns'));
 scope.onCleanup(()=>detachAudio?.());
 const tactileRender=ui.render;ui.render=()=>{tactileRender();const s=ui.st,waiting=locked(s),moving=busyLaundry(s),p=prog(s);
  const labels=[s.loading?'正在装入衣物…':s.laundry==='drum'?'衣物已装好':'装入衣物',s.soapAnim!=null?'正在加洗涤剂…':s.soapLvl>=1?'洗涤剂已加好':'添加洗涤剂','程序：'+p.name+(waiting?' · 锁定':''),s.latch==='locking'?'正在锁门…':s.latch==='unlocking'?'等待解锁…':s.run?(s.paused?'继续洗涤':'暂停洗涤'):s.done?'本轮已完成':'启动'+p.name,s.xfer?.dir==='out'?'正在取出衣物…':s.done?'开门取出衣物':'开门取衣',s.door===0&&s.doorT===0?'舱门已关闭':'关闭舱门'];
  const unavailable=[waiting||moving||s.laundry==='drum',waiting||s.done||s.soapAnim!=null||s.soapLvl>=1||!p.fill,waiting||s.done||s.soapAnim!=null,!!s.latch||moving||s.done,waiting||moving||s.laundry!=='drum',waiting||moving||!s.doorT];
  const next=s.latch||moving||s.soapAnim!=null||s.drawer!==s.drawerT?-1:s.done?4:s.laundry==='basket'?0:s.laundry==='drum'&&!waiting?(p.fill&&s.soapLvl<.5?1:s.doorT?5:s.drawerT?-1:3):-1;
- washButtons.forEach((b,i)=>{const label=labels[i]+(i===2?' ▾':'');if(b.textContent!==label)b.textContent=label;b.setAttribute('aria-disabled',unavailable[i]);b.classList.toggle('is-next',i===next);b.dataset.recommended=String(i===next);if(i===next)b.setAttribute('aria-description','建议下一步。');else b.removeAttribute('aria-description');b.classList.toggle('is-complete',i===0&&s.laundry==='drum'||i===1&&s.soapLvl>=1);});
+ washButtons.forEach((b,i)=>{const label=labels[i]+(i===2?' ▾':'');if(b.textContent!==label)b.textContent=localizeText(label);b.setAttribute('aria-disabled',unavailable[i]);b.classList.toggle('is-next',i===next);b.dataset.recommended=String(i===next);if(i===next)b.setAttribute('aria-description',localizeText('建议下一步。'));else b.removeAttribute('aria-description');b.classList.toggle('is-complete',i===0&&s.laundry==='drum'||i===1&&s.soapLvl>=1);});
  washButtons[3].setAttribute('aria-pressed',s.run&&!s.paused);document.querySelector('.stage').setAttribute('aria-busy',!!s.latch||!!s.loading||!!s.xfer);
  const progress=s.done?100:Math.round(s.tau/p.T*100);washProgress.hidden=!s.run&&!s.done&&!s.latch;washProgress.firstElementChild.style.width=progress+'%';washProgress.setAttribute('aria-valuenow',progress);washProgress.setAttribute('aria-valuemin','0');washProgress.setAttribute('aria-valuemax','100');washProgress.setAttribute('aria-valuetext',s.paused?'已暂停':s.done?'完成':progress+'%');
  window.MechanicalAudio?.update('washer',{...s,phase:s.run?phaseAt(p,s.tau):s.latch||'idle'});

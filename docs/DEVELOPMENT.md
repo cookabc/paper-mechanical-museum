@@ -87,3 +87,9 @@ npm run test:e2e:ui              # interactive Playwright runner
 ```
 
 Browser tests start their own production preview on **127.0.0.1:4282**, separate from development at **4182**. Desktop and mobile Chromium cover all twelve routes, feature selection, language changes and resource ownership. CI installs its own Chromium; to use an existing local Chrome, run `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e`. Traces and screenshots are retained for failures in ignored `test-results/` and uploaded by CI. These checks complement the mechanical-model tests; they do not establish physical simulation accuracy or coverage of Safari and Firefox.
+
+## Exhibit languages
+
+The shell uses `src/shared/i18n.ts`. Legacy exhibit renderers pass visible DOM/SVG copy through `message-language.ts`; action IDs, model state and data attributes remain unchanged. Each exhibit registers its own English catalogue from `src/locales/` when its lazy module loads. Shared copy loads with the shell. Chinese remains the authored source text.
+
+Translate complete sentences and numeric templates before fragment fallbacks. New presentation writes must cover text, accessible attributes and SVG labels. Read language at mount or render time, including shared services that outlive a route. Browser tests switch all twelve cached exhibits from English to Chinese and back, and inspect lessons and accessibility text.

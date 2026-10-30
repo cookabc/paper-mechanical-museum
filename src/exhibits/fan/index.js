@@ -1,3 +1,7 @@
+import messages from '../../locales/fan.en.json' with {type:'json'};
+import {registerMessages} from '../../shared/message-language.ts';
+registerMessages(messages);
+import {localizeMarkup,localizeText} from '../../shared/message-language.ts';
 import { Paper3D } from './paper3d.js';
 import { fanTemplate } from './template.js';
 import { installFanTexture } from './hand-texture.js';
@@ -14,7 +18,7 @@ export function mountFan({ root, scope, audio, observation }) {
  let disposed=false;
  const pauseReasons=new Set();
  root.classList.add('fan-exhibit');
- root.innerHTML=fanTemplate;
+ root.innerHTML=localizeMarkup(fanTemplate);
  const listen=(target,type,handler,options)=>scope.listen(target,type,event=>{
   if(!disposed&&!pauseReasons.size&&!scope.paused)handler(event);
  },options);
@@ -39,15 +43,15 @@ const sceneTargets=controlDefinitions.map(def=>{
  const node=doc.createElementNS(svg.namespaceURI,'g');
  node.id=def.id;node.classList.add('scene-control');node.dataset.fanAction=def.action;
  if(def.value)node.dataset.value=def.value;
- node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',def.label);
+ node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',localizeText(def.label));
  const hit=doc.createElementNS(svg.namespaceURI,'path');hit.classList.add('hit-area');node.append(hit);
- const title=doc.createElementNS(svg.namespaceURI,'title');title.textContent=def.label;node.append(title);
+ const title=doc.createElementNS(svg.namespaceURI,'title');title.textContent=localizeText(def.label);node.append(title);
  sceneControls.append(node);return node;
 });
 const sceneHint=root.querySelector('#interaction-hint');
 let feedbackTimer=0,feedbackUntil=0;
 const idleHint=()=>state.on?'点底座切换风速 · 拖动旋转观察':'点电源开始 · 也可先选择风速';
-function showHint(text,temporary=false){scope.clearTimeout(feedbackTimer);sceneHint.textContent=text;feedbackUntil=temporary?scope.now()+2200:0;if(temporary)feedbackTimer=scope.timeout(()=>{sceneHint.textContent=idleHint()},2200)}
+function showHint(text,temporary=false){scope.clearTimeout(feedbackTimer);sceneHint.textContent=localizeText(text);feedbackUntil=temporary?scope.now()+2200:0;if(temporary)feedbackTimer=scope.timeout(()=>{sceneHint.textContent=localizeText(idleHint())},2200)}
 sceneTargets.forEach(node=>{
  const hint=()=>showHint(node.getAttribute('aria-label'));
  listen(node,'pointerenter',hint);listen(node,'focus',hint);
@@ -145,7 +149,7 @@ function render(){if(disposed)return;let e=engine,m=palettes[state.color];e.part
  e.parts.sort((a,b)=>headLayer(a)-headLayer(b)||a.depth-b.depth);
  // The ground shadow must remain behind both head halfspaces.
  const shadow=e.parts.findIndex(part=>part.depth===-1e6);if(shadow>0)e.parts.unshift(...e.parts.splice(shadow,1));
- art.innerHTML=e.parts.map(part=>part.svg).join('');
+ art.innerHTML=localizeMarkup(e.parts.map(part=>part.svg).join(''));
  // Persistent projected hit areas stay aligned with the real controls at every angle.
  const eye=[Math.sin(e.yaw)*Math.cos(e.pitch),-Math.cos(e.yaw)*Math.cos(e.pitch),Math.sin(e.pitch)];
  const baseVisible=eye[2]-eye[1]*7/19>.015;
@@ -168,20 +172,20 @@ function sync(){
  if(disposed)return;
  root.classList.toggle('running',state.on);
  root.querySelector('#power').setAttribute('aria-pressed',state.on);
- root.querySelector('#power-label').textContent=state.on?'关闭电源':'开启电源';
+ root.querySelector('#power-label').textContent=localizeText(state.on?'关闭电源':'开启电源');
  root.querySelector('#oscillate').setAttribute('aria-pressed',state.oscillate);
- root.querySelector('#speed-label').textContent=['','一档 · 轻风','二档 · 和风','三档 · 劲风'][state.speed];
- const target=state.on?[0,4,8,13][state.speed]:0;let status=!state.on?(state.velocity>.05?'电源已关 · 叶片惯性停转中':'电源关闭 · 叶片已停稳'):Math.abs(state.velocity-target)>.5?(state.velocity<target?'正在加速至':'正在减速至')+['','一档','二档','三档'][state.speed]:['','轻风缓缓','和风徐徐','劲风习习'][state.speed];if(state.on&&state.oscillate)status+=' · 摇头中';const statusEl=root.querySelector('#status');if(statusEl.textContent!==status)statusEl.textContent=status;
+ root.querySelector('#speed-label').textContent=localizeText(['','一档 · 轻风','二档 · 和风','三档 · 劲风'][state.speed]);
+ const target=state.on?[0,4,8,13][state.speed]:0;let status=!state.on?(state.velocity>.05?'电源已关 · 叶片惯性停转中':'电源关闭 · 叶片已停稳'):Math.abs(state.velocity-target)>.5?(state.velocity<target?'正在加速至':'正在减速至')+['','一档','二档','三档'][state.speed]:['','轻风缓缓','和风徐徐','劲风习习'][state.speed];if(state.on&&state.oscillate)status+=' · 摇头中';const statusEl=root.querySelector('#status');if(statusEl.textContent!==status)statusEl.textContent=localizeText(status);
  root.classList.toggle('coasting',!state.on&&state.velocity>.05);
  sceneTargets.forEach(n=>n.classList.toggle('is-pressed',state.pressed===n.dataset.fanAction+(n.dataset.value||'')));
  audio?.update('fan',state);
  root.querySelectorAll('[data-speed]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.speed===state.speed));
  root.querySelectorAll('[data-color]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.color===state.color));
  sceneTargets[0].setAttribute('aria-pressed',state.on);
- sceneTargets[0].setAttribute('aria-label',state.on?'关闭电源':'开启电源');
+ sceneTargets[0].setAttribute('aria-label',localizeText(state.on?'关闭电源':'开启电源'));
  for(let i=1;i<=3;i++)sceneTargets[i].setAttribute('aria-pressed',state.speed===i);
  sceneTargets[4].setAttribute('aria-pressed',state.oscillate);
- sceneTargets[4].setAttribute('aria-label',state.oscillate?'关闭左右摇头':'开启左右摇头');
+ sceneTargets[4].setAttribute('aria-label',localizeText(state.oscillate?'关闭左右摇头':'开启左右摇头'));
 }
 function activate(action,value){
  if(disposed||pauseReasons.size)return;

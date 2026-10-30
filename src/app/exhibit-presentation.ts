@@ -15,7 +15,7 @@ export function createExhibitHeader(id:string) {
  const next=catalog[(index+1)%catalog.length];
  const neighbourLabel=(n:CatalogEntry,kind:'prev'|'next')=>
   `${t(kind==='prev'?'exhibit.prev':'exhibit.next')}: ${pickName(n,lang)}`;
- header.innerHTML=`<a class="exhibit-home" href="#/" aria-label="${t('brand.home')}"><span aria-hidden="true">纸</span></a>`
+ header.innerHTML=`<a class="exhibit-home" href="#/" aria-label="${t('brand.home')}"><span aria-hidden="true">${lang==='zh'?'纸':'PM'}</span></a>`
   +`<div class="exhibit-heading"><p class="eyebrow">${t('brand.name')}${entry?' / '+pickCategory(entry,lang):''}</p><h1 tabindex="-1">${entry?pickName(entry,lang):t('exhibit.unknown')}</h1></div>`
   +`<nav class="exhibit-navigation" aria-label="${t('exhibit.navLabel')}">`
   +`<a class="gallery-link" href="#/">${t('nav.collection')} <svg class="museum-direction-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 16 4M4 4h12v12"/></svg></a>`

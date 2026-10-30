@@ -1,3 +1,4 @@
+import {localizeMarkup} from '../../shared/message-language.ts';
 /* Same ink wobble, grain and pigment blotch as the collection's washer.
    Turbulence is rasterized once before the filter is attached to animated art. */
 let textureSerial=0;
@@ -16,7 +17,7 @@ export function installFanTexture({root,scope}) {
  scope.onCleanup(dispose);
  const svg=root.querySelector('#figure'),art=root.querySelector('#art'),defs=root.querySelector('#fan-defs');
  const NS='http://www.w3.org/2000/svg',k=800/585;
- defs.innerHTML=`<filter id="${filterId}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-76" width="960" height="912" color-interpolation-filters="sRGB">
+ defs.innerHTML=localizeMarkup(`<filter id="${filterId}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-76" width="960" height="912" color-interpolation-filters="sRGB">
   <feTurbulence type="fractalNoise" baseFrequency="${.045/k}" numOctaves="2" seed="4" result="warp"/>
   <feDisplacementMap in="SourceGraphic" in2="warp" scale="${2.4*k}" xChannelSelector="R" yChannelSelector="G" result="wob"/>
   <feTurbulence type="fractalNoise" baseFrequency="${.9/k}" numOctaves="3" seed="11" result="n1"/>
@@ -24,7 +25,7 @@ export function installFanTexture({root,scope}) {
   <feTurbulence type="fractalNoise" baseFrequency="${.012/k}" numOctaves="2" seed="7" result="n2"/>
   <feColorMatrix in="n2" type="matrix" values=".3 0 0 0 .85 .3 0 0 0 .85 .3 0 0 0 .85 0 0 0 0 1" result="blot"/>
   <feBlend in="wob" in2="grain" mode="multiply" result="g1"/><feBlend in="g1" in2="blot" mode="multiply" result="g2"/><feComposite in="g2" in2="wob" operator="in"/>
- </filter>`;
+ </filter>`);
  const filter=defs.querySelector(`#${filterId}`);
  const bake=async node=>{
   const frequency=+node.getAttribute('baseFrequency'),octaves=+node.getAttribute('numOctaves');

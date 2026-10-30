@@ -1,3 +1,7 @@
+import messages from '../../locales/bicycle.en.json' with {type:'json'};
+import {registerMessages} from '../../shared/message-language.ts';
+registerMessages(messages);
+import {localizeMarkup,localizeText} from '../../shared/message-language.ts';
 import type {SceneContext, SceneController, PauseReason} from '../../app/contracts';
 import {advance, drivetrain, hillResult, hillTrialRecord, HILL, initialState, REAR_TEETH, type HillTrialRecord} from './model';
 import {hillLabMarkup,renderHillLab,trialOutcomeMessage} from './lab';
@@ -7,7 +11,7 @@ import {createObjectStage} from '../../shared/object-stage';
 
 export function mountBicycle({root,scope,audio,observation,catalog=[]}:SceneContext):SceneController {
  const owned=document.createElement('main');owned.className='play-layout bicycle-exhibit';
- owned.innerHTML=`<aside class="play-dock" aria-label="自行车操作与原理"><p class="dock-title">踩得一样快，为什么车速不同？</p><p id="readout" role="status" aria-live="polite">先踩起来，再换一个挡位看看。</p><div class="bike-stats"><div><span>理论车速</span><strong data-read="speed">10.1<small> km/h</small></strong></div><div><span>后轮转速</span><strong data-read="rpm">80<small> rpm</small></strong></div></div><div class="actions" id="btns"><button type="button" class="act bike-start">开始踩踏</button><button type="button" class="act bike-reset">重新开始</button></div><div class="bike-gear-control"><span class="bike-control-label">后飞轮 · 大齿更省力，小齿更快</span><div class="bike-gears" role="group" aria-label="选择挡位">${REAR_TEETH.map((t,i)=>`<button type="button" data-gear="${i}" aria-pressed="${i===1}"><b>${i+1} 挡</b><span>${t} 齿 · ${['轻松','均衡','高速'][i]}</span></button>`).join('')}</div></div><label class="bike-cadence">目标踏频 <output>60 rpm</output><input type="range" min="30" max="100" step="5" value="60" aria-label="目标踏频，每分钟踩踏圈数"></label><div class="dock-extras"><details class="bike-challenge"><summary>爬坡实验 · 条件与简化</summary><p>每轮从零开始，以 60 rpm 试爬同一段 12 米教学坡道；曲柄扭矩上限 20 N·m，轮端需求 15 N·m。换挡会中断当前试爬，已完成记录保留；“重新开始”清空全部记录。</p><p class="bike-assumption">踏频相同，不代表用力或功率相同。理想匀速条件，不计损耗、惯性或打滑；阈值为教学设定，不代表真实坡度或体能。计时采用模型实际推进的秒数，慢看、暂停与离开页面不会增加成绩用时。</p></details><div class="bike-observation"></div><details><summary>图里省略了什么？</summary><p>这是传动比教学台架，不是真实骑行仿真。速度表示能维持目标踏频时的理论值。轮周长设为 2.10 米。</p><p>飞轮、链条和后拨在三维空间中分层展示。换挡时示意链条选择对应飞轮；不模拟真实换挡瞬态、弹簧力学、打滑与自由轮滑行。轮胎与齿轮尺寸是教学比例，不是制造图纸。</p><p>大飞轮降低同一轮端需求对应的曲柄扭矩，但不会凭空节省爬升的能量。</p></details><details><summary>逛逛其他小机器</summary><nav class="object-nav">${catalog.map(x=>`<a class="${x.id==='bicycle'?'current':''}" href="#/${x.id}">${x.name}</a>`).join('')}</nav></details><div class="bike-audio"></div></div></aside><section class="stage"><div class="bike-stage-heading"><div><span class="bike-label">传动实验 / NO. 11</span><h2>把力气，换成远方。</h2></div><button type="button" class="bike-zoom" aria-pressed="false">传动特写 ↗</button></div><svg id="fig" viewBox="60 35 800 505" role="img" aria-label="立体自行车模型，拖动旋转，点击踏板开始，点击飞轮换挡"></svg><div class="bike-equation"><span>前齿盘 <b>32</b></span><i>÷</i><span>后飞轮 <b data-read="teeth">24</b></span><i>=</i><span>后轮每踩一圈转 <b data-read="ratio">1.33</b> 圈</span></div><p class="stage-note">拖动旋转 · 点踏板踩踏 · 点飞轮换挡 · 双击复位</p>${hillLabMarkup}</section>`;
+ owned.innerHTML=localizeMarkup(`<aside class="play-dock" aria-label="自行车操作与原理"><p class="dock-title">踩得一样快，为什么车速不同？</p><p id="readout" role="status" aria-live="polite">先踩起来，再换一个挡位看看。</p><div class="bike-stats"><div><span>理论车速</span><strong data-read="speed">10.1<small> km/h</small></strong></div><div><span>后轮转速</span><strong data-read="rpm">80<small> rpm</small></strong></div></div><div class="actions" id="btns"><button type="button" class="act bike-start">开始踩踏</button><button type="button" class="act bike-reset">重新开始</button></div><div class="bike-gear-control"><span class="bike-control-label">后飞轮 · 大齿更省力，小齿更快</span><div class="bike-gears" role="group" aria-label="选择挡位">${REAR_TEETH.map((t,i)=>`<button type="button" data-gear="${i}" aria-pressed="${i===1}"><b>${i+1} 挡</b><span>${t} 齿 · ${['轻松','均衡','高速'][i]}</span></button>`).join('')}</div></div><label class="bike-cadence">目标踏频 <output>60 rpm</output><input type="range" min="30" max="100" step="5" value="60" aria-label="目标踏频，每分钟踩踏圈数"></label><div class="dock-extras"><details class="bike-challenge"><summary>爬坡实验 · 条件与简化</summary><p>每轮从零开始，以 60 rpm 试爬同一段 12 米教学坡道；曲柄扭矩上限 20 N·m，轮端需求 15 N·m。换挡会中断当前试爬，已完成记录保留；“重新开始”清空全部记录。</p><p class="bike-assumption">踏频相同，不代表用力或功率相同。理想匀速条件，不计损耗、惯性或打滑；阈值为教学设定，不代表真实坡度或体能。计时采用模型实际推进的秒数，慢看、暂停与离开页面不会增加成绩用时。</p></details><div class="bike-observation"></div><details><summary>图里省略了什么？</summary><p>这是传动比教学台架，不是真实骑行仿真。速度表示能维持目标踏频时的理论值。轮周长设为 2.10 米。</p><p>飞轮、链条和后拨在三维空间中分层展示。换挡时示意链条选择对应飞轮；不模拟真实换挡瞬态、弹簧力学、打滑与自由轮滑行。轮胎与齿轮尺寸是教学比例，不是制造图纸。</p><p>大飞轮降低同一轮端需求对应的曲柄扭矩，但不会凭空节省爬升的能量。</p></details><details><summary>逛逛其他小机器</summary><nav class="object-nav">${catalog.map(x=>`<a class="${x.id==='bicycle'?'current':''}" href="#/${x.id}">${x.name}</a>`).join('')}</nav></details><div class="bike-audio"></div></div></aside><section class="stage"><div class="bike-stage-heading"><div><span class="bike-label">传动实验 / NO. 11</span><h2>把力气，换成远方。</h2></div><button type="button" class="bike-zoom" aria-pressed="false">传动特写 ↗</button></div><svg id="fig" viewBox="60 35 800 505" role="img" aria-label="立体自行车模型，拖动旋转，点击踏板开始，点击飞轮换挡"></svg><div class="bike-equation"><span>前齿盘 <b>32</b></span><i>÷</i><span>后飞轮 <b data-read="teeth">24</b></span><i>=</i><span>后轮每踩一圈转 <b data-read="ratio">1.33</b> 圈</span></div><p class="stage-note">拖动旋转 · 点踏板踩踏 · 点飞轮换挡 · 双击复位</p>${hillLabMarkup}</section>`);
  root.append(owned);scope.onCleanup(()=>owned.remove());
  const q=<T extends Element=HTMLElement>(selector:string)=>owned.querySelector<T>(selector)!;
  let state=initialState(),disposed=false,frame=0,lastTime:number|null=null,rate=1,epoch=0;
@@ -17,7 +21,7 @@ export function mountBicycle({root,scope,audio,observation,catalog=[]}:SceneCont
  const reasons=new Set<PauseReason>();
  const start=q<HTMLButtonElement>('.bike-start'),resetButton=q<HTMLButtonElement>('.bike-reset'),cadence=q<HTMLInputElement>('.bike-cadence input'),zoom=q<HTMLButtonElement>('.bike-zoom'),tryButton=q<HTMLButtonElement>('.bike-try'),fig=q<SVGSVGElement>('#fig');
  const appearance=document.createElement('div');appearance.className='object-stage-controls';q('.dock-extras').prepend(appearance);
- const equation=q('.bike-equation');const explanation=document.createElement('details');explanation.innerHTML='<summary>齿数与传动比</summary>';explanation.append(equation);q('.bike-observation').after(explanation);
+ const equation=q('.bike-equation');const explanation=document.createElement('details');explanation.innerHTML=localizeMarkup('<summary>齿数与传动比</summary>');explanation.append(equation);q('.bike-observation').after(explanation);
  const zoomButton=owned.querySelector('.bike-zoom')!;
  const objectStage=createObjectStage({root,scope,audio,observation,catalog},fig,appearance,{bounds:[-14,-3,0,18,127,85],camera:[-25,28],palette:'mint',draw:(g,p)=>drawing(state,g,p),action:a=>{if(a==='pedal')start.click();if(a==='gear'){const next=owned.querySelector<HTMLButtonElement>(`[data-gear="${(state.gear+1)%3}"]`);next?.click();}}});
  appearance.querySelector('.object-view-panel')!.append(zoomButton);
@@ -28,18 +32,18 @@ export function mountBicycle({root,scope,audio,observation,catalog=[]}:SceneCont
  function render(){
   if(!live())return;
   const d=drivetrain(state.gear,state.cadence);objectStage.render(state.zoom?[-2,7,-3,18,70,43]:undefined);fig.classList.toggle('bike-closeup',state.zoom);
-  q('[data-read="speed"]').innerHTML=d.speedKmh.toFixed(1)+'<small> km/h</small>';q('[data-read="rpm"]').innerHTML=d.wheelRpm.toFixed(0)+'<small> rpm</small>';
-  q('[data-read="teeth"]').textContent=String(d.rear);q('[data-read="ratio"]').textContent=d.ratio.toFixed(2);
-  q('.bike-cadence output').textContent=state.cadence+' rpm';cadence.value=String(state.cadence);cadence.disabled=state.challenge==='riding';
+  q('[data-read="speed"]').innerHTML=localizeMarkup(d.speedKmh.toFixed(1)+'<small> km/h</small>');q('[data-read="rpm"]').innerHTML=localizeMarkup(d.wheelRpm.toFixed(0)+'<small> rpm</small>');
+  q('[data-read="teeth"]').textContent=localizeText(String(d.rear));q('[data-read="ratio"]').textContent=localizeText(d.ratio.toFixed(2));
+  q('.bike-cadence output').textContent=localizeText(state.cadence+' rpm');cadence.value=String(state.cadence);cadence.disabled=state.challenge==='riding';
   for(const b of owned.querySelectorAll<HTMLButtonElement>('[data-gear]'))b.setAttribute('aria-pressed',String(Number(b.dataset.gear)===state.gear));
-  start.textContent=state.running?'暂停踩踏':'开始踩踏';start.setAttribute('aria-pressed',String(state.running));zoom.textContent=state.zoom?'整车视图 ↙':'传动特写 ↗';zoom.setAttribute('aria-pressed',String(state.zoom));
+  start.textContent=localizeText(state.running?'暂停踩踏':'开始踩踏');start.setAttribute('aria-pressed',String(state.running));zoom.textContent=localizeText(state.zoom?'整车视图 ↙':'传动特写 ↗');zoom.setAttribute('aria-pressed',String(state.zoom));
   renderHillLab(q('.bike-lab'),state,records,rate);
   observer?.update();
  }
  function announce(){
   const d=drivetrain(state.gear,state.cadence);
-  q('#readout').textContent=state.running?`${state.gear+1} 挡 · 后 ${d.rear} 齿。每踩一圈，后轮转 ${d.ratio.toFixed(2)} 圈。`:'已停稳。换挡、调踏频，或打开原理观察。';
-  q('.bike-challenge-result').textContent=trialNotice;
+  q('#readout').textContent=localizeText(state.running?`${state.gear+1} 挡 · 后 ${d.rear} 齿。每踩一圈，后轮转 ${d.ratio.toFixed(2)} 圈。`:'已停稳。换挡、调踏频，或打开原理观察。');
+  q('.bike-challenge-result').textContent=localizeText(trialNotice);
  }
  function stopFrame(){epoch++;if(frame)scope.cancelRaf(frame);frame=0;lastTime=null;}
  function schedule(){

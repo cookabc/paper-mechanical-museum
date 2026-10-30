@@ -15,6 +15,7 @@ const plain = value => JSON.parse(JSON.stringify(value));
 function createHarness(legacy = false, parseArt = false) {
  const dom = new JSDOM(legacy ? read('index.html') : '<div id="host"></div><button id="outside">Outside</button>', {runScripts:'outside-only',url:'https://museum.test/'});
  const win=dom.window,doc=win.document,root=legacy?doc.body:doc.querySelector('#host');
+ doc.documentElement.lang='zh';globalThis.document=doc;globalThis.localStorage=win.localStorage;
  let now=0,serial=0,active=true,paused=false,events=0,markup='';
  const frames=new Map(),timers=new Map(),cleanups=[],audioEvents=[],textureImages=[];
  Object.defineProperty(doc,'hidden',{value:false,writable:true});
@@ -64,7 +65,7 @@ export async function runFanRegression(){
  await check('Original mechanics, geometry, painter order and engine formulas are unchanged',()=>{
   const block=text=>text.slice(text.indexOf('function advanceFan(now){'),text.indexOf('\nfunction frame(now){'));
   assert.equal(block(source),block(read('fan.js')));
-  const geometry=text=>text.slice(text.indexOf('function ellipse('),text.indexOf('\nfunction sync(){')).replace('if(disposed)return;','').replace('doc.activeElement','document.activeElement');
+  const geometry=text=>text.slice(text.indexOf('function ellipse('),text.indexOf('\nfunction sync(){')).replace('if(disposed)return;','').replace('doc.activeElement','document.activeElement').replace("art.innerHTML=localizeMarkup(e.parts.map(part=>part.svg).join(''));","art.innerHTML=e.parts.map(part=>part.svg).join('');");
   assert.equal(geometry(source),geometry(read('fan.js')));
   const engine=fs.readFileSync(new URL('./paper3d.js',import.meta.url),'utf8').replace('export class Paper3D {','window.Paper3D=class {').replace('\n}\n','\n};\n');
   assert.equal(engine,read('engine.js'));

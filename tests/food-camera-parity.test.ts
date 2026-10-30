@@ -1,3 +1,5 @@
+import {beforeEach as beforeLanguage} from 'vitest';
+beforeLanguage(()=>{localStorage.setItem('museum-lang','zh');document.documentElement.lang='zh';});
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
 import fs from 'node:fs';
 import vm from 'node:vm';

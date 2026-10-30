@@ -4,10 +4,7 @@ Twelve small everyday machines you can operate by hand. Turn, press, shift gears
 
 **[Enter the museum →](https://paper-mechanical-museum.vercel.app/)** · [Development guide](docs/DEVELOPMENT.md) · [Documentation index](docs/README.md) · [Sources & attribution](THIRD_PARTY_NOTICES.md)
 
-The interface opens in English, with Chinese one click away in the header. The shell —
-entrance page, exhibit chrome, play dock, sound and observation panels — is fully
-translated; the labels inside each machine's own model are still Chinese and are
-being translated exhibit by exhibit. No account, no install — open the site and start. Free play is the default entry; guided lessons and principle observation are optional ways to explore that never operate the machines for you. Sound is off until you turn it on. These are interactive teaching models, not manufacturing drawings or simulations of real-device performance.
+The interface opens in English, with Chinese one click away in the header. The entrance page and all twelve exhibits share the same language choice, including controls, lessons, live readouts, sound settings, accessibility text and SVG part labels. No account, no install — open the site and start. Free play is the default entry; guided lessons and principle observation are optional ways to explore that never operate the machines for you. Sound is off until you turn it on. These are interactive teaching models, not manufacturing drawings or simulations of real-device performance.
 
 ## Screenshots
 
@@ -19,7 +16,7 @@ being translated exhibit by exhibit. No account, no install — open the site an
 
 ![Hand-crank generator workbench: dimensional coil and magnetic poles, crank, bulb, and rpm / voltage / power readouts](docs/screenshots/generator-workbench.jpg)
 
-Real browser screenshots of the production site, taken 2026-10-29 in English (the default). The generator frame was captured by operating "开始摇动" into a positive 60 rpm, circuit-closed state — it is not a concept render or a composite. It also shows the translation honestly: the surrounding shell is English while that machine's own panel labels are still Chinese. A still image shows one state only; the full interaction is best experienced in the museum. [Screenshot sources and update notes](docs/screenshots/README.md).
+Real browser screenshots of the production site, taken 2026-10-29 in English (the default). The generator frame was captured by operating "开始摇动" into a positive 60 rpm, circuit-closed state — it is not a concept render or a composite. These historical images predate the complete exhibit translations; the current controls and readouts follow the selected language. A still image shows one state only; the full interaction is best experienced in the museum. [Screenshot sources and update notes](docs/screenshots/README.md).
 
 ## The collection
 

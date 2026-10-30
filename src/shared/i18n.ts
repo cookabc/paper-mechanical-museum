@@ -2,9 +2,8 @@
  * Interface copy for the museum shell.
  *
  * English is the default language; Chinese is one switch away. This module only
- * carries shared chrome — the entrance page, navigation, the play dock, the
- * observation panel and the exit notices. Each exhibit's own model keeps its
- * own labels, because those strings sit next to the physics they describe.
+ * carries shared chrome. Exhibit copy is translated at the presentation
+ * boundary by message-language; simulation identifiers remain language-neutral.
  */
 export type Lang = 'en' | 'zh';
 export type Key = keyof typeof copy.en;
@@ -312,6 +311,7 @@ export function detectLang(): Lang {
 }
 
 export function setLang(lang: Lang) {
+  document.documentElement.lang = lang;
   try {
     localStorage.setItem(LANG_KEY, lang);
   } catch {

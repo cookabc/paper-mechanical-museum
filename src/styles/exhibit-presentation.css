@@ -142,3 +142,11 @@
   .museum-scene .exhibit-home {box-shadow:none;}
   .museum-scene .actions .act {border:1px solid ButtonText!important;}
 }
+/* English paragraphs and translated controls need the same readable type floor. */
+.museum-scene .exhibit-heading .eyebrow,
+.museum-scene .gen-stats > div > span,
+.museum-scene .bike-stats > div > span,
+.museum-scene .museum-learning-entry small,
+.museum-scene .museum-learning-entry > span:nth-of-type(2),
+.museum-scene .stage-note {font-size:11px!important;}
+:lang(en) .museum-scene #readout {text-wrap:pretty;}

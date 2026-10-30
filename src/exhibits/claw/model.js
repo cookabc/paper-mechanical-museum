@@ -1,3 +1,4 @@
+import {localizeText,localizeMarkup} from '../../shared/message-language.ts';
 import {scopedDocument} from '../../app/scoped-dom';
 /** Original claw geometry, mechanisms, control policy and optional explanation. */
 export function createClawModel(geometry,environment){
@@ -160,11 +161,11 @@ function drop(s,ui){
 }
 
 const ui=geometry.mountFigure({title:'手绘抓娃娃机',hint:'转一转，看清楚，再把快乐带回家。',size:[W,D,H],homeView:[38,23],palette:'mint',state:st,scene,credit:false,buttonsLabel:'抓取操作',buttons:[{label:'下爪',onClick:drop},{label:'领取娃娃',onClick:collect},{label:'重新摆放',onClick:restock }],acts:{aim:(s,e,u)=>aim(s,+e.dataset.i,u),drop:(s,e,u)=>drop(s,u),collect:(s,e,u)=>collect(s,u)},readout:s=>s.message});
-document.getElementById('fig').setAttribute('aria-label','抓娃娃机，方向键微调，空格下爪，Shift 加方向键旋转视角，点选娃娃瞄准');
-const panel=document.createElement('div');panel.className='gamepad';panel.innerHTML='<div class="pad"><button data-dir="far">向上</button><button data-dir="left">向左</button><button data-dir="near">向下</button><button data-dir="right">向右</button></div><p id="collection"></p>';document.getElementById('readout').after(panel);
+document.getElementById('fig').setAttribute('aria-label',localizeText('抓娃娃机，方向键微调，空格下爪，Shift 加方向键旋转视角，点选娃娃瞄准'));
+const panel=document.createElement('div');panel.className='gamepad';panel.innerHTML=localizeMarkup('<div class="pad"><button data-dir="far">向上</button><button data-dir="left">向左</button><button data-dir="near">向下</button><button data-dir="right">向右</button></div><p id="collection"></p>');document.getElementById('readout').after(panel);
 
-const hint=document.createElement('p');hint.style='max-width:760px;width:100%;font-size:11px;color:var(--muted);margin:10px 0 0';hint.textContent='拖动红色摇杆移动 · 点娃娃瞄准 · 空格下爪 · 拖空白旋转';document.querySelector('header').after(hint);
-const oldRender=ui.render;ui.render=()=>{if(!scope.active||scope.paused||disposed)return;oldRender();document.getElementById('collection').textContent=`已领取 ${st.won.length} 只 · 尝试 ${st.tries} 次`+(st.won.length?' · '+st.won.slice(-4).join('、'):'');};
+const hint=document.createElement('p');hint.style='max-width:760px;width:100%;font-size:11px;color:var(--muted);margin:10px 0 0';hint.textContent=localizeText('拖动红色摇杆移动 · 点娃娃瞄准 · 空格下爪 · 拖空白旋转');document.querySelector('header').after(hint);
+const oldRender=ui.render;ui.render=()=>{if(!scope.active||scope.paused||disposed)return;oldRender();document.getElementById('collection').textContent=localizeText(`已领取 ${st.won.length} 只 · 尝试 ${st.tries} 次`+(st.won.length?' · '+st.won.slice(-4).join('、'):''));};
 let held=null,heldInput=null,holdRunning=false,boundaryNoted=false,holdGeneration=0;
 function screenDirection(dx,dy){const a=geometry.Dv(1,0,0),b=geometry.Dv(0,1,0),det=a[0]*b[1]-a[1]*b[0];let x=(dx*b[1]-dy*b[0])/det,y=(a[0]*dy-a[1]*dx)/det,n=Math.hypot(x,y)||1;return[x/n,y/n];}
 function centerStick(){const x=st.jx||0,y=st.jy||0;const id=st.stickMotion=(st.stickMotion||0)+1;let t=0;ui.animate(dt=>{if(id!==st.stickMotion)return false;t+=dt;const k=1-geometry.ease(Math.min(1,t/.16));st.jx=x*k;st.jy=y*k;return t<.16;});}
@@ -200,7 +201,7 @@ geometry.setCam(38,23);ui.render();
 
 /* Stable screen-sized joystick hit region, separate from redrawable ink geometry. */
 const joySvg=document.getElementById('fig'),joyHit=document.createElementNS('http://www.w3.org/2000/svg','circle');
-joyHit.setAttribute('fill','transparent');joyHit.setAttribute('stroke','transparent');joyHit.setAttribute('role','button');joyHit.setAttribute('tabindex','0');joyHit.setAttribute('aria-label','红色摇杆，按住并拖动控制爪子，松开停止');joyHit.style='pointer-events:all;cursor:move;touch-action:none';joySvg.appendChild(joyHit);
+joyHit.setAttribute('fill','transparent');joyHit.setAttribute('stroke','transparent');joyHit.setAttribute('role','button');joyHit.setAttribute('tabindex','0');joyHit.setAttribute('aria-label',localizeText('红色摇杆，按住并拖动控制爪子，松开停止'));joyHit.style='pointer-events:all;cursor:move;touch-action:none';joySvg.appendChild(joyHit);
 let joy=null,joyGeneration=0;
 function stopJoy(){if(!joy)return;const id=joy.id;joy=null;if(joyHit.hasPointerCapture?.(id))joyHit.releasePointerCapture(id);st.moving=false;centerStick();if(st.phase==='idle'&&!st.aiming)st.message='摇杆已松开，爪子停止；对准后下爪。';ui.invalidate();}
 function releaseControls(quiet=false){stopHold();stopJoy();st.moving=false;if(quiet)ui.clearFeedback?.();}
@@ -216,24 +217,24 @@ ui.render();
 
 /* Page layout only: a figure-first stage with one nearby control dock. */
 const page=document.createElement('main');page.className='play-layout';
-const stage=document.querySelector('.stage'),dock=document.createElement('aside');dock.className='play-dock';dock.setAttribute('aria-label','抓取控制');
-const heading=document.querySelector('header');heading.innerHTML='<div><p class="eyebrow">手绘机械小玩具</p><h1>小小抓物社</h1></div><span>转一转，把快乐带回家。</span>';
+const stage=document.querySelector('.stage'),dock=document.createElement('aside');dock.className='play-dock';dock.setAttribute('aria-label',localizeText('抓取控制'));
+const heading=document.querySelector('header');heading.innerHTML=localizeMarkup('<div><p class="eyebrow">手绘机械小玩具</p><h1>小小抓物社</h1></div><span>转一转，把快乐带回家。</span>');
 hint.remove();heading.after(page);page.append(stage,dock);
-const dockTitle=document.createElement('p');dockTitle.className='dock-title';dockTitle.textContent='瞄准，把它带回家';dock.append(dockTitle);
+const dockTitle=document.createElement('p');dockTitle.className='dock-title';dockTitle.textContent=localizeText('瞄准，把它带回家');dock.append(dockTitle);
 const readout=document.getElementById('readout');readout.setAttribute('aria-live','polite');dock.append(readout);
 const actions=document.getElementById('btns');actions.querySelector('.cap')?.remove();const resetWrap=actions.children[2];dock.append(actions,panel);
-const prefs=document.createElement('details');prefs.className='preferences';prefs.innerHTML='<summary>外观与设置</summary>';const settings=document.querySelector('.controls');prefs.append(settings,resetWrap);dock.append(prefs);
-const help=document.createElement('details');help.className='help-details';help.innerHTML='<summary>怎么玩</summary><p>点娃娃自动瞄准，或按住红色摇杆拖动。松手停止，再按“下爪”。</p><p>拖动画面空白处旋转观察。先点选或聚焦模型，再用方向键微调、空格下爪；Shift 加方向键旋转视角。抓到后点击托盘领奖。</p>';dock.append(help);
-const stageNote=document.createElement('p');stageNote.className='stage-note';stageNote.textContent='拖动旋转观察 · 点娃娃瞄准';stage.append(stageNote);
+const prefs=document.createElement('details');prefs.className='preferences';prefs.innerHTML=localizeMarkup('<summary>外观与设置</summary>');const settings=document.querySelector('.controls');prefs.append(settings,resetWrap);dock.append(prefs);
+const help=document.createElement('details');help.className='help-details';help.innerHTML=localizeMarkup('<summary>怎么玩</summary><p>点娃娃自动瞄准，或按住红色摇杆拖动。松手停止，再按“下爪”。</p><p>拖动画面空白处旋转观察。先点选或聚焦模型，再用方向键微调、空格下爪；Shift 加方向键旋转视角。抓到后点击托盘领奖。</p>');dock.append(help);
+const stageNote=document.createElement('p');stageNote.className='stage-note';stageNote.textContent=localizeText('拖动旋转观察 · 点娃娃瞄准');stage.append(stageNote);
 
 const primaryButtons=actions.querySelectorAll('button');
 st.message='点娃娃瞄准，或拖动红色摇杆。';ui.render();
 
 
 /* Left-aligned controls; expandable extras scroll without stretching the page. */
-const extras=document.createElement('section');extras.className='dock-extras';extras.setAttribute('aria-label','设置和玩法');extras.setAttribute('tabindex','0');dock.append(extras);extras.append(prefs,help);
+const extras=document.createElement('section');extras.className='dock-extras';extras.setAttribute('aria-label',localizeText('设置和玩法'));extras.setAttribute('tabindex','0');dock.append(extras);extras.append(prefs,help);
 ui.render();
-const scrollHint=document.createElement('p');scrollHint.className='extras-scroll-hint';scrollHint.textContent='设置区可上下滚动 ↕';dock.append(scrollHint);
+const scrollHint=document.createElement('p');scrollHint.className='extras-scroll-hint';scrollHint.textContent=localizeText('设置区可上下滚动 ↕');dock.append(scrollHint);
 
 function updateExtrasOverflow(){dock.classList.toggle('has-overflow',extras.scrollHeight>extras.clientHeight+2)}
 for(const detail of[prefs,help])listen(detail,'toggle',updateExtrasOverflow);addEventListener('resize',updateExtrasOverflow);updateExtrasOverflow();
@@ -245,12 +246,12 @@ ui.render();updateExtrasOverflow();
 heading.remove();
 
 /* Stage-aware actions remain focusable so a blocked press explains itself. */
-const clawProgress=document.createElement('div');clawProgress.className='toy-progress';clawProgress.setAttribute('role','progressbar');clawProgress.setAttribute('aria-label','本轮抓取进度');clawProgress.innerHTML='<span></span>';readout.after(clawProgress);
+const clawProgress=document.createElement('div');clawProgress.className='toy-progress';clawProgress.setAttribute('role','progressbar');clawProgress.setAttribute('aria-label',localizeText('本轮抓取进度'));clawProgress.innerHTML=localizeMarkup('<span></span>');readout.after(clawProgress);
 const releaseAudio=window.MechanicalAudio?.attach('claw',actions);let audioDisposed=false;const disposeAudio=()=>{if(audioDisposed)return;audioDisposed=true;releaseAudio?.();};scope.onCleanup(disposeAudio);
 const phaseLabels={down:'下爪中…',close:'正在合爪…',up:'正在提升…',reopen:'正在复位…',travel:'正在运送…',release:'正在松爪…',fall:'娃娃滑落中…',eject:'正在送出…',prize:'请先领取娃娃',collect:'正在领取…',return:'机械爪回位中…'};
 const phaseProgress={down:10,close:25,up:40,reopen:85,travel:60,release:75,fall:82,eject:92,prize:100,collect:100,return:100};
 const tactileRender=ui.render;ui.render=()=>{if(!scope.active||scope.paused||disposed)return;tactileRender();const idle=st.phase==='idle',prize=st.phase==='prize';primaryButtons[0].disabled=false;primaryButtons[1].disabled=false;
- primaryButtons[0].textContent=!idle?phaseLabels[st.phase]:st.aiming?'正在自动瞄准…':!st.stock.length?'再玩一轮':st.result==='miss'?'再试一次':'下爪抓取';primaryButtons[1].textContent=prize?'领取'+toys[st.got].name:st.phase==='collect'?'正在领取…':'领取娃娃';primaryButtons[0].setAttribute('aria-disabled',!idle||st.aiming);primaryButtons[1].setAttribute('aria-disabled',!prize);primaryButtons[0].classList.toggle('is-next',idle&&!st.aiming);primaryButtons[1].classList.toggle('is-next',prize);
+ primaryButtons[0].textContent=localizeText(!idle?phaseLabels[st.phase]:st.aiming?'正在自动瞄准…':!st.stock.length?'再玩一轮':st.result==='miss'?'再试一次':'下爪抓取');primaryButtons[1].textContent=localizeText(prize?'领取'+toys[st.got].name:st.phase==='collect'?'正在领取…':'领取娃娃');primaryButtons[0].setAttribute('aria-disabled',!idle||st.aiming);primaryButtons[1].setAttribute('aria-disabled',!prize);primaryButtons[0].classList.toggle('is-next',idle&&!st.aiming);primaryButtons[1].classList.toggle('is-next',prize);
  panel.querySelectorAll('button').forEach(b=>{b.setAttribute('aria-disabled',!idle||!st.stock.length);b.setAttribute('aria-pressed',held===b.dataset.dir)});joyHit.setAttribute('aria-disabled',!idle);clawProgress.hidden=idle;const progress=phaseProgress[st.phase]||0;clawProgress.firstElementChild.style.width=progress+'%';clawProgress.setAttribute('aria-valuenow',progress);clawProgress.setAttribute('aria-valuemin','0');clawProgress.setAttribute('aria-valuemax','100');clawProgress.setAttribute('aria-valuetext',phaseLabels[st.phase]||'等待瞄准');
  stage.setAttribute('aria-busy',!idle&&!prize);window.MechanicalAudio?.update('claw',st);
  clawObservation?.update();

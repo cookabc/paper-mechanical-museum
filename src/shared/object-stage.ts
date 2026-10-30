@@ -1,5 +1,5 @@
+import {localizeMarkup,localizeText} from './message-language.ts';
 import {detectLang,translator} from './i18n';
-const t=translator(detectLang());
 import type {SceneContext} from '../app/contracts';
 import {createColorFiguresRuntime} from '../engines/colorfigures/runtime.js';
 import './object-stage.css';
@@ -8,21 +8,22 @@ export type Bounds=readonly [number,number,number,number,number,number];
 export type Palette='mint'|'mustard'|'tomato'|'cobalt'|'blush';
 /** The original museum's solid geometry, light, material grain and orbit contract. */
 export function createObjectStage(context:SceneContext,svg:SVGSVGElement,controls:HTMLElement,options:{bounds:Bounds;camera?:readonly [number,number];palette:Palette;draw:(g:PaperGeometry,palette:Palette)=>string;action:(action:string)=>void}){
+ const t=translator(detectLang());
  const {scope}=context,g=createColorFiguresRuntime(context);g.setLight(105);
  const home=options.camera||[45,35.264];
  let yaw=home[0],pitch=home[1],palette=options.palette,dead=false,drag:null|{id:number;x:number;y:number;yaw:number;pitch:number;moved:boolean;action:string|null}=null;
  const palettes:Palette[]=['mustard','tomato','mint','cobalt','blush'];
- controls.innerHTML=`<details class="object-view-panel"><summary>${t('stage.viewLabel')}</summary><div class="object-appearance"><span>${t('stage.bodyColor')}</span><div class="object-swatches">${palettes.map(p=>`<button type="button" class="sw" data-palette="${p}" style="background:${g.PALS[p].l}" aria-label="${t(('stage.'+p) as never)}" aria-pressed="${p===palette}"></button>`).join('')}</div></div><div class="object-views"><span>${t('stage.angle')}</span><button type="button" data-view="front">${t('stage.front')}</button><button type="button" data-view="side">${t('stage.side')}</button><button type="button" data-view="back">${t('stage.back')}</button></div></details>`;
- svg.setAttribute('role','group');svg.setAttribute('tabindex','0');svg.setAttribute('aria-label',t('stage.modelLabel'));svg.setAttribute('aria-description',t('stage.modelHint'));
- svg.innerHTML='<defs class="object-defs"></defs><g class="object-art" filter="url(#hand)"></g>';
+ controls.innerHTML=localizeMarkup(`<details class="object-view-panel"><summary>${t('stage.viewLabel')}</summary><div class="object-appearance"><span>${t('stage.bodyColor')}</span><div class="object-swatches">${palettes.map(p=>`<button type="button" class="sw" data-palette="${p}" style="background:${g.PALS[p].l}" aria-label="${t(('stage.'+p) as never)}" aria-pressed="${p===palette}"></button>`).join('')}</div></div><div class="object-views"><span>${t('stage.angle')}</span><button type="button" data-view="front">${t('stage.front')}</button><button type="button" data-view="side">${t('stage.side')}</button><button type="button" data-view="back">${t('stage.back')}</button></div></details>`);
+ svg.setAttribute('role','group');svg.setAttribute('tabindex','0');svg.setAttribute('aria-label',localizeText(t('stage.modelLabel')));svg.setAttribute('aria-description',localizeText(t('stage.modelHint')));
+ svg.innerHTML=localizeMarkup('<defs class="object-defs"></defs><g class="object-art" filter="url(#hand)"></g>');
  const art=svg.querySelector<SVGGElement>('.object-art')!,defs=svg.querySelector('.object-defs')!;
  let lastFilter=0,currentBounds=options.bounds;
  function frame(bounds:Bounds){const [x0,y0,z0,x1,y1,z1]=bounds;const pts=[];for(const x of[x0,x1])for(const y of[y0,y1])for(const z of[z0,z1])pts.push(g.P(x,y,z));const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);const width=Math.max(...xs)-Math.min(...xs),height=Math.max(...ys)-Math.min(...ys);const vw=Math.max(width/.83,height/.83/0.78),vh=vw*.78;const x=(Math.min(...xs)+Math.max(...xs))/2-vw/2,y=(Math.min(...ys)+Math.max(...ys))/2-vh/2+vh*.015;return [x,y,vw,vh];}
  function render(bounds?:Bounds){currentBounds=bounds||options.bounds;paint();}
- function paint(){const bounds=currentBounds;if(dead||!scope.active)return;g.setCam(yaw,pitch);const vb=frame(bounds);svg.setAttribute('viewBox',vb.map(n=>n.toFixed(2)).join(' '));const k=vb[2]/585;if(Math.abs(lastFilter-k)>.02){defs.innerHTML=g.filterFor(k);lastFilter=k;}
+ function paint(){const bounds=currentBounds;if(dead||!scope.active)return;g.setCam(yaw,pitch);const vb=frame(bounds);svg.setAttribute('viewBox',vb.map(n=>n.toFixed(2)).join(' '));const k=vb[2]/585;if(Math.abs(lastFilter-k)>.02){defs.innerHTML=localizeMarkup(g.filterFor(k));lastFilter=k;}
  const focused=svg.contains(document.activeElement)?(document.activeElement as Element).closest('[data-act]')?.getAttribute('data-act'):null;
  // Reuse the original gallery's reference-weight outlines at the current object scale.
- art.innerHTML=options.draw(g,palette).replace(/stroke-width="([\d.]+)"/g,(_m,w)=>`stroke-width="${(Number(w)*k).toFixed(3)}"`);
+ art.innerHTML=localizeMarkup(options.draw(g,palette).replace(/stroke-width="([\d.]+)"/g,(_m,w)=>`stroke-width="${(Number(w)*k).toFixed(3)}"`));
  if(focused){art.querySelector<SVGElement>(`[data-act="${focused}"]`)?.focus({preventScroll:true});}
  }
  const actionOf=(target:EventTarget|null)=>target instanceof Element?target.closest('[data-act]')?.getAttribute('data-act')||null:null;

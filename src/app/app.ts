@@ -39,12 +39,12 @@ export function createApp(root:HTMLElement, loaders:Readonly<Record<string, Exhi
   current?.dispose();sceneScope?.dispose();current=null;sceneScope=new ResourceScope();id=next;
   const scope=sceneScope;
   root.replaceChildren();root.className='';document.body.className=next?'museum-scene':'museum-home';
-  if(!next){renderHome(root,sceneScope,items,Object.keys(loaders));startAtTop();return;}
+  if(!next){renderHome(root,sceneScope,items,Object.keys(loaders));bindLanguageSwitch(scope,()=>{void showRoute('');});startAtTop();return;}
   document.title=(nameFor(next,lang0)||tr('exhibit.unknown'))+' · '+tr('brand.name');
   const header=createExhibitHeader(next);root.append(header);
   // A language change rebuilds the whole scene, because exhibit chrome is
   // generated as markup rather than patched in place.
-  bindLanguageSwitch(scope,()=>{void navigate('');if(next)void navigate(next);});
+  bindLanguageSwitch(scope,()=>{void showRoute(next);});
   const host=document.createElement('section');host.className='scene-root';host.setAttribute('aria-label',tr('exhibit.sceneLabel'));root.append(host);
   const load=Object.hasOwn(loaders,next)?loaders[next]:undefined;
   if(!load){host.innerHTML=`<div class="migration-note"><h2>${tr('exhibit.missingTitle')}</h2><p>${tr('exhibit.missingBody')}</p><a href="#/">${tr('exhibit.missingLink')}</a></div>`;startAtTop();return;}

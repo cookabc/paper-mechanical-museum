@@ -1,3 +1,5 @@
+import {beforeEach as beforeLanguage} from 'vitest';
+beforeLanguage(()=>{localStorage.setItem('museum-lang','zh');document.documentElement.lang='zh';});
 import {beforeEach,afterEach,it,expect,vi} from 'vitest';
 import {initialState,electrical,advance} from '../src/exhibits/generator/model';
 import {mountGenerator} from '../src/exhibits/generator';

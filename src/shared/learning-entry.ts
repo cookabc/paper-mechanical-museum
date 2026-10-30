@@ -1,3 +1,4 @@
+import {localizeMarkup,localizeText} from './message-language.ts';
 import type {ResourceScope} from '../app/scope';
 import {detectLang,translator} from './i18n';
 
@@ -15,8 +16,8 @@ export function mountLearningEntry(root:HTMLElement,scope:ResourceScope,id:strin
  const t=translator(detectLang());
  const entry=document.createElement('button');entry.type='button';entry.className='museum-learning-entry';
  const kind=generator?t('learn.kindGenerator'):bicycleLab||challenge?t('learn.kindBicycle'):id==='fan'?t('learn.kindFan'):t('learn.kindDefault');
- entry.innerHTML='<span>'+t('learn.entry')+' <small>'+t('learn.optional')+'</small></span><span>'+kind+' <svg class="museum-direction-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 16 4M4 4h12v12"/></svg></span>';
- entry.setAttribute('aria-label',t('learn.entry')+': '+kind);
+ entry.innerHTML=localizeMarkup('<span>'+t('learn.entry')+' <small>'+t('learn.optional')+'</small></span><span>'+kind+' <svg class="museum-direction-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 16 16 4M4 4h12v12"/></svg></span>');
+ entry.setAttribute('aria-label',localizeText(t('learn.entry')+': '+kind));
  const before=dock.querySelector('#btns')||dock.querySelector(':scope > .actions')||dock.querySelector('.dock-extras');
  if(before?.parentElement===dock)dock.insertBefore(entry,before);else dock.prepend(entry);
  scope.listen(entry,'click',()=>{

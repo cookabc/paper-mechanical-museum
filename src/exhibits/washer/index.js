@@ -1,3 +1,6 @@
+import messages from '../../locales/washer.en.json' with {type:'json'};
+import {registerMessages} from '../../shared/message-language.ts';
+registerMessages(messages);
 import {createWasherRuntime} from '../../engines/washer/runtime.js';
 import {createWasherModel} from './model.js';
 import {scopedDocument} from '../../app/scoped-dom';

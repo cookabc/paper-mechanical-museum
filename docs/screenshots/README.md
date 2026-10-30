@@ -5,7 +5,7 @@ These images are used on the repository's front page. They are not part of the a
 - Source site: <https://paper-mechanical-museum.vercel.app/>
 - Captured: 2026-10-29 (UTC)
 - Browser: cloud Chrome, desktop, 1500px viewport width; the JPEGs keep the original bytes the capture tool returned.
-- Interface language: English (the default). The generator frame shows the current state of the translation — the shell (header, dock headings, sound panel) is English while the labels inside that machine's own panel are still Chinese. That is the real state; see the coverage note in the [README](../../README.md).
+- Interface language: English (the default). The generator frame shows the current state of the translation — the shell (header, dock headings, sound panel) is English while the labels inside that machine's own panel are still Chinese. This records the older build; current controls and readouts follow the selected language.
 
 | File | What it shows | Size | Bytes |
 | --- | --- | --- | --- |

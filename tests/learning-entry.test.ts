@@ -50,6 +50,7 @@ it('opens the existing coffee lesson without filling beans, then restores free a
 });
 
 it('recommends a state-backed starting action but retains every free-play button',async()=>{
+ localStorage.setItem('museum-lang','zh');document.documentElement.lang='zh';
  for(const [id,label,count] of [['coffee','加入咖啡豆',8],['vending','投入体验币',6],['toaster','放入两片吐司',6]] as const){
   await app.navigate(id);const recommended=root.querySelectorAll<HTMLButtonElement>('.act[data-recommended=true]');
   expect(recommended,id).toHaveLength(1);expect(recommended[0].dataset.actionLabel).toBe(label);
@@ -60,6 +61,7 @@ it('recommends a state-backed starting action but retains every free-play button
 });
 
 it('does not confuse an available cancel action with the recommended next action',async()=>{
+ localStorage.setItem('museum-lang','zh');document.documentElement.lang='zh';
  let clock=0,sequence=0;const frames=new Map<number,FrameRequestCallback>();
  // RAF timestamps and the runtime share one virtual clock: real SVG render time
  // must not shift animation starts or trigger wall-time-dependent frame skipping.

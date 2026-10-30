@@ -1,3 +1,4 @@
+import {localizeText} from '../../shared/message-language.ts';
 import {drivetrain,HILL,REAR_TEETH,type BicycleState,type HillTrialRecord} from './model';
 
 export const hillLabMarkup=`<details class="bike-lab" aria-labelledby="bike-lab-title">
@@ -14,7 +15,7 @@ export const hillLabMarkup=`<details class="bike-lab" aria-labelledby="bike-lab-
  <p class="bike-challenge-result" role="status" aria-live="polite" aria-atomic="true">点左侧挡位开始；只有到顶或转不动，才留下记录。</p>
 </div></details>`;
 
-const put=(element:Element|null,value:string)=>{if(element&&element.textContent!==value)element.textContent=value;};
+const put=(element:Element|null,value:string)=>{if(element&&element.textContent!==value)element.textContent=localizeText(value);};
 
 /** Rendering has no clock of its own and never creates a trial result. */
 export function renderHillLab(root:HTMLElement,state:BicycleState,records:ReadonlyArray<HillTrialRecord|null>,rate:number){
@@ -31,7 +32,7 @@ export function renderHillLab(root:HTMLElement,state:BicycleState,records:Readon
   lane.querySelector('.bike-course-marker')!.setAttribute('transform',`translate(${x} ${y})`);
   put(lane.querySelector('.bike-lane-result strong'),riding?`${state.elapsed.toFixed(2)} s`:record?.outcome==='complete'?`${record.elapsed.toFixed(2)} s`:record?'转不动':'—');
   put(lane.querySelector('.bike-lane-result span'),riding?(state.running?'试爬中':'已暂停')+(record?.outcome==='complete'?` · 上次 ${record.elapsed.toFixed(2)} s`:''):record?.outcome==='complete'?(best?'到顶 · 当前最快':'已到顶'):record?'10 < 15 N·m':'尚未试爬');
-  lane.querySelector('button')!.setAttribute('aria-label',`试爬 ${gear+1} 挡，后飞轮 ${REAR_TEETH[gear]} 齿${record?.outcome==='complete'?`，上次 ${record.elapsed.toFixed(2)} 模拟秒到顶`:record?'，上次转不动':''}`);
+  lane.querySelector('button')!.setAttribute('aria-label',localizeText(`试爬 ${gear+1} 挡，后飞轮 ${REAR_TEETH[gear]} 齿${record?.outcome==='complete'?`，上次 ${record.elapsed.toFixed(2)} 模拟秒到顶`:record?'，上次转不动':''}`));
  }
  const riding=state.challenge==='riding';
  put(root.querySelector('[data-read="trial"]'),state.challenge==='idle'?'选一挡，试爬看看。':`${state.gear+1} 挡 · ${state.distance.toFixed(1)} / ${HILL.distance} 米${riding?(state.running?'':' · 已暂停'):state.challenge==='complete'?' · 到顶':' · 未能起步'}`);

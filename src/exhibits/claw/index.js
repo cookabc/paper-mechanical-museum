@@ -1,3 +1,6 @@
+import messages from '../../locales/claw.en.json' with {type:'json'};
+import {registerMessages} from '../../shared/message-language.ts';
+registerMessages(messages);
 import {createClawRuntime} from '../../engines/claw/runtime.js';
 import {createClawModel} from './model.js';
 import './style.css';

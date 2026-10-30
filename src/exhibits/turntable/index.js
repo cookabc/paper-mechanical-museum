@@ -1,3 +1,6 @@
+import messages from '../../locales/turntable.en.json' with {type:'json'};
+import {registerMessages} from '../../shared/message-language.ts';
+registerMessages(messages);
 import {createColorFiguresRuntime} from '../../engines/colorfigures/runtime.js';
 import {scopedDocument} from '../../app/scoped-dom';
 import {arrangePlayDock} from '../../shared/play-dock.js';

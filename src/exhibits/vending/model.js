@@ -1,3 +1,4 @@
+import {localizeText} from '../../shared/message-language.ts';
 export function createVending(geometry,environment){const {window,document,scope}=environment;
 
  const products=[{name:'橘子汽水',color:'#efb056'},{name:'薄荷苏打',color:'#93c8af'},{name:'蓝莓气泡',color:'#93abd3'}];
@@ -110,17 +111,17 @@ export function createVending(geometry,environment){const {window,document,scope
  return {stage,text,active,readouts:[{label:'暂存 / 保留币',value:s.tokens+' / '+s.reservedCoin+' 枚'},{label:'可售 / 保留库存',value:s.stock.reduce((a,b)=>a+b,0)+' / '+(s.delivered===null?0:1)+' 罐'},{label:'饮料位置',value:position},{label:'已领取',value:s.collected+' 罐'}]};}};
  function setup(ui){if(!scope.active)return;
   const panel=ui.observation?.panel;if(!panel)return;
-  const style=document.createElement('style');style.textContent='.vending-fault{border:1px solid var(--rule,#d8d1c3);border-radius:7px;padding:9px;margin:8px 0 11px;font-size:11px}.vending-fault label{display:flex;align-items:center;gap:7px;min-height:32px}.vending-fault input{accent-color:var(--accent,#93d3b0)}.vending-fault .fault-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.vending-fault button{flex:1 1 75px;font:inherit;color:var(--ink,#231e16);background:var(--paper,#f5f1e8);border:1px solid var(--rule,#d8d1c3);border-radius:5px;min-height:32px;padding:5px}.vending-fault button:disabled{opacity:.45}.vending-fault output{display:block;line-height:1.65;margin-top:5px;overflow-wrap:anywhere}.vending-fault p{font-size:10px;line-height:1.6;margin:6px 0 0;color:var(--muted,#766d5f)}';document.head.append(style);
-  const box=document.createElement('section');box.className='vending-fault';box.setAttribute('aria-label','可选卡货演示');
-  const label=document.createElement('label'),toggle=document.createElement('input'),caption=document.createElement('span');toggle.type='checkbox';toggle.setAttribute('aria-label','下一罐卡货演示');caption.textContent='试变化 · 下一罐卡货演示';label.append(toggle,caption);
-  const output=document.createElement('output');output.textContent='已关闭 · 正常出货';output.setAttribute('aria-label','排故状态');
+  const style=document.createElement('style');style.textContent=localizeText('.vending-fault{border:1px solid var(--rule,#d8d1c3);border-radius:7px;padding:9px;margin:8px 0 11px;font-size:11px}.vending-fault label{display:flex;align-items:center;gap:7px;min-height:32px}.vending-fault input{accent-color:var(--accent,#93d3b0)}.vending-fault .fault-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.vending-fault button{flex:1 1 75px;font:inherit;color:var(--ink,#231e16);background:var(--paper,#f5f1e8);border:1px solid var(--rule,#d8d1c3);border-radius:5px;min-height:32px;padding:5px}.vending-fault button:disabled{opacity:.45}.vending-fault output{display:block;line-height:1.65;margin-top:5px;overflow-wrap:anywhere}.vending-fault p{font-size:10px;line-height:1.6;margin:6px 0 0;color:var(--muted,#766d5f)}');document.head.append(style);
+  const box=document.createElement('section');box.className='vending-fault';box.setAttribute('aria-label',localizeText('可选卡货演示'));
+  const label=document.createElement('label'),toggle=document.createElement('input'),caption=document.createElement('span');toggle.type='checkbox';toggle.setAttribute('aria-label',localizeText('下一罐卡货演示'));caption.textContent=localizeText('试变化 · 下一罐卡货演示');label.append(toggle,caption);
+  const output=document.createElement('output');output.textContent=localizeText('已关闭 · 正常出货');output.setAttribute('aria-label',localizeText('排故状态'));
   const row=document.createElement('div');row.className='fault-actions';
-  const make=(text,fn)=>{const button=document.createElement('button');button.type='button';button.disabled=true;button.textContent=text;scope.bindProperty(button,"onclick",()=>{fn(state,ui);ui.invalidate();update();});row.append(button);return button;};
+  const make=(text,fn)=>{const button=document.createElement('button');button.type='button';button.disabled=true;button.textContent=localizeText(text);scope.bindProperty(button,"onclick",()=>{fn(state,ui);ui.invalidate();update();});row.append(button);return button;};
   const recoverButton=make('检修复位',recover),continueButton=make('继续出货',continuePurchase),cancelButton=make('取消并退币',refund);
-  const note=document.createElement('p');note.textContent='简化检修示意：先停机，再沿原路收回货架；不模拟真实维修，不要摇晃机器。';box.append(label,output,row,note);
+  const note=document.createElement('p');note.textContent=localizeText('简化检修示意：先停机，再沿原路收回货架；不模拟真实维修，不要摇晃机器。');box.append(label,output,row,note);
   const content=panel.querySelector('.observation-content');content.insertBefore(box,content.querySelector('.observation-live'));
   scope.bindProperty(toggle,"onchange",()=>{faultNext(state,ui);ui.invalidate();update();});
-  const put=(node,key,value)=>{if(node[key]!==value)node[key]=value;};
+  const put=(node,key,value)=>{const next=key==='textContent'?localizeText(value):value;if(node[key]!==next)node[key]=next;};
   function update(){if(!scope.active)return;if(!panel.open||document.hidden)return;put(toggle,'checked',state.jamNext);put(toggle,'disabled',state.phase!=='idle');put(recoverButton,'disabled',state.phase!=='jammed');put(continueButton,'disabled',state.phase!=='recovered');put(cancelButton,'disabled',!['jammed','recovered'].includes(state.phase));put(output,'textContent',state.phase==='jammed'?'货架出口已停机 · 原罐与 1 枚币保留':state.phase==='recovering'?'正在收回原罐 · 请等待':state.phase==='recovered'?'原罐已归位 · 可继续或退币':state.phase==='returning'&&state.reservedCoin?'原罐已归还库存 · 正在退币':state.jamAtRelease?'本罐将在货架出口停住':state.jamNext?'已开启一次 · 下次成功选货时触发':'已关闭 · 正常出货');}
   const original=ui.observation.update;ui.observation.update=()=>{if(!scope.active)return;original();update();};scope.listen(panel,'toggle',update);
   // The application owns navigation. Retire only this scene's resources.

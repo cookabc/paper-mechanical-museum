@@ -1,3 +1,5 @@
+import {beforeEach as beforeLanguage} from 'vitest';
+beforeLanguage(()=>{localStorage.setItem('museum-lang','zh');document.documentElement.lang='zh';});
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
 import {advance,drivetrain,HILL,hillTrialRecord,initialState,type HillTrialRecord} from '../src/exhibits/bicycle/model';
 import {mountBicycle} from '../src/exhibits/bicycle';

@@ -1,3 +1,4 @@
+import {localizeText} from '../../shared/message-language.ts';
 export function createCamera(geometry,environment){const {window,document,scope}=environment;
 
  const fresh=()=>({phase:'idle',phaseTime:0,flash:0,shutterPress:0,eject:0,develop:0,take:0,reload:0,frames:5,collected:0,scene:0,run:0,lessonEnabled:false,lessonPaused:false,lessonHold:null,lessonCollected:0});const state=fresh();let running=false,grab=null;
@@ -12,8 +13,8 @@ export function createCamera(geometry,environment){const {window,document,scope}
   const observer=ui.observation,panel=observer?.panel;if(!panel)return;
   const host=panel.querySelector('.observation-content')||panel;
   if(host.querySelector('.camera-paper-path'))return;
-  let style=document.getElementById('camera-paper-path-style');if(!style){style=document.createElement('style');style.id='camera-paper-path-style';style.textContent=`.camera-paper-path{margin:10px 0 0;border-top:1px dashed var(--rule,#d8d1c3);max-width:100%;min-width:0}.camera-paper-path>summary{font-size:11px!important;padding:9px 0!important}.camera-paper-path svg{display:block;width:100%;height:auto;max-height:188px;overflow:hidden;color:var(--ink,#231e16)}.camera-paper-path text{font-family:inherit;font-size:10px;fill:currentColor}.camera-paper-path p{font-size:10px!important;line-height:1.6!important;margin:5px 0!important;overflow-wrap:anywhere}.camera-path-rollers{cursor:pointer;outline:none}.camera-path-rollers .camera-path-hit{fill:transparent;stroke:transparent}.camera-path-rollers:focus-visible .camera-path-hit,.camera-path-rollers[aria-pressed=true] .camera-path-hit{stroke:#a25f35;stroke-dasharray:2 2}.camera-path-rollers[aria-pressed=true] circle{stroke:#a25f35;stroke-width:1.8}`;document.head.append(style);scope.onCleanup(()=>style.remove());}
-  const node=(tag,attrs,parent,text,svg=false)=>{const el=svg?document.createElementNS('http://www.w3.org/2000/svg',tag):document.createElement(tag);for(const [key,value]of Object.entries(attrs||{}))el.setAttribute(key,value);if(text!==undefined)el.textContent=text;parent?.append(el);return el;};
+  let style=document.getElementById('camera-paper-path-style');if(!style){style=document.createElement('style');style.id='camera-paper-path-style';style.textContent=localizeText(`.camera-paper-path{margin:10px 0 0;border-top:1px dashed var(--rule,#d8d1c3);max-width:100%;min-width:0}.camera-paper-path>summary{font-size:11px!important;padding:9px 0!important}.camera-paper-path svg{display:block;width:100%;height:auto;max-height:188px;overflow:hidden;color:var(--ink,#231e16)}.camera-paper-path text{font-family:inherit;font-size:10px;fill:currentColor}.camera-paper-path p{font-size:10px!important;line-height:1.6!important;margin:5px 0!important;overflow-wrap:anywhere}.camera-path-rollers{cursor:pointer;outline:none}.camera-path-rollers .camera-path-hit{fill:transparent;stroke:transparent}.camera-path-rollers:focus-visible .camera-path-hit,.camera-path-rollers[aria-pressed=true] .camera-path-hit{stroke:#a25f35;stroke-dasharray:2 2}.camera-path-rollers[aria-pressed=true] circle{stroke:#a25f35;stroke-width:1.8}`);document.head.append(style);scope.onCleanup(()=>style.remove());}
+  const node=(tag,attrs,parent,text,svg=false)=>{const el=svg?document.createElementNS('http://www.w3.org/2000/svg',tag):document.createElement(tag);for(const [key,value]of Object.entries(attrs||{}))el.setAttribute(key,['aria-label','aria-description','title'].includes(key)?localizeText(value):value);if(text!==undefined)el.textContent=localizeText(text);parent?.append(el);return el;};
   const fold=node('details',{class:'camera-paper-path'},host);node('summary',{},fold,'内部走纸图 · 简化示意');
   const diagram=node('svg',{viewBox:'0 0 270 188',role:'group','aria-label':'相纸从曝光区向上穿过滚轮，出片后显影的简化剖面'},fold,undefined,true),draw=(tag,attrs,parent=diagram,text)=>node(tag,attrs,parent,text,true);
   draw('rect',{x:68,y:68,width:112,height:96,rx:8,fill:'#faf8f2',stroke:'#766d5f','stroke-dasharray':'3 3'});
@@ -36,7 +37,7 @@ export function createCamera(geometry,environment){const {window,document,scope}
   const stock=draw('text',{x:190,y:149},diagram,'纸盒 · 5 张');
   node('p',{},fold,'剖面与双轮夹送仅作简化示意。点滚轮可对应机身；出片完成后，纸停而颜色继续显现。');
   const status=node('p',{'data-camera-path-status':'','aria-live':'off'},fold,'展开后同步当前动作。');
-  const put=(el,key,value)=>{const text=String(value);if(el.getAttribute(key)!==text)el.setAttribute(key,text);},write=(el,text)=>{if(el.textContent!==text)el.textContent=text;};
+  const put=(el,key,value)=>{const text=String(value);if(el.getAttribute(key)!==text)el.setAttribute(key,text);},write=(el,text)=>{if(el.textContent!==text)el.textContent=localizeText(text);};
   function update(){if(!scope.active)return;
    // Neither a closed cutaway, its closed parent, nor a hidden tab incurs DOM writes.
    if(!fold.open||!panel.open||document.hidden)return;

@@ -38,3 +38,28 @@ body.museum-home{--paper:#f7f3e9;--ink:#29291f;--muted:#777669;--line:#d2cebf;--
 @media(pointer:coarse){
  .museum-home .exhibit-switch button,.museum-home .collection-filters button{min-height:44px}
 }
+
+/* The hero already carries a hand-drawn double underline; let it be drawn
+   rather than appear. Two strokes are inked in order, the way someone marks up
+   a page — the second one only starts once the first has landed. Each path is
+   measured from its own length, so the dash never has to guess a constant.
+   The mark is decoration: reduced motion shows it finished, never mid-stroke. */
+.museum-home .hero-emphasis svg path {
+  /* pathLength="100" is set on the paths themselves, so a dash of 100 always
+     covers the whole stroke no matter how long it actually is. */
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: hero-mark-ink 520ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+.museum-home .hero-emphasis svg path:nth-child(2) {
+  animation-delay: 300ms;
+}
+@keyframes hero-mark-ink {
+  to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .museum-home .hero-emphasis svg path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

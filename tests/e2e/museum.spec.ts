@@ -12,7 +12,9 @@ test('collection loads exhibits on demand and the featured title follows its obj
   await page.locator('.exhibit-play').click();
   await expect(page.getByRole('heading', { name: 'Claw Machine', exact: true })).toBeVisible();
   await expect(page.locator('.scene-root svg').first()).toBeVisible();
-  expect(scripts.size).toBeGreaterThan(entranceScripts);
+  // The exhibit chunk loads asynchronously while the entrance preview already
+  // satisfies the heading and SVG checks, so poll instead of racing one sample.
+  await expect.poll(() => scripts.size).toBeGreaterThan(entranceScripts);
   await expect(page.locator('.mechanical-audio')).toHaveCount(1);
   expect(errors).toEqual([]);
 });

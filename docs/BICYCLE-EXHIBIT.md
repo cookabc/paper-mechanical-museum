@@ -1,6 +1,6 @@
 # Exhibit 11: the bicycle derailleur
 
-> The first-version sections below record the historical design and the acceptance numbers of that time; the drawing was rebuilt on 2026-10-25 into a dimensional scene consistent with the original ten. The current structure, tests and limits follow [the polish and consistency rebuild](QUALITY-REBUILD.md).
+> The first-version sections below record the historical design and the acceptance numbers of that time; the drawing was rebuilt on 2026-10-25 into a dimensional scene consistent with the original ten. The current structure, tests and limits follow the source and the [development and acceptance guide](DEVELOPMENT.md).
 
 ## 2026-10-27: a comparable hill-climb experiment
 

@@ -1,6 +1,6 @@
 # Exhibit 12: the hand-crank generator
 
-> This records the first design and the acceptance numbers of that time; the drawing was rebuilt on 2026-10-25 into a dimensional scene consistent with the original ten. The current structure, tests and limits follow [the polish and consistency rebuild](QUALITY-REBUILD.md).
+> This records the first design and the acceptance numbers of that time; the drawing was rebuilt on 2026-10-25 into a dimensional scene consistent with the original ten. The current structure, tests and limits follow the source and the [development and acceptance guide](DEVELOPMENT.md).
 
 A development candidate based on the released bicycle `main` at `fc676ad0965631aa35e3f09116a239143a2d418d`, tree `eb4477bdba7ba6b96b46b1ae544d0d932ba4cb5a`. This note records candidate acceptance and does not mean it was merged or released to production.
 

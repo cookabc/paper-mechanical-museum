@@ -122,7 +122,7 @@ Actions are pinned to full commits, verified on 2026-10-25 from the official rel
 
 ## 7. Historical documents and licences
 
-`MIGRATION-HISTORY.md` and `PATH-ADAPTATIONS.json` describe the original complete static source package; their old command, route and branch facts must be read in their historical context. The current project follows this file, the README, the root package scripts and the final verification logs.
+`PATH-ADAPTATIONS.json` describes the original complete static source package; their old command, route and branch facts must be read in their historical context. The current project follows this file, the README, the root package scripts and the final verification logs.
 
 Keep `THIRD_PARTY_NOTICES.md` and `licenses/Colorfigures-LICENSE.txt`. Neither the refactor nor the source move deletes the original copyright/licence. The repository code is [MIT licensed](../LICENSE), which does not reassign authorship of the upstream work.
 

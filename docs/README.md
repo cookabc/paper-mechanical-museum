@@ -10,16 +10,13 @@ Each is available in English and Chinese.
 
 - [Bicycle derailleur](BICYCLE-EXHIBIT.md) · [中文](BICYCLE-EXHIBIT.zh-CN.md): the drivetrain model, the hill-climb experiment; the first and later revisions are marked by section.
 - [Hand-crank generator](GENERATOR-EXHIBIT.md) · [中文](GENERATOR-EXHIBIT.zh-CN.md): the ideal AC model, parameters and applicability limits.
-- [Learning by hand: the generator](GENERATOR-LEARNING.md) · [中文](GENERATOR-LEARNING.zh-CN.md): the predict → operate → explain → re-verify evidence gate.
-- [Bicycle / generator 3D rebuild](QUALITY-REBUILD.md) · [中文](QUALITY-REBUILD.zh-CN.md): structure, geometry, occlusion and the acceptance record of that time.
 
 Words such as "candidate", "unreleased" and the test counts in these documents describe the state at the time. Do not read the current `main` or the production deployment from them.
 
-## Historical architecture and migration evidence
+## Architecture records and source provenance
 
 The following is kept for traceability; the old repository name, branch names, paths, commands, authorisations and acceptance numbers apply only to their own historical stage.
 
-- [Migration history](MIGRATION-HISTORY.md) · [中文](MIGRATION-HISTORY.zh-CN.md): the batched acceptance of merging four entry points into one unified app (2 → 5 → 8 → 10 exhibits), and the standalone static delivery packages that predate the unified project.
 - [Unified architecture](UNIFIED-ARCHITECTURE.md) · [中文](UNIFIED-ARCHITECTURE.zh-CN.md): the unified app's design, lifecycle contract and CI boundary.
 - [Core differences audit](CORE-DIFFERENCES.md): how the four original implementations differed in model, geometry, controls, timing and lifecycle.
 - [Path adaptation manifest](PATH-ADAPTATIONS.json): the record of moving the original source.

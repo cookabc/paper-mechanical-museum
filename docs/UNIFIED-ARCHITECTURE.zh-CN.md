@@ -122,6 +122,6 @@ Actions 固定完整提交，2026-10-25 从官方 release/commit 页面核验：
 
 ## 7. 历史文档和许可证
 
-`MIGRATION-HISTORY.md` 与 `PATH-ADAPTATIONS.json` 描述原完整静态源码包，旧命令/路由/分支事实需要按历史上下文阅读。当前工程以本文件、README、根 package scripts 和最终验证日志为准。
+`PATH-ADAPTATIONS.json` 描述原完整静态源码包，旧命令/路由/分支事实需要按历史上下文阅读。当前工程以本文件、README、根 package scripts 和最终验证日志为准。
 
 保留 `THIRD_PARTY_NOTICES.md` 与 `licenses/Colorfigures-LICENSE.txt`。重构和源码搬移不删除原版权/许可；仓库代码以 [MIT 许可](../LICENSE) 发布，但这不改变上游成果的署名归属。
